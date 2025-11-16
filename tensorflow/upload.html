@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>画像アップロード分類デモ</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.14.0"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2em;
+      }
+      img {
+        max-width: 224px;
+        border: 1px solid #ccc;
+        margin-bottom: 1em;
+      }
+      #result {
+        font-size: 1.2em;
+        margin-top: 1em;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>画像アップロード分類</h1>
+    <p>画像をアップロードして、AIに分類させましょう。</p>
+
+    <input type="file" accept="image/*" onchange="handleImageUpload(event)" /><br />
+    <img id="preview" src="" alt="プレビュー画像" style="display: none" /><br />
+    <button onclick="predict()">分類する</button>
+    <div id="result">ここに分類結果が表示されます</div>
+
+    <script>
+      let model;
+      const labels = ['ネコ', 'イヌ', 'ウサギ'];
+      const URL = './my_model/'; // モデルのURLを指定
+
+      async function loadModel() {
+        model = await tf.loadLayersModel(URL + 'model.json'); // モデルファイルを配置
+        console.log('モデル読み込み完了');
+      }
+
+      function handleImageUpload(event) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.getElementById('preview');
+          img.src = e.target.result;
+          img.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      }
+
+      async function predict() {
+        const img = document.getElementById('preview');
+        if (!img.src || !model) {
+          alert('画像とモデルの読み込みが必要です');
+          return;
+        }
+
+        const tensor = tf.tidy(() => {
+          return tf.browser
+            .fromPixels(img)
+            .resizeBilinear([224, 224])
+            .toFloat()
+            .expandDims(0)
+            .div(255.0);
+        });
+
+        const prediction = await model.predict(tensor).data();
+        const topIdx = prediction.indexOf(Math.max(...prediction));
+        const score = (prediction[topIdx] * 100).toFixed(1);
+        document.getElementById(
+          'result'
+        ).textContent = `分類結果：${labels[topIdx]}（スコア：${score}%）`;
+
+        tensor.dispose();
+      }
+
+      loadModel();
+    </script>
+  </body>
+</html>

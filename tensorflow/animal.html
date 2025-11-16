@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Canvas分類デモ</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2em;
+      }
+      canvas {
+        border: 1px solid #ccc;
+        margin-bottom: 1em;
+      }
+      #result {
+        font-size: 1.2em;
+        margin-top: 1em;
+        font-weight: bold;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.14.0"></script>
+  </head>
+  <body>
+    <h1>お絵かき分類ゲーム</h1>
+    <p>キャンバスに動物の絵を描いて、「分類する」を押すとAIが判定します。</p>
+
+    <canvas id="canvas" width="224" height="224"></canvas><br />
+    <button onclick="clearCanvas()">クリア</button>
+    <button onclick="predict()">分類する</button>
+    <div id="result">ここに分類結果が表示されます</div>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      let drawing = false;
+      const URL = './my_model/'; // モデルのURLを指定
+
+      // マウス描画
+      canvas.addEventListener('mousedown', () => (drawing = true));
+      canvas.addEventListener('mouseup', () => (drawing = false));
+      canvas.addEventListener('mouseout', () => (drawing = false));
+      canvas.addEventListener('mousemove', draw);
+
+      function draw(e) {
+        if (!drawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      let model;
+      const labels = ['ネコ', 'イヌ', 'ウサギ'];
+
+      async function loadModel() {
+        model = await tf.loadLayersModel(URL + 'model.json');
+        console.log('モデル読み込み完了');
+      }
+
+      async function predict() {
+        const img = document.getElementById('preview');
+        if (!model) {
+          alert('画像とモデルの読み込みが必要です');
+          return;
+        }
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        const tensor = tf.tidy(() => {
+          return tf.browser
+            .fromPixels(img)
+            .resizeBilinear([224, 224])
+            .toFloat()
+            .expandDims(0)
+            .div(255.0);
+        });
+
+        const prediction = await model.predict(tensor).data();
+        const topIdx = prediction.indexOf(Math.max(...prediction));
+        const score = (prediction[topIdx] * 100).toFixed(1);
+        document.getElementById(
+          'result'
+        ).textContent = `分類結果：${labels[topIdx]}（スコア：${score}%）`;
+
+        tensor.dispose();
+      }
+
+      loadModel();
+    </script>
+  </body>
+</html>

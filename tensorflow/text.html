@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Universal Sentence Encoder 感情分類デモ</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.14.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2em;
+      }
+      #result {
+        font-size: 1.2em;
+        margin-top: 1em;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Universal Sentence Encoder 感情分類</h1>
+    <p>日本語で文章を入力すると、感情を分類します（擬似学習なし）。</p>
+    <input type="text" id="inputText" placeholder="例：今日は最高に楽しい！" size="50" />
+    <button onclick="classifyText()">分類する</button>
+    <div id="result">ここに分類結果が表示されます</div>
+
+    <script>
+      let model;
+
+      const labels = ['ポジティブ', 'ネガティブ', 'ニュートラル'];
+      const labelExamples = [
+        '楽しい 嬉しい 幸せ 最高 面白い 笑顔 ワクワク',
+        '悲しい 最悪 苦しい 怒り 寂しい 嫌だ',
+        '今日は天気です 通学しています ごはんを食べました',
+      ];
+
+      async function loadModel() {
+        model = await use.load();
+        console.log('USEモデル読み込み完了');
+      }
+
+      async function classifyText() {
+        if (!model) {
+          alert('モデル読み込み中です。少し待ってください。');
+          return;
+        }
+        const input = document.getElementById('inputText').value;
+        if (!input) {
+          alert('文章を入力してください。');
+          return;
+        }
+
+        const sentences = [input, ...labelExamples];
+        const embeddings = await model.embed(sentences);
+        const inputVec = embeddings.slice([0, 0], [1]);
+        const labelVecs = embeddings.slice([1, 0]);
+
+        const similarities = await Promise.all(
+          labelVecs.unstack().map(async (labelVec) => {
+            const sim = await tf.losses.cosineDistance(inputVec, labelVec.expandDims(), 1).data();
+            return 1 - sim[0];
+          })
+        );
+
+        const maxIdx = similarities.indexOf(Math.max(...similarities));
+        document.getElementById('result').textContent = `分類結果：${labels[maxIdx]}（スコア：${(
+          similarities[maxIdx] * 100
+        ).toFixed(1)}%）`;
+      }
+
+      loadModel();
+    </script>
+  </body>
+</html>
