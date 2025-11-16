@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.chapter {
+  @include inner;
+  margin-bottom: 16em;
+
+  &__title {
+    margin: 0 0 2em;
+    padding: 0 0 .5em;
+    font-size: 3.2rem;
+    font-weight: bold;
+    border-bottom: 2px solid $baseColor;
+  }
+}

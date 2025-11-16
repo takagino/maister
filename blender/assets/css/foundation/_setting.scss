@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+/* color */
+$baseColor: #333;
+$mainColor: #09c;
+$accentColor: #c06;
+$bgColor: #ff9;
+
+/* media query */
+$screen-xl: 1366px;
+$screen-lg: 992px;
+$screen-md: 768px;
+$screen-sm: 544px;
+$screen-xs: 480px;
+$bp-list: (
+  "xs": "screen and (max-width: #{$screen-xs})",
+  "sm": "screen and (max-width: #{$screen-sm})",
+  "md": "screen and (max-width: #{$screen-md})",
+  "lg": "screen and (max-width: #{$screen-lg})",
+  "xl": "screen and (max-width: #{$screen-xl})") !default;
+
+@mixin screen-mq($bp-key) {
+  @media #{map-get($bp-list, $bp-key)} {
+    @content;
+  }
+}

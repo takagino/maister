@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+@mixin inner {
+  width: 92%;
+  max-width: 1366px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+@mixin flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+}

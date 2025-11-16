@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  color: $baseColor;
+  font-size: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", "Sogoe UI", Verdana, "メイリオ", Meiryo, sans-serif;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  word-wrap: break-word;
+}
+
+b,
+strong,
+em {
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", HelveticaNeue, "游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", "Sogoe UI", Verdana, "メイリオ", Meiryo, sans-serif;
+}
+
+em {
+  color: $accentColor;
+  font-weight: bold;
+  font-style: normal;
+}
+
+strong {
+  padding: .3em .2em;
+  background-color: $bgColor;
+}
+
+a {
+  color: $mainColor;
+}
+
+a:hover {
+  color: #fff;
+  background-color: $mainColor;
+  text-decoration: none;
+}
+
+a[href$=".pdf"]:before,
+a[href$=".zip"]:before {
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  content: "\f0f6";
+  padding: 0 0.2em 0 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: #ddd;
+  color: $baseColor;
+}
+
+#pagetop {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  width: 45px;
+  height: 45px;
+  border: 1px solid #09c;
+  border-radius: 50%;
+  background-color: #fff;
+  opacity: .7;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-90deg);
+  transition: all .2s;
+}
+
+#pagetop::after {
+  content: "＞";
+  transform: scaleX(0.5);
+  color: #09c;
+  font-weight: bold;
+}
+
+[data-show="on"] {
+  display: block;
+}
+
+[data-show="off"] {
+  display: none;
+}

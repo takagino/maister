@@ -1,0 +1,33 @@
+/* ==========================================================================
+  Foundation
+========================================================================== */
+
+@import "foundation/_setting";
+@import "foundation/_mixin";
+@import "foundation/_base";
+
+/* ==========================================================================
+  Layout
+========================================================================== */
+
+@import "layout/_l-header";
+@import "layout/_l-footer";
+
+/* ==========================================================================
+  Object
+
+  term - 学期
+  subject - 科目
+  part - 部
+  chapter - 章
+  section - 節
+  item - 項
+========================================================================== */
+
+@import "object/_term";
+@import "object/_subject";
+
+@import "object/_chapter";
+@import "object/_clause";
+@import "object/_item";
+@import "object/_utility";
