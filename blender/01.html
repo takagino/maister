@@ -878,17 +878,329 @@
       </section>
     </article> -->
     <article class="chapter">
-      <h2 class="chapter__title">6. 時間が余ったら</h2>
-      <div class="clause">
-        <dl>
-          <dt>【コーヒーカップを作ろう】</dt>
-          <dd><img src="./assets/01/other02.png" width="400" alt=""></dd>
-        </dl>
-        <dl>
-          <dt>【アイスクリームを作ろう】</dt>
-          <dd><img src="./assets/01/other01.png" width="400" alt=""></dd>
-        </dl>
-      </div>
+      <h2 class="chapter__title">6. 時間が余ったら「コーヒーカップを作ろう」</h2>
+      <section class="clause">
+        <h3 class="clause__title">6-1. 立方体でカップを作る</h3>
+        <div class="item">
+          <dl>
+            <dt>【円柱の変形】</dt>
+            <dd>
+              <ol>
+                <li>
+                  ディフォルトで表示されている立方体を選択し、「tab」を押して「<em>編集モード</em>」に切り替える。
+                  <img src="./assets/02/cup02.png" width="500" alt="" />
+                  <ul>
+                    <li class="shortcut"><span>tab</span>モードの切り換え</li>
+                  </ul>
+                </li>
+                <li>
+                  左上の選択モードを「<em>面選択モード</em>」に切り替え、立方体の上部の面をクリックで選択。
+                  <img src="./assets/02/cup03.png" width="500" alt="" />
+                </li>
+                <li>
+                  「x」キーもしくは「DELETE」キーを押し、面を選択して削除する。
+                  <img src="./assets/02/cup04.png" width="500" alt="" />
+                  <ul>
+                    <li class="shortcut">
+                      <span>x</span> or <span>DELETE</span>オブジェクトの削除
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  下部分のみを小さくするため「<em>ループカット</em>」で真ん中に辺を追加する。<br />
+                  「Ctrl +
+                  r」を押し黄色い線が表示されたら、マウスで下図になるように調整しクリックで確定する。
+                  <img src="./assets/02/cup05.png" width="400" alt="" />
+                  <ul>
+                    <li class="shortcut"><span>Ctrl</span> + <span>r</span>ループカット</li>
+                  </ul>
+                </li>
+                <li>
+                  ちょうど真ん中になるようにマウスで移動するか<em>キーボードで「0」</em>を押し、クリックで確定する。
+                </li>
+                <li>
+                  下の立方体が見えるように、マウスホイールを押しながらくるっと視点を回転させる。
+                  <img src="./assets/02/cup06.png" width="400" alt="" />
+                </li>
+                <li>
+                  「<em>面選択モード</em>」で立方体の底面を選択したら、「s」キーを押して縮小する。
+                  <img src="./assets/02/cup07.png" width="400" alt="" />
+                  <ul>
+                    <li class="shortcut"><span>s</span>スケールツール（拡大・縮小）</li>
+                  </ul>
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>★オブジェクトモードと編集モード</dt>
+            <dd>
+              <dl>
+                <dt>編集モード</dt>
+                <dd>1つのオブジェクトを選択して、作りこんでいくモード。</dd>
+              </dl>
+              <dl>
+                <dt>オブジェクトモード</dt>
+                <dd>
+                  編集モードで作り込んだオブジェクトを組み合わせて、全体を作っていくモード。
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【カップを丸くする】</dt>
+            <dd>
+              <ol>
+                <li>「tab」を押して「<em>オブジェクトモード</em>」に切り替える。</li>
+                <li>
+                  作成したカップをクリックで選択し、『<em>プロパティ &gt; モディファイアー &gt; モディファイアーを追加</em>』をクリック。
+                  <img src="./assets/01/bebel01.png" width="300" alt="" />
+                </li>
+                <li>
+                  『<em>生成 &gt; サブディビジョンサーフィス</em>』を選択。
+                  <img src="./assets/02/cup08.png" width="400" alt="" />
+                </li>
+                <li>
+                  ビューポートのレベル数とレンダーの値を「<em>3</em>」にする。
+                  <img src="./assets/02/cup09.png" width="300" alt="" />
+                </li>
+                <li>
+                  右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。
+                  <img src="./assets/02/cup10.png" width="400" alt="" />
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>★スムーズシェードとフラットシェード</dt>
+            <dd>
+              <dl>
+                <dt>スムーズシェード</dt>
+                <dd>隣り合った面を滑らかにつないで曲面のように表示する。</dd>
+              </dl>
+              <dl>
+                <dt>フラットシェード</dt>
+                <dd>それぞれの面が平らのまま表示する。</dd>
+              </dl>
+              <dl>
+                <dt>自動スムーズシェード</dt>
+                <dd>隣り合った面の角度が一定以下の時だけ滑らかにつないで表示する。</dd>
+              </dl>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【カップを厚くする】</dt>
+            <dd>
+              <p>さらに2つのモディファイアーを追加していきます。</p>
+            </dd>
+            <dd>
+              <ol>
+                <li>
+                  カップが選択選択された状態で、『<em>モディファイアーを追加 &gt; 生成 &gt; ソリッド化</em>』を選択。
+                  <img src="./assets/02/cup11.png" width="400" alt="" />
+                </li>
+                <li>
+                  幅の値を「<em>0.2m</em>」にする。
+                  <img src="./assets/02/cup12.png" width="300" alt="" />
+                </li>
+                <li>
+                  さらに、『<em>モディファイアーを追加 &gt; 生成 &gt; ベベル</em>』を選択。
+                  <img src="./assets/02/cup13.png" width="400" alt="" />
+                </li>
+                <li>
+                  量の値を「<em>0.1m</em>」、セグメントの値を「<em>10</em>」にする。
+                  <img src="./assets/02/cup14.png" width="300" alt="" />
+                </li>
+              </ol>
+              <p><em>※設定し終わったモディファイアーは「&gt;」をクリックして閉じておく。</em></p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>★モディファイアーはパネルの並びに注意する</dt>
+            <dd>
+              モディファイアーパネルでは、上から順番に効果を設定していくため、ソリッド化とベベルの順番を逆にするとうまくベベルがかからない。<br />このような場合には、右側のハンドルをクリックし、ドラッグで移動させる。
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-2. カップを複製してソーサーを作る</h3>
+        <div class="item">
+          <dl>
+            <dt>【カップの複製】</dt>
+            <dd>
+              <ol>
+                <li>
+                  カップを選択した状態で、「Shift +
+                  d」でオブジェクトを複製し、「z」キーを押して少し下に配置する。
+                  <img src="./assets/02/saucer01.png" width="400" alt="" />
+                  <ul>
+                    <li class="shortcut"><span>Shift</span>+<span>d</span>複製</li>
+                    <li class="shortcut"><span>z</span>Z軸にロック</li>
+                  </ul>
+                </li>
+                <li>
+                  「s」キーでスケールツールに切り換え、続けて「z」キーを押して下方向に縮小する。
+                  <img src="./assets/02/saucer02.png" width="400" alt="" />
+                </li>
+                <li>
+                  再度「s」キーを押して全体的に拡大する。
+                  <img src="./assets/02/saucer03.png" width="400" alt="" />
+                </li>
+                <li>よりお皿らしい形にするため、「<em>編集モード</em>」に切り替える。</li>
+                <li>
+                  「<em>面選択モード</em>」になっていることを確認し、上部の面と面の間の角で「Alt」キーを押しながらクリックする。
+                  <img src="./assets/02/saucer04.png" width="400" alt="" />
+                  <ul>
+                    <li class="shortcut"><span>Alt</span>+<span>左クリック</span>ループ選択</li>
+                  </ul>
+                </li>
+                <li>「DELETE」キーで「面」を選択して削除。</li>
+                <li>
+                  位置と大きさを調整する。
+                  <img src="./assets/02/saucer05.png" width="400" alt="" />
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-3. トーラス（ドーナツ型）で取っ手を作る</h3>
+        <div class="item">
+          <dl>
+            <dt>【トーラスの追加】</dt>
+            <dd>
+              <ol>
+                <li>
+                  「<em>オブジェクトモード</em>」であることを確認、「Shift +
+                  a」を押して、追加メニューから『<em>メッシュ &gt; トーラス</em>』を選択する。
+                </li>
+                <li>
+                  左下に表示されたパネルをクリックで表示し、小セグメント数の値を「<em>18</em>」、小半径の値を「<em>0.3m</em>」にする。
+                  <img src="./assets/02/torus01.png" width="300" alt="" />
+                </li>
+                <li>右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。</li>
+                <li>
+                  「r」キーで回転ツールに切り換え、続けて「x」キーを押してX軸のみの変化に限定する。
+                  <ul>
+                    <li class="shortcut"><span>r</span>回転ツール</li>
+                    <li class="shortcut"><span>x</span>X軸にロック</li>
+                  </ul>
+                </li>
+                <li>
+                  きっかり「90度」回転させるため、<em>キーボードで「90」と入力</em>し、「Enter」キーまたはクリックで確定する。
+                  <img src="./assets/02/torus02.png" width="400" alt="" />
+                </li>
+                <li>
+                  「<em>フロントビュー</em>」に切り替え、「s」キーでカップに収まる大きさに縮小する。
+                  <img src="./assets/02/torus03.png" width="400" alt="" />
+                </li>
+                <li>
+                  「g」キーと軸のロックを駆使して、良い位置に移動する。
+                  <img src="./assets/02/torus04.png" width="400" alt="" />
+                  <ul>
+                    <li class="shortcut"><span>g</span>移動ツール</li>
+                  </ul>
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【半分にする（時間に余裕があれば）】</dt>
+            <dd>
+              <p>カップからはみ出ないように半分に調整する。</p>
+            </dd>
+            <dd>
+              <ol>
+                <li>
+                  アウトライナーパネルで、取っ手以外のオブジェクトを非表示にしておく。
+                  <img src="./assets/02/torus05.png" width="300" alt="" />
+                </li>
+                <li>取っ手を選択し、「<em>編集モード</em>」に切り替える。</li>
+                <li>
+                  「<em>頂点選択モード</em>」に切り替え、下図のようにちょうど真ん中の点を選択する。
+                  <img src="./assets/02/torus06.png" width="500" alt="" />
+                </li>
+                <li>
+                  上部メニュー『<em>選択 &gt; アクティブな側</em>』を選択。
+                  <img src="./assets/02/torus07.png" width="300" alt="" />
+                </li>
+                <li>
+                  左下に表示されたパネルの軸の符号を「<em>負の軸</em>」にする。
+                  <img src="./assets/02/torus08.png" width="300" alt="" />
+                </li>
+                <li>「DELETE」キーで「面」を選択して削除。</li>
+                <li>
+                  「Alt」キーを押しながら、削除された面の頂点を1点クリックし「ループ選択」する。
+                  <img src="./assets/02/torus09.png" width="400" alt="" />
+                </li>
+                <li>
+                  「f」キーを押して面を作成する。
+                  <img src="./assets/02/torus10.png" width="400" alt="" />
+                  <ul>
+                    <li class="shortcut">
+                      <span>f</span>フィル（頂点で囲まれたオブジェクトに面を作成する）
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  「e」キーを押して面を伸ばす。
+                  <img src="./assets/02/torus11.png" width="400" alt="" />
+                  <ul>
+                    <li class="shortcut"><span>e</span>押し出し</li>
+                  </ul>
+                </li>
+                <li>
+                  もう片方も同様に伸ばす。
+                  <img src="./assets/02/torus12.png" width="400" alt="" />
+                </li>
+                <li>「<em>オブジェクトモード</em>」に切り替え、角度や位置を調整する。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <p><em>※やり方は「blender トーラス 半分」などで検索する。</em></p>
+          <ul>
+            <li>
+              <a href="https://www.youtube.com/watch?v=8awQL8LT0zU">形状の半分を一瞬で選択する方法。</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-4. カップの中の液体を作る</h3>
+        <div class="item">
+          <ol>
+            <li>
+              「<em>オブジェクトモード</em>」であることを確認、「Shift +
+              a」を押して、追加メニューから『<em>メッシュ &gt; 円</em>』を選択する。
+            </li>
+            <li>
+              「<em>編集モード</em>」に切り替え、「f」キーで面を張る。（頂点が選択されていない場合は「a」キーで全選択）
+              <img src="./assets/02/coffee01.png" width="400" alt="" />
+            </li>
+            <li>
+              「<em>オブジェクトモード</em>」に切り替え、カップからはみ出ないように拡大縮小しながら上方に移動する。
+              <img src="./assets/02/coffee02.png" width="400" alt="" />
+            </li>
+            <li>モデリングは完成！</li>
+          </ol>
+        </div>
+      </section>
     </article>
     <article class="chapter">
       <h2 class="chapter__title">7. 宿題</h2>
