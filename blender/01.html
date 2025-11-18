@@ -1,849 +1,1121 @@
-<!doctype html>
+<!DOCTYPE html>
 <html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Blender入門 vol.01</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
 
-<head>
-  <meta charset="UTF-8">
-  <title>Blender入門 vol.01</title>
-  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
-  <meta name="author" content="horotaka takagi">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex">
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
-  <!-- other css -->
-  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
 
-  <!-- syntax highlighter -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+    <style>
+      .l-header {
+        margin-bottom: 6em;
+      }
 
-  <!-- self css -->
-  <link rel="stylesheet" href="../assets/css/common.css">
-  <style>
-    .l-header {
-      margin-bottom: 6em;
-    }
+      .clause__title {
+        font-size: 2.6rem;
+      }
 
-    .clause__title {
-      font-size: 2.6rem;
-    }
+      .clause dt {
+        font-size: 2rem;
+      }
 
-    .clause dt {
-      font-size: 2rem;
-    }
+      .clause dd dt {
+        font-size: 1.6rem;
+      }
 
-    .clause dd dt {
-      font-size: 1.6rem;
-    }
+      .shortcut {
+        display: flex;
+        align-items: center;
+      }
 
-    .shortcut {
-      display: flex;
-      align-items: center;
-    }
+      .shortcut span {
+        display: inline-block;
+        min-width: 3em;
+        margin: 0.2em 1em;
+        padding: 0.5em 1em;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #ff9;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+      }
 
-    .shortcut span {
-      display: inline-block;
-      min-width: 3em;
-      margin: .2em 1em;
-      padding: .5em 1em;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #ff9;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-    }
+      .clause .shortcut img {
+        display: inline-block;
+        margin: 1.5em 1em;
+      }
 
-    .clause .shortcut img {
-      display: inline-block;
-      margin: 1.5em 1em;
-    }
+      .active {
+        overflow: hidden;
+      }
 
-    .active {
-      overflow: hidden;
-    }
+      #modalBtn {
+        position: fixed;
+        right: 25px;
+        bottom: 80px;
+        width: 45px;
+        height: 45px;
+        border: 1px solid #09c;
+        border-radius: 50%;
+        background-color: #fff;
+        opacity: 0.7;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s;
+        z-index: 9999;
+        color: #09c;
+      }
 
-    #modalBtn {
-      position: fixed;
-      right: 25px;
-      bottom: 80px;
-      width: 45px;
-      height: 45px;
-      border: 1px solid #09c;
-      border-radius: 50%;
-      background-color: #fff;
-      opacity: 0.7;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.2s;
-      z-index: 9999;
-      color: #09c;
-    }
+      #modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9998;
+        width: 100%;
+        height: 100vh;
+        padding: 1em;
+        display: none;
+        background-color: #000;
+      }
 
-    #modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 9998;
-      width: 100%;
-      height: 100vh;
-      padding: 1em;
-      display: none;
-      background-color: #000;
-    }
+      .active #modal {
+        display: block;
+      }
 
-    .active #modal {
-      display: block;
-    }
+      .modal__inner {
+        width: 100%;
+        height: 100%;
+        padding: 2em;
+        overflow-y: scroll;
+        border: 8px solid #ddd;
+        border-radius: 15px;
+        background-color: #fff;
+      }
+    </style>
+  </head>
 
-    .modal__inner {
-      width: 100%;
-      height: 100%;
-      padding: 2em;
-      overflow-y: scroll;
-      border: 8px solid #ddd;
-      border-radius: 15px;
-      background-color: #fff;
-    }
-  </style>
-</head>
-
-<body>
-  <header class="l-header">
-    <h1 class="l-header__title">Blender入門 vol.01</h1>
-  </header>
-  <main class="l-main">
-    <article class="chapter">
-      <h2 class="chapter__title">0. はじめに</h2>
-      <div class="clause">
-        <div class="item">
-          <p>自己紹介</p>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title">Blender入門 vol.01</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">0. はじめに</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【自己紹介】</dt>
+              <dd>
+                <ul>
+                  <li>高木 寛貴（たかぎ ひろたか）</li>
+                  <li>トライデントコンピュータ専門学校 Webデザイン学科 講師</li>
+                  <li>美大の助手、Web制作会社を経て現職。</li>
+                  <li>
+                    専門学校常勤講師歴14年以上。専門はプログラミング、Webサイト制作全般。
+                  </li>
+                  <li>趣味：水泳、フットサル、ドラム、写真、etc...</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【スケジュール】</dt>
+              <dd>
+                <ul>
+                  <li>11/18(火)：Blenderの基本操作、モデリング体験</li>
+                  <li>12/2(火)：CIOとの連携、ダウンロードした素材の修正</li>
+                  <li>12/16(火)、23(火)：各自制作</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【講義資料】</dt>
+              <dd><img src="./assets/qr.png" alt="" /></dd>
+              <dd>
+                <ul>
+                  <li>
+                    ページ下部に「上部へ戻る」と「ショートカット一覧」のボタンがあります。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【本日の内容】</dt>
+              <dd>
+                <ol>
+                  <li>初期設定</li>
+                  <li>画面の見方と基本操作</li>
+                  <li>実践「フライパンを作ろう」</li>
+                  <li>実践「椅子を作ろう」</li>
+                  <li>練習「机を作ろう」</li>
+                  <li>時間が余ったら「コーヒーカップを作ろう」</li>
+                  <li>宿題</li>
+                </ol>
+              </dd>
+            </dl>
+            <ul class="clause__list">
+              <li><em>実践を通じて、操作感になれる。</em></li>
+              <li><em>ショートカットを覚える。</em></li>
+            </ul>
+          </div>
         </div>
-        <div class="item">
-          <dl>
-            <dt>【スケジュール】</dt>
-            <dd>
-              <ul>
-                <li>11/18(火)：Blenderの基本操作、モデリング体験</li>
-                <li>12/2(火)：CIOとの連携、ダウンロードした素材の修正</li>
-                <li>12/16(火)、23(火)：各自制作</li>
-              </ul>
-            </dd>
-          </dl>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">1. 初期設定</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>★日本語化</dt>
+              <dd>
+                <dl>
+                  <dt>【初回起動時】</dt>
+                  <dd>
+                    <ol>
+                      <li>
+                        クイックセットアップの「Languase（言語）」を「日本語」に変更。
+                        <img
+                          src="./assets/01/japanese01.png"
+                          width="600"
+                          alt=""
+                        />
+                      </li>
+                      <li>それ以外は変更の必要なし。</li>
+                    </ol>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>【2回目以降】</dt>
+                  <dd>
+                    <ol>
+                      <li>
+                        上部メニュー『<em
+                          >Edit（編集） &gt; Preferences（プリファレンス）</em
+                        >』を選択。
+                      </li>
+                      <li>
+                        『<em
+                          >Interface（インターフェイス） &gt;
+                          Languase（言語）</em
+                        >』を「日本語」に変更。
+                        <img
+                          src="./assets/01/japanese02.png"
+                          width="600"
+                          alt=""
+                        />
+                      </li>
+                    </ol>
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★数字キーの割り当て</dt>
+              <dd>
+                <p>
+                  Blenderでは「テンキー」を使った操作が多い。キーボードに無い場合は、上部の「数字キー」に機能を割り当てておくと便利。
+                </p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    上部メニュー『<em
+                      >Edit（編集） &gt; Preferences（プリファレンス）</em
+                    >』を選択。
+                  </li>
+                  <li>
+                    『<em>入力 &gt; キーボード &gt; テンキーを模倣</em
+                    >』にチェックを入れる。
+                    <img src="./assets/01/tenkey01.png" width="600" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
         </div>
-        <div class="item">
-          <dl>
-            <dt>【講義資料】</dt>
-            <dd><img src="./assets/qr.png" alt=""></dd>
-            <dd>
-              <ul>
-                <li>ページ下部に「上部へ戻る」と「ショートカット一覧」のボタンがあります。</li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【本日の内容】</dt>
-            <dd>
-              <ol>
-                <li>初期設定</li>
-                <li>画面の見方と基本操作</li>
-                <li>実践「フライパンを作ろう」</li>
-                <li>実践「椅子を作ろう」</li>
-                <li>練習「机を作ろう」</li>
-                <li>時間が余ったら「コーヒーカップを作ろう」</li>
-                <li>宿題</li>
-              </ol>
-            </dd>
-          </dl>
-          <ul class="clause__list">
-            <li><em>実践を通じて、操作感になれる。</em></li>
-            <li><em>ショートカットを覚える。</em></li>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 画面の見方と基本操作</h2>
+        <div class="clause">
+          <p><img src="./assets/01/workspace01.png" width="800" alt="" /></p>
+          <ul>
+            <li>①3Dビューポート（作業スペース）</li>
+            <li>②アウトライナー（データリスト）</li>
+            <li>③プロパティ（各種設定）</li>
+            <li>④ツールバー</li>
           </ul>
         </div>
-      </div>
-    </article>
-    <article class="chapter">
-      <h2 class="chapter__title">1. 初期設定</h2>
-      <div class="clause">
-        <div class="item">
-          <dl>
-            <dt>★日本語化</dt>
-            <dd>
-              <dl>
-                <dt>【初回起動時】</dt>
-                <dd>
-                  <ol>
-                    <li>クイックセットアップの「Languase（言語）」を「日本語」に変更。
-                      <img src="./assets/01/japanese01.png" width="600" alt="">
-                    </li>
-                    <li>それ以外は変更の必要なし。</li>
-                  </ol>
-                </dd>
-              </dl>
-              <dl>
-                <dt>【2回目以降】</dt>
-                <dd>
-                  <ol>
-                    <li>上部メニュー『<em>Edit（編集） &gt; Preferences（プリファレンス）</em>』を選択。</li>
-                    <li>『<em>Interface（インターフェイス） &gt; Languase（言語）</em>』を「日本語」に変更。
-                      <img src="./assets/01/japanese02.png" width="600" alt="">
-                    </li>
-                  </ol>
-                </dd>
-              </dl>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★数字キーの割り当て</dt>
-            <dd>
-              <p>Blenderでは「テンキー」を使った操作が多い。キーボードに無い場合は、上部の「数字キー」に機能を割り当てておくと便利。</p>
-            </dd>
-            <dd>
-              <ol>
-                <li>上部メニュー『<em>Edit（編集） &gt; Preferences（プリファレンス）</em>』を選択。</li>
-                <li>『<em>入力 &gt; キーボード &gt; テンキーを模倣</em>』にチェックを入れる。
-                  <img src="./assets/01/tenkey01.png" width="600" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </article>
-    <article class="chapter">
-      <h2 class="chapter__title">2. 画面の見方と基本操作</h2>
-      <div class="clause">
-        <p><img src="./assets/01/workspace01.png" width="800" alt=""></p>
-        <ul>
-          <li>①3Dビューポート（作業スペース）</li>
-          <li>②アウトライナー（データリスト）</li>
-          <li>③プロパティ（各種設定）</li>
-          <li>④ツールバー</li>
-        </ul>
-      </div>
-      <section class="clause">
-        <h3 class="clause__title">2-1. 3Dビューポート（作業スペース）</h3>
-        <div class="item">
-          <p>Blenderのメインの作業エリア。<em>XYZ座標</em>で定義された3D空間上に「<em>オブジェクト（様々な物体）</em>」「カメラ」「ライト」等が配置されている。</p>
-          <p><img src="./assets/01/workspace02.png" width="600" alt=""></p>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【XYZ座標】</dt>
-            <dd><img src="./assets/01/xyz01.png" width="500" alt=""></dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★Z軸の表示設定</dt>
-            <dd>
-              <ol>
-                <li>右上の『ビューポートオーバーレイ』を表示し、座標軸「Z」を選択。
-                  <img src="./assets/01/z01.png" width="400" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【視点移動（マウス）】</dt>
-            <dd>
-              <dl>
-                <dt>ズームイン／ズームアウト</dt>
-                <dd>マウスホイールをスクロール<img src="./assets/01/mouse01.png" width="100" alt=""></dd>
-              </dl>
-              <dl>
-                <dt>回転</dt>
-                <dd>マウスホイールを押しながら、マウスをドラッグ<img src="./assets/01/mouse02.png" width="140" alt=""></dd>
-              </dl>
-              <dl>
-                <dt>スライド</dt>
-                <dd>Shiftキーとマウスホイールを押しながら、マウスをドラッグ</dd>
-                <dd class="shortcut"><span>Shift</span> + <img src="./assets/01/mouse02.png" width="140" alt=""></dd>
-              </dl>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★マウスホイールが無い場合</dt>
-            <dd>
-              <p>以下の設定をすることで、「Alt + 左クリック」でマウスホイールと同じ操作が可能。</p>
-            </dd>
-            <dd>
-              <ol>
-                <li>上部メニュー『<em>Edit（編集） &gt; Preferences（プリファレンス）</em>』を選択。</li>
-                <li>『<em>入力 &gt; キーボード &gt; 3ボタンマウスを再現</em>』にチェックを入れる。
-                  <img src="./assets/01/mouse03.png" width="600" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★選択部分を中心に回転</dt>
-            <dd>
-              <p>以下の設定をすることで、選択したオブジェクトを中心に視点を回転してくれる。</p>
-            </dd>
-            <dd>
-              <ol>
-                <li>上部メニュー『<em>Edit（編集） &gt; Preferences（プリファレンス）</em>』を選択。</li>
-                <li>『<em>視点の操作 &gt; 選択部分を中心に回転</em>』にチェックを入れる。
-                  <img src="./assets/01/mouse04.png" width="600" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★マウス位置でズーム</dt>
-            <dd>
-              <p>以下の設定をすることで、マウスカーソルの位置に合わせてズームしてくれる。</p>
-            </dd>
-            <dd>
-              <ol>
-                <li>上部メニュー『<em>Edit（編集） &gt; Preferences（プリファレンス）</em>』を選択。</li>
-                <li>『<em>視点の操作 &gt; マウス位置でズーム</em>』にチェックを入れる。
-                  <img src="./assets/01/mouse05.png" width="600" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【視点移動（テンキー）】</dt>
-            <dd>
-              <dl>
-                <dt>ビューの切り替え</dt>
-                <dd class="shortcut"><span>1</span>フロント（前）ビュー</dd>
-                <dd class="shortcut"><span>3</span>ライト（右）ビュー</dd>
-                <dd class="shortcut"><span>7</span>トップ（上）ビュー</dd>
-              </dl>
-              <dl>
-                <dt>透視投影と平行投影</dt>
-                <dd>
-                  <p>Blenderでは距離に関係なくオブジェクトが同じ大きさになる<em>平行投影</em>と、遠くの物体が小さく見える<em>透視投影</em>の2種類の投影法があり、モデリング作業は<em>平行投影</em>の方が向いている。</p>
-                </dd>
-                <dd class="shortcut"><span>5</span>透視投影／平行投影</dd>
-              </dl>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【ナビゲーションギズモ】</dt>
-            <dd>上記のほぼ全ての操作をマウスのみで実現可能。現在の視点状況は左上に表示される。
-              <img src="./assets/01/navigation01.png" width="800" alt="">
-            </dd>
-          </dl>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">2-2. アウトライナー（データリスト）</h3>
-        <div class="item">
-          <p>ファイル内で配置・作成されたデータを一覧で表示する。ビューポート上の<em>表示・非表示の切り替え</em>や、<em>名前の変更（ダブルクリック）</em>、<em>削除（DELETE）</em>などを行うことができる。</p>
-          <p><img src="./assets/01/outliner01.png" width="400" alt=""></p>
-          <p><em>※カメラとライトを非表示にしておく。</em></p>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">2-3. プロパティ（各種設定）</h3>
-        <div class="item">
-          <p>選択されているオブジェクトの詳細な情報を表示し、各種編集を行う。</p>
-          <p><img src="./assets/01/propaty01.png" width="300" alt=""></p>
-          <p><em>※「モディファイアー」と「マテリアル」はよく使用するので覚えておく。</em></p>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">2-4. ツールバー</h3>
-        <div class="item">
-          <p>3Dモデルを編集するための各種ツール。「Tキー」で表示・非表示を切り替え可能。<br>
-            マウスオーバーで説明と<em>ショートカット</em>が表示されるので徐々に覚えると良い。</p>
-          <p class="shortcut"><span>t</span>表示／非表示</p>
-          <p><img src="./assets/01/toolbar01.png" width="300" alt=""></p>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">2-5. その他ショートカット</h3>
-        <ul>
-          <li class="shortcut"><span>Ctrl</span>+<span>z</span>元に戻す</li>
-          <li class="shortcut"><span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す</li>
-          <li class="shortcut"><span>Ctrl</span>+<span>s</span>保存</li>
-        </ul>
-        <p><em>※Blenderは落ちやすいので、こまめに保存すること。</em></p>
-      </section>
-    </article>
-    <article class="chapter">
-      <h2 class="chapter__title">3. 実践「フライパンを作ろう」</h2>
-      <div class="clause">
-        <dl>
-          <dt>【見本】</dt>
-          <dd><img src="./assets/01/flypan.png" width="500" alt=""></dd>
-        </dl>
-      </div>
-      <section class="clause">
-        <h3 class="clause__title">3-1. 円柱でフライパンの本体を作る</h3>
-        <div class="item">
-          <dl>
-            <dt>【立方体の削除と円柱の追加】</dt>
-            <dd>
-              <ol>
-                <li>ディフォルトで表示されている立方体を選択し、「Xキー」もしくは「DELETEキー」を押して削除する。
-                  <img src="./assets/01/delete01.png" width="400" alt="">
-                  <ul>
-                    <li class="shortcut"><span>x</span> or <span>DELETE</span>オブジェクトの削除</li>
-                  </ul>
-                </li>
-                <li>「Shift + a」を押して、追加メニューから『<em>メッシュ &gt; 円柱</em>』を選択する。
-                  <img src="./assets/01/object01.png" width="500" alt="">
-                  <ul>
-                    <li class="shortcut"><span>Shift</span> + <span>a</span>オブジェクトの追加</li>
-                  </ul>
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【円柱の変形】</dt>
-            <dd>
-              <ol>
-                <li>「tab」を押して「<em>編集モード</em>」に切り替える。
-                  <img src="./assets/01/mode01.png" width="500" alt="">
-                  <ul>
-                    <li class="shortcut"><span>tab</span>モードの切り換え</li>
-                  </ul>
-                </li>
-                <li>「s」キーでスケールツールに切り換え、続けて「z」キーを押してZ軸のみの変化に限定する。（<em>軸のロック</em>）
-                  <ul>
-                    <li class="shortcut"><span>s</span>スケールツール（拡大・縮小）</li>
-                    <li class="shortcut"><span>z</span>Z軸にロック</li>
-                  </ul>
-                </li>
-                <li>マウスを動かし、円柱が薄くなったらクリックで確定する。操作をキャンセルする場合は「右クリック」。
-                  <img src="./assets/01/transform01.png" width="300" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★オブジェクトモードと編集モード</dt>
-            <dd>
-              <dl>
-                <dt>編集モード</dt>
-                <dd>1つのオブジェクトを選択して、作りこんでいくモード。</dd>
-              </dl>
-              <dl>
-                <dt>オブジェクトモード</dt>
-                <dd>編集モードで作り込んだオブジェクトを組み合わせて、全体を作っていくモード。</dd>
-              </dl>
-            </dd>
-          </dl>
-          <p>※その他、操作感等に違いがあるが、詳細はのちほど。</p>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【表面を滑らかにする】</dt>
-            <dd>
-              <ol>
-                <li>「tab」を押して「<em>オブジェクトモード</em>」に切り替える。
-                  <img src="./assets/01/mode02.png" width="500" alt="">
-                </li>
-                <li>作成した円柱をクリックで選択し、右クリック「<em>自動スムーズシェード</em>」を選択。
-                  <img src="./assets/01/transform02.png" width="500" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★スムーズシェードとフラットシェード</dt>
-            <dd>
-              <dl>
-                <dt>スムーズシェード</dt>
-                <dd>隣り合った面を滑らかにつないで曲面のように表示する。</dd>
-              </dl>
-              <dl>
-                <dt>フラットシェード</dt>
-                <dd>それぞれの面が平らのまま表示する。</dd>
-              </dl>
-              <dl>
-                <dt>自動スムーズシェード</dt>
-                <dd>隣り合った面の角度が一定以下の時だけ滑らかにつないで表示する。</dd>
-              </dl>
-            </dd>
-          </dl>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">3-2. 円柱でフライパンの持ち手を作る</h3>
-        <div class="item">
-          <dl>
-            <dt>【円柱の追加と変形】</dt>
-            <dd>
-              <ol>
-                <li>「Shift + a」を押して、追加メニューから『<em>メッシュ &gt; 円柱</em>』を選択する。</li>
-                <li>「r」キーで回転ツールに切り換え、続けて「x」キーを押してX軸のみの変化に限定する。
-                  <ul>
-                    <li class="shortcut"><span>r</span>回転ツール</li>
-                    <li class="shortcut"><span>x</span>X軸にロック</li>
-                  </ul>
-                </li>
-                <li>きっかり「90度」回転させるため、<em>キーボードで「90」と入力</em>し、「Enter」キーまたはクリックで確定する。
-                  <img src="./assets/01/transform03.png" width="500" alt="">
-                </li>
-                <li>「g」キーで移動ツールに切り換え、続けて「y」キーを押してY軸のみの変化に限定する。
-                  <ul>
-                    <li class="shortcut"><span>g</span>移動ツール</li>
-                    <li class="shortcut"><span>y</span>Y軸にロック</li>
-                  </ul>
-                </li>
-                <li>フライパン本体の後方に移動する。
-                  <img src="./assets/01/transform04.png" width="500" alt="">
-                </li>
-                <li>「tab」を押して「<em>編集モード</em>」に切り替える。（<em>オブジェクトモードのまま進めると意図した形にならないので注意</em>）</li>
-                <li>「s」キーを押して大きさを調整し、良いところでクリック。続けて「s」キー → 「y」キーを押して長さを調節する。
-                  <img src="./assets/01/transform05.png" width="500" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-          <p><em>※大きさを細かく調整する際は、数字キー「1」「3」「7」で視点を切り換えながら操作するとやりやすい。</em></p>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★解除したオブジェクトの再選択</dt>
-            <dd>
-              <ul>
-                <li class="shortcut"><span>a</span>全選択</li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【角を滑らかにする】</dt>
-            <dd>
-              <ol>
-                <li>「tab」を押して「<em>オブジェクトモード</em>」に切り替え、作成した円柱をクリックで選択する。</li>
-                <li>『<em>プロパティ &gt; モディファイアー &gt; モディファイアーを追加</em>』をクリック。
-                  <img src="./assets/01/bebel01.png" width="400" alt="">
-                </li>
-                <li>『<em>生成 &gt; ベベル</em>』を選択。
-                  <img src="./assets/01/bebel02.png" width="500" alt="">
-                </li>
-                <li>量（面取りの幅）を「<em>1m</em>」、セグメント（面取りの数）を「<em>10</em>」に変更する。（拡大して値を変更するとわかりやすい）
-                  <img src="./assets/01/bebel03.png" width="400" alt="">
-                </li>
-                <li>本体と同様に、右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。
-                  <img src="./assets/01/bebel04.png" width="300" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【持ち手をコピーしてつなげる】</dt>
-            <dd>
-              <ol>
-                <li>持ち手を選択した状態で、「Shift + d」でオブジェクトを複製し、「y」キーを押して本体にくっつくように配置する。
-                  <img src="./assets/01/copy01.png" width="400" alt="">
-                  <ul>
-                    <li class="shortcut"><span>Shift</span>+<span>d</span>複製</li>
-                  </ul>
-                </li>
-                <li>複製した円柱のサイズと、持ち手の位置を調整する。
-                  <img src="./assets/01/copy02.png" width="400" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">3-3. フライパンの溝を作る</h3>
-        <ol>
-          <li>フライパンの本体をクリックで選択し、「tab」を押して「<em>編集モード</em>」に切り替える。</li>
-          <li>左上の選択モードを「<em>面選択モード</em>」に切り替える。
-            <img src="./assets/01/plane01.png" width="400" alt="">
-          </li>
-          <li>上部の面をクリックで選択し、「i」キーで新たな面を差し込む。その後、マウスで大きさを2/3程度の大きさに調整する。（<em>面の外側で「i」キーを押すとやりやすい</em>）
-            <img src="./assets/01/plane02.png" width="400" alt="">
-            <ul>
-              <li class="shortcut"><span>i</span>インセット（面を差し込む）</li>
-            </ul>
-          </li>
-          <li>続けて、「e」キーを押してマウスを下に動かすことで面を下に押し出す。クリックで確定させる、
-            <img src="./assets/01/plane03.png" width="400" alt="">
-            <ul>
-              <li class="shortcut"><span>e</span>押し出し</li>
-            </ul>
-          </li>
-          <li>「tab」を押して「<em>オブジェクトモード</em>」に切り替える。</li>
-          <li>角を滑らかにするため『<em>モディファイアーを追加</em>』し、値を良い感じに調整する。
-            <img src="./assets/01/plane04.png" width="400" alt="">
-          </li>
-        </ol>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">3-4. 色をつける</h3>
-        <div class="item">
-          <dl>
-            <dt>【ビューの切り換え】</dt>
-            <dd>
-              <ol>
-                <li>「<em>オブジェクトモード</em>」になっていることを確認し、右上の「ビューポートシューティング」の中から「<em>マテリアルプレビューモード</em>」を選択する。
-                  <img src="./assets/01/material01.png" width="400" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【マテリアルの設定】</dt>
-            <dd>
-              <ol>
-                <li>色をつけたいオブジェクトを選択し、『<em>プロパティ &gt; マテリアル &gt; 新規</em>』をクリック。
-                  <img src="./assets/01/material02.png" width="400" alt="">
-                </li>
-                <li>『<em>ベースカラー</em>』の色味の部分をクリックし、好きな色を選択。
-                  <img src="./assets/01/material03.png" width="400" alt="">
-                </li>
-                <li>全てのパーツに色をつけて完成！フライパンのデータは後で使うので「<em>保存</em>」しておく。</li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★16進数カラーコード</dt>
-            <dd>Google検索「#fff」で表示されるカラーピッカーが便利。
-              <img src="./assets/01/material04.png" width="600" alt="">
-            </dd>
-          </dl>
-        </div>
-      </section>
-    </article>
-    <article class="chapter">
-      <h2 class="chapter__title">4. 実践「椅子を作ろう」</h2>
-      <div class="clause">
-        <div class="item">
+        <section class="clause">
+          <h3 class="clause__title">2-1. 3Dビューポート（作業スペース）</h3>
+          <div class="item">
+            <p>
+              Blenderのメインの作業エリア。<em>XYZ座標</em>で定義された3D空間上に「<em>オブジェクト（様々な物体）</em>」「カメラ」「ライト」等が配置されている。
+            </p>
+            <p><img src="./assets/01/workspace02.png" width="600" alt="" /></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【XYZ座標】</dt>
+              <dd><img src="./assets/01/xyz01.png" width="500" alt="" /></dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★Z軸の表示設定</dt>
+              <dd>
+                <ol>
+                  <li>
+                    右上の『ビューポートオーバーレイ』を表示し、座標軸「Z」を選択。
+                    <img src="./assets/01/z01.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【視点移動（マウス）】</dt>
+              <dd>
+                <dl>
+                  <dt>ズームイン／ズームアウト</dt>
+                  <dd>
+                    マウスホイールをスクロール<img
+                      src="./assets/01/mouse01.png"
+                      width="100"
+                      alt=""
+                    />
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>回転</dt>
+                  <dd>
+                    マウスホイールを押しながら、マウスをドラッグ<img
+                      src="./assets/01/mouse02.png"
+                      width="140"
+                      alt=""
+                    />
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>スライド</dt>
+                  <dd>
+                    Shiftキーとマウスホイールを押しながら、マウスをドラッグ
+                  </dd>
+                  <dd class="shortcut">
+                    <span>Shift</span> +
+                    <img src="./assets/01/mouse02.png" width="140" alt="" />
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★マウスホイールが無い場合</dt>
+              <dd>
+                <p>
+                  以下の設定をすることで、「Alt +
+                  左クリック」でマウスホイールと同じ操作が可能。
+                </p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    上部メニュー『<em
+                      >Edit（編集） &gt; Preferences（プリファレンス）</em
+                    >』を選択。
+                  </li>
+                  <li>
+                    『<em>入力 &gt; キーボード &gt; 3ボタンマウスを再現</em
+                    >』にチェックを入れる。
+                    <img src="./assets/01/mouse03.png" width="600" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★選択部分を中心に回転</dt>
+              <dd>
+                <p>
+                  以下の設定をすることで、選択したオブジェクトを中心に視点を回転してくれる。
+                </p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    上部メニュー『<em
+                      >Edit（編集） &gt; Preferences（プリファレンス）</em
+                    >』を選択。
+                  </li>
+                  <li>
+                    『<em>視点の操作 &gt; 選択部分を中心に回転</em
+                    >』にチェックを入れる。
+                    <img src="./assets/01/mouse04.png" width="600" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★マウス位置でズーム</dt>
+              <dd>
+                <p>
+                  以下の設定をすることで、マウスカーソルの位置に合わせてズームしてくれる。
+                </p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    上部メニュー『<em
+                      >Edit（編集） &gt; Preferences（プリファレンス）</em
+                    >』を選択。
+                  </li>
+                  <li>
+                    『<em>視点の操作 &gt; マウス位置でズーム</em
+                    >』にチェックを入れる。
+                    <img src="./assets/01/mouse05.png" width="600" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【視点移動（テンキー）】</dt>
+              <dd>
+                <dl>
+                  <dt>ビューの切り替え</dt>
+                  <dd class="shortcut"><span>1</span>フロント（前）ビュー</dd>
+                  <dd class="shortcut"><span>3</span>ライト（右）ビュー</dd>
+                  <dd class="shortcut"><span>7</span>トップ（上）ビュー</dd>
+                </dl>
+                <dl>
+                  <dt>透視投影と平行投影</dt>
+                  <dd>
+                    <p>
+                      Blenderでは距離に関係なくオブジェクトが同じ大きさになる<em>平行投影</em>と、遠くの物体が小さく見える<em>透視投影</em>の2種類の投影法があり、モデリング作業は<em>平行投影</em>の方が向いている。
+                    </p>
+                  </dd>
+                  <dd class="shortcut"><span>5</span>透視投影／平行投影</dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ナビゲーションギズモ】</dt>
+              <dd>
+                上記のほぼ全ての操作をマウスのみで実現可能。現在の視点状況は左上に表示される。
+                <img src="./assets/01/navigation01.png" width="800" alt="" />
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. アウトライナー（データリスト）</h3>
+          <div class="item">
+            <p>
+              ファイル内で配置・作成されたデータを一覧で表示する。ビューポート上の<em>表示・非表示の切り替え</em>や、<em>名前の変更（ダブルクリック）</em>、<em>削除（DELETE）</em>などを行うことができる。
+            </p>
+            <p><img src="./assets/01/outliner01.png" width="400" alt="" /></p>
+            <p><em>※カメラとライトを非表示にしておく。</em></p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-3. プロパティ（各種設定）</h3>
+          <div class="item">
+            <p>
+              選択されているオブジェクトの詳細な情報を表示し、各種編集を行う。
+            </p>
+            <p><img src="./assets/01/propaty01.png" width="300" alt="" /></p>
+            <p>
+              <em
+                >※「モディファイアー」と「マテリアル」はよく使用するので覚えておく。</em
+              >
+            </p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-4. ツールバー</h3>
+          <div class="item">
+            <p>
+              3Dモデルを編集するための各種ツール。「Tキー」で表示・非表示を切り替え可能。<br />
+              マウスオーバーで説明と<em>ショートカット</em>が表示されるので徐々に覚えると良い。
+            </p>
+            <p class="shortcut"><span>t</span>表示／非表示</p>
+            <p><img src="./assets/01/toolbar01.png" width="300" alt="" /></p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-5. その他ショートカット</h3>
+          <ul>
+            <li class="shortcut"><span>Ctrl</span>+<span>z</span>元に戻す</li>
+            <li class="shortcut">
+              <span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す
+            </li>
+            <li class="shortcut"><span>Ctrl</span>+<span>s</span>保存</li>
+          </ul>
+          <p><em>※Blenderは落ちやすいので、こまめに保存すること。</em></p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 実践「フライパンを作ろう」</h2>
+        <div class="clause">
           <dl>
             <dt>【見本】</dt>
-            <dd><img src="./assets/01/chair01.png" width="500" alt=""></dd>
+            <dd><img src="./assets/01/flypan.png" width="500" alt="" /></dd>
           </dl>
         </div>
-        <p>フライパンのデータを閉じ、『<em>ファイル &gt; 新規 &gt; 全般</em>』で新規ファイルを作成する。</p>
-      </div>
-      <section class="clause">
-        <h3 class="clause__title">4-1. 座面を作る</h3>
-        <div class="item">
+        <section class="clause">
+          <h3 class="clause__title">3-1. 円柱でフライパンの本体を作る</h3>
+          <div class="item">
+            <dl>
+              <dt>【立方体の削除と円柱の追加】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    ディフォルトで表示されている立方体を選択し、「Xキー」もしくは「DELETEキー」を押して削除する。
+                    <img src="./assets/01/delete01.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>x</span> or <span>DELETE</span>オブジェクトの削除
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    「Shift + a」を押して、追加メニューから『<em
+                      >メッシュ &gt; 円柱</em
+                    >』を選択する。
+                    <img src="./assets/01/object01.png" width="500" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>Shift</span> + <span>a</span>オブジェクトの追加
+                      </li>
+                    </ul>
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【円柱の変形】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    「tab」を押して「<em>編集モード</em>」に切り替える。
+                    <img src="./assets/01/mode01.png" width="500" alt="" />
+                    <ul>
+                      <li class="shortcut"><span>tab</span>モードの切り換え</li>
+                    </ul>
+                  </li>
+                  <li>
+                    「s」キーでスケールツールに切り換え、続けて「z」キーを押してZ軸のみの変化に限定する。（<em>軸のロック</em>）
+                    <ul>
+                      <li class="shortcut">
+                        <span>s</span>スケールツール（拡大・縮小）
+                      </li>
+                      <li class="shortcut"><span>z</span>Z軸にロック</li>
+                    </ul>
+                  </li>
+                  <li>
+                    マウスを動かし、円柱が薄くなったらクリックで確定する。操作をキャンセルする場合は「右クリック」。
+                    <img src="./assets/01/transform01.png" width="300" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★オブジェクトモードと編集モード</dt>
+              <dd>
+                <dl>
+                  <dt>編集モード</dt>
+                  <dd>1つのオブジェクトを選択して、作りこんでいくモード。</dd>
+                </dl>
+                <dl>
+                  <dt>オブジェクトモード</dt>
+                  <dd>
+                    編集モードで作り込んだオブジェクトを組み合わせて、全体を作っていくモード。
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+            <p>※その他、操作感等に違いがあるが、詳細はのちほど。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【表面を滑らかにする】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    「tab」を押して「<em>オブジェクトモード</em>」に切り替える。
+                    <img src="./assets/01/mode02.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    作成した円柱をクリックで選択し、右クリック「<em>自動スムーズシェード</em>」を選択。
+                    <img src="./assets/01/transform02.png" width="500" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★スムーズシェードとフラットシェード</dt>
+              <dd>
+                <dl>
+                  <dt>スムーズシェード</dt>
+                  <dd>隣り合った面を滑らかにつないで曲面のように表示する。</dd>
+                </dl>
+                <dl>
+                  <dt>フラットシェード</dt>
+                  <dd>それぞれの面が平らのまま表示する。</dd>
+                </dl>
+                <dl>
+                  <dt>自動スムーズシェード</dt>
+                  <dd>
+                    隣り合った面の角度が一定以下の時だけ滑らかにつないで表示する。
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-2. 円柱でフライパンの持ち手を作る</h3>
+          <div class="item">
+            <dl>
+              <dt>【円柱の追加と変形】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    「Shift + a」を押して、追加メニューから『<em
+                      >メッシュ &gt; 円柱</em
+                    >』を選択する。
+                  </li>
+                  <li>
+                    「r」キーで回転ツールに切り換え、続けて「x」キーを押してX軸のみの変化に限定する。
+                    <ul>
+                      <li class="shortcut"><span>r</span>回転ツール</li>
+                      <li class="shortcut"><span>x</span>X軸にロック</li>
+                    </ul>
+                  </li>
+                  <li>
+                    きっかり「90度」回転させるため、<em>キーボードで「90」と入力</em>し、「Enter」キーまたはクリックで確定する。
+                    <img src="./assets/01/transform03.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    「g」キーで移動ツールに切り換え、続けて「y」キーを押してY軸のみの変化に限定する。
+                    <ul>
+                      <li class="shortcut"><span>g</span>移動ツール</li>
+                      <li class="shortcut"><span>y</span>Y軸にロック</li>
+                    </ul>
+                  </li>
+                  <li>
+                    フライパン本体の後方に移動する。
+                    <img src="./assets/01/transform04.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    「tab」を押して「<em>編集モード</em>」に切り替える。（<em>オブジェクトモードのまま進めると意図した形にならないので注意</em>）
+                  </li>
+                  <li>
+                    「s」キーを押して大きさを調整し、良いところでクリック。続けて「s」キー
+                    → 「y」キーを押して長さを調節する。
+                    <img src="./assets/01/transform05.png" width="500" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+            <p>
+              <em
+                >※大きさを細かく調整する際は、数字キー「1」「3」「7」で視点を切り換えながら操作するとやりやすい。</em
+              >
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★解除したオブジェクトの再選択</dt>
+              <dd>
+                <ul>
+                  <li class="shortcut"><span>a</span>全選択</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【角を滑らかにする】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    「tab」を押して「<em>オブジェクトモード</em>」に切り替え、作成した円柱をクリックで選択する。
+                  </li>
+                  <li>
+                    『<em
+                      >プロパティ &gt; モディファイアー &gt;
+                      モディファイアーを追加</em
+                    >』をクリック。
+                    <img src="./assets/01/bebel01.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    『<em>生成 &gt; ベベル</em>』を選択。
+                    <img src="./assets/01/bebel02.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    量（面取りの幅）を「<em>1m</em>」、セグメント（面取りの数）を「<em>10</em>」に変更する。（拡大して値を変更するとわかりやすい）
+                    <img src="./assets/01/bebel03.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    本体と同様に、右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。
+                    <img src="./assets/01/bebel04.png" width="300" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【持ち手をコピーしてつなげる】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    持ち手を選択した状態で、「Shift +
+                    d」でオブジェクトを複製し、「y」キーを押して本体にくっつくように配置する。
+                    <img src="./assets/01/copy01.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>Shift</span>+<span>d</span>複製
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    複製した円柱のサイズと、持ち手の位置を調整する。
+                    <img src="./assets/01/copy02.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-3. フライパンの溝を作る</h3>
           <ol>
-            <li>元々ある立方体を選択し、「<em>編集モード</em>」に切り替える。</li>
-            <li>「s」キーでスケールツールに切り換え、続けて「z」キーを押してZ軸のみの変化に限定する。（<em>軸のロック</em>）</li>
-            <li>マウスを動かし、立方体が薄くなったらクリックで確定する。操作をキャンセルする場合は「右クリック」。
-              <img src="./assets/01/chair02.png" width="300" alt="">
+            <li>
+              フライパンの本体をクリックで選択し、「tab」を押して「<em>編集モード</em>」に切り替える。
             </li>
-          </ol>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【角を丸くする】</dt>
-            <dd>
-              <ol>
-                <li>4つの角を選択するために、右上の「透過表示を切り換え」アイコンをクリックし、オブジェクトを「透過表示」にする。
-                  <img src="./assets/01/chair03.png" width="400" alt="">
-                </li>
-                <li>左上の選択モードを「<em>辺選択モード</em>」に切り替える。
-                  <img src="./assets/01/chair04.png" width="400" alt="">
-                </li>
-                <li>一度何も無い部分をクリックして選択を解除した後に、「Shift」キーを押しながら4つの角をクリックで選択する。
-                  <img src="./assets/01/chair05.png" width="300" alt="">
-                </li>
-                <li>「Ctrl + b」キーでベベルツールに切り換え、マウスで大きさを調整する。
-                  <img src="./assets/01/chair06.png" width="300" alt="">
-                  <ul>
-                    <li class="shortcut"><span>Ctrl</span>+<span>b</span>ベベルツール</li>
-                  </ul>
-                </li>
-                <li>左下に表示されたパネルをクリックで表示し、値を「<em>0.5m</em>」、セグメントを「<em>10</em>」に変更する。
-                  <img src="./assets/01/chair07.png" width="600" alt="">
-                </li>
-                <li>「<em>オブジェクトモード</em>」に切り換え、「透過表示」をオフにする。</li>
-                <li>「<em>モディファイアー（ベベル）の追加</em>」と「<em>自動スムーズシェード</em>」を設定する。
-                  <img src="./assets/01/chair08.png" width="300" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">4-2. 脚を作る</h3>
-        <div class="item">
-          <ol>
-            <li>「<em>オブジェクトモード</em>」であることを確認して、「Shift + a」を押して、追加メニューから『<em>メッシュ &gt; 立方体</em>』を選択する。</li>
-            <li>「<em>編集モード</em>」に切り替え、「透過表示」をオンにする。</li>
-            <li>「s」キーを押して大きさを調整し、良いところでクリック。
-              <img src="./assets/01/chair09.png" width="400" alt="">
+            <li>
+              左上の選択モードを「<em>面選択モード</em>」に切り替える。
+              <img src="./assets/01/plane01.png" width="400" alt="" />
             </li>
-            <li>再度「s」キー →「z」キーを押して長さを調節する。
-              <img src="./assets/01/chair10.png" width="400" alt="">
-            </li>
-            <li>「g」キーと軸のロックを駆使して、座面の橋にくるように位置を調整する。（視点をライトビューやトップビューに切り換えながら）
-              <img src="./assets/01/chair11.png" width="400" alt="">
-              <img src="./assets/01/chair12.png" width="400" alt="">
-            </li>
-            <li>「<em>オブジェクトモード</em>」に切り換え、「透過表示」をオフにする。</li>
-            <li>座面と同じ「モディファイアー」を設定する。</li>
-          </ol>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【4本に増やす】</dt>
-            <dd>
-              <p>複製して配置してを繰り返すのは面倒くさいので、「<em>ミラーモディファイアー</em>」機能を活用する。</p>
-            </dd>
-            <dd>
-              <ol>
-                <li>脚を選択した状態で、『<em>プロパティ &gt; モディファイアー &gt; モディファイアーを追加</em>』をクリック。</li>
-                <li>『<em>生成 &gt; ミラー</em>』を選択し、座標軸「X」「Y」をクリックでオンにする。
-                  <img src="./assets/01/chair13.png" width="300" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【一部の脚のみ編集する】</dt>
-            <dd>
-              <ol>
-                <li>2本のみ長さを変えるために、モディファイアーパネルの「ミラー」のプルダウンから「<em>適用</em>」を選択。
-                  <img src="./assets/01/chair14.png" width="300" alt="">
-                </li>
-                <li>脚を選択し、「<em>編集モード</em>」「透過表示」に切り替える。</li>
-                <li>選択モードを「<em>面選択モード</em>」に切り替える。</li>
-                <li>「Shift」キーを押しながら後ろ側2本の上部の面をクリックで選択する。
-                  <img src="./assets/01/chair15.png" width="400" alt="">
-                </li>
-                <li>「g」キー →「z」キーを押して上方に移動する。
-                  <img src="./assets/01/chair16.png" width="400" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">4-3. 背もたれを作る</h3>
-        <div class="item">
-          <ol>
-            <li>「<em>オブジェクトモード</em>」であることを確認して、「Shift + a」を押して、追加メニューから『<em>メッシュ &gt; 円</em>』を選択する。</li>
-            <li>「透過表示」をオンにし、「7」キーを押してトップビューにする。
-              <img src="./assets/01/chair17.png" width="400" alt="">
-            </li>
-            <li>「<em>編集モード</em>」に切り換え、選択モードを「<em>頂点選択モード</em>」に切り替える。
-              <img src="./assets/01/chair18.png" width="400" alt="">
-            </li>
-            <li>マウスドラッグで上半分の頂点を選択し、『「DELETE」キー &gt; 頂点』を選んで削除する。
-              <img src="./assets/01/chair19.png" width="500" alt="">
-            </li>
-            <li>マウスドラッグで一番上の頂点を2つ選択し、「e」キー → 「y」キーでY軸方向に押し出す。
-              <img src="./assets/01/chair21.png" width="400" alt="">
-              <img src="./assets/01/chair20.png" width="400" alt="">
-            </li>
-            <li>そのまま「f」キーを押して、2つの頂点をつなぐ。
-              <img src="./assets/01/chair22.png" width="400" alt="">
+            <li>
+              上部の面をクリックで選択し、「i」キーで新たな面を差し込む。その後、マウスで大きさを2/3程度の大きさに調整する。（<em>面の外側で「i」キーを押すとやりやすい</em>）
+              <img src="./assets/01/plane02.png" width="400" alt="" />
               <ul>
-                <li class="shortcut"><span>f</span>フィル（頂点で囲まれたオブジェクトに面を作成する）</li>
+                <li class="shortcut">
+                  <span>i</span>インセット（面を差し込む）
+                </li>
               </ul>
             </li>
-            <li>「a」キーを押して頂点を全て選択し、「f」キーを押して面を作成する。
-              <img src="./assets/01/chair23.png" width="400" alt="">
+            <li>
+              続けて、「e」キーを押してマウスを下に動かすことで面を下に押し出す。クリックで確定させる、
+              <img src="./assets/01/plane03.png" width="400" alt="" />
+              <ul>
+                <li class="shortcut"><span>e</span>押し出し</li>
+              </ul>
             </li>
-            <li>「3」キーを押してライトビューにする。
-              <img src="./assets/01/chair24.png" width="400" alt="">
+            <li>
+              「tab」を押して「<em>オブジェクトモード</em>」に切り替える。
             </li>
-            <li>「e」キーを押して上方に押し出す。
-              <img src="./assets/01/chair25.png" width="400" alt="">
-            </li>
-            <li>「<em>オブジェクトモード</em>」に切り換え、視点を調整する。
-              <img src="./assets/01/chair26.png" width="400" alt="">
-            </li>
-            <li>座面と同じ「モディファイアー」と、「自動スムーズシェード」を設定する。</li>
-            <li>「r」キー → 「x」キー → 「-90」と入力し、背もたれを回転させる。
-              <img src="./assets/01/chair27.png" width="400" alt="">
-            </li>
-            <li>「g」キーと軸のロック、視点の切り換えを駆使して良い位置と大きさに調整してする。
-              <img src="./assets/01/chair28.png" width="500" alt="">
-            </li>
-            <li>「<em>マテリアルプレビューモード</em>」に切り換え、各パーツに色をつけて完成！
-              <img src="./assets/01/chair01.png" width="500" alt="">
+            <li>
+              角を滑らかにするため『<em>モディファイアーを追加</em>』し、値を良い感じに調整する。
+              <img src="./assets/01/plane04.png" width="400" alt="" />
             </li>
           </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-4. 色をつける</h3>
+          <div class="item">
+            <dl>
+              <dt>【ビューの切り換え】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    「<em>オブジェクトモード</em>」になっていることを確認し、右上の「ビューポートシューティング」の中から「<em>マテリアルプレビューモード</em>」を選択する。
+                    <img src="./assets/01/material01.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【マテリアルの設定】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    色をつけたいオブジェクトを選択し、『<em
+                      >プロパティ &gt; マテリアル &gt; 新規</em
+                    >』をクリック。
+                    <img src="./assets/01/material02.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    『<em>ベースカラー</em>』の色味の部分をクリックし、好きな色を選択。
+                    <img src="./assets/01/material03.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    全てのパーツに色をつけて完成！フライパンのデータは後で使うので「<em>保存</em>」しておく。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★16進数カラーコード</dt>
+              <dd>
+                Google検索「#fff」で表示されるカラーピッカーが便利。
+                <img src="./assets/01/material04.png" width="600" alt="" />
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 実践「椅子を作ろう」</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【見本】</dt>
+              <dd><img src="./assets/01/chair01.png" width="500" alt="" /></dd>
+            </dl>
+          </div>
+          <p>
+            フライパンのデータを閉じ、『<em>ファイル &gt; 新規 &gt; 全般</em
+            >』で新規ファイルを作成する。
+          </p>
         </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">4-4. コレクションにまとめる</h3>
-        <div class="item">
-          <dl>
-            <dt>★コレクション</dt>
-            <dd>
-              <p>コレクションにまとめることで一括で表示・非表示を切り換えたり、他のファイルで使用できる「<em>アセット</em>」に登録したりできる。</p>
-            </dd>
-            <dd>
-              <ol>
-                <li>マウスドラッグで椅子のパーツを全て選択するか、「Shift」キーを押しながらクリックで全て選択する。</li>
-                <li>右クリック「コレクションに移動」を選択。
-                  <img src="./assets/01/collection01.png" width="300" alt="">
-                </li>
-                <li>「新規コレクション」を選択。
-                  <img src="./assets/01/collection02.png" width="300" alt="">
-                </li>
-                <li>名前をつけて、「作成」を選択。
-                  <img src="./assets/01/collection03.png" width="300" alt="">
-                </li>
-                <li>アウトライナーにコレクションが追加される。
-                  <img src="./assets/01/collection04.png" width="400" alt="">
-                </li>
-              </ol>
-            </dd>
-          </dl>
+        <section class="clause">
+          <h3 class="clause__title">4-1. 座面を作る</h3>
+          <div class="item">
+            <ol>
+              <li>
+                元々ある立方体を選択し、「<em>編集モード</em>」に切り替える。
+              </li>
+              <li>
+                「s」キーでスケールツールに切り換え、続けて「z」キーを押してZ軸のみの変化に限定する。（<em>軸のロック</em>）
+              </li>
+              <li>
+                マウスを動かし、立方体が薄くなったらクリックで確定する。操作をキャンセルする場合は「右クリック」。
+                <img src="./assets/01/chair02.png" width="300" alt="" />
+              </li>
+            </ol>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【角を丸くする】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    4つの角を選択するために、右上の「透過表示を切り換え」アイコンをクリックし、オブジェクトを「透過表示」にする。
+                    <img src="./assets/01/chair03.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    左上の選択モードを「<em>辺選択モード</em>」に切り替える。
+                    <img src="./assets/01/chair04.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    一度何も無い部分をクリックして選択を解除した後に、「Shift」キーを押しながら4つの角をクリックで選択する。
+                    <img src="./assets/01/chair05.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    「Ctrl +
+                    b」キーでベベルツールに切り換え、マウスで大きさを調整する。
+                    <img src="./assets/01/chair06.png" width="300" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>Ctrl</span>+<span>b</span>ベベルツール
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    左下に表示されたパネルをクリックで表示し、値を「<em>0.5m</em>」、セグメントを「<em>10</em>」に変更する。
+                    <img src="./assets/01/chair07.png" width="600" alt="" />
+                  </li>
+                  <li>
+                    「<em>オブジェクトモード</em>」に切り換え、「透過表示」をオフにする。
+                  </li>
+                  <li>
+                    「<em>モディファイアー（ベベル）の追加</em>」と「<em>自動スムーズシェード</em>」を設定する。
+                    <img src="./assets/01/chair08.png" width="300" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-2. 脚を作る</h3>
+          <div class="item">
+            <ol>
+              <li>
+                「<em>オブジェクトモード</em>」であることを確認して、「Shift +
+                a」を押して、追加メニューから『<em>メッシュ &gt; 立方体</em
+                >』を選択する。
+              </li>
+              <li>
+                「<em>編集モード</em>」に切り替え、「透過表示」をオンにする。
+              </li>
+              <li>
+                「s」キーを押して大きさを調整し、良いところでクリック。
+                <img src="./assets/01/chair09.png" width="400" alt="" />
+              </li>
+              <li>
+                再度「s」キー →「z」キーを押して長さを調節する。
+                <img src="./assets/01/chair10.png" width="400" alt="" />
+              </li>
+              <li>
+                「g」キーと軸のロックを駆使して、座面の橋にくるように位置を調整する。（視点をライトビューやトップビューに切り換えながら）
+                <img src="./assets/01/chair11.png" width="400" alt="" />
+                <img src="./assets/01/chair12.png" width="400" alt="" />
+              </li>
+              <li>
+                「<em>オブジェクトモード</em>」に切り換え、「透過表示」をオフにする。
+              </li>
+              <li>座面と同じ「モディファイアー」を設定する。</li>
+            </ol>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【4本に増やす】</dt>
+              <dd>
+                <p>
+                  複製して配置してを繰り返すのは面倒くさいので、「<em>ミラーモディファイアー</em>」機能を活用する。
+                </p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    脚を選択した状態で、『<em
+                      >プロパティ &gt; モディファイアー &gt;
+                      モディファイアーを追加</em
+                    >』をクリック。
+                  </li>
+                  <li>
+                    『<em>生成 &gt; ミラー</em
+                    >』を選択し、座標軸「X」「Y」をクリックでオンにする。
+                    <img src="./assets/01/chair13.png" width="300" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【一部の脚のみ編集する】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    2本のみ長さを変えるために、モディファイアーパネルの「ミラー」のプルダウンから「<em>適用</em>」を選択。
+                    <img src="./assets/01/chair14.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    脚を選択し、「<em>編集モード</em>」「透過表示」に切り替える。
+                  </li>
+                  <li>選択モードを「<em>面選択モード</em>」に切り替える。</li>
+                  <li>
+                    「Shift」キーを押しながら後ろ側2本の上部の面をクリックで選択する。
+                    <img src="./assets/01/chair15.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    「g」キー →「z」キーを押して上方に移動する。
+                    <img src="./assets/01/chair16.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-3. 背もたれを作る</h3>
+          <div class="item">
+            <ol>
+              <li>
+                「<em>オブジェクトモード</em>」であることを確認して、「Shift +
+                a」を押して、追加メニューから『<em>メッシュ &gt; 円</em
+                >』を選択する。
+              </li>
+              <li>
+                「透過表示」をオンにし、「7」キーを押してトップビューにする。
+                <img src="./assets/01/chair17.png" width="400" alt="" />
+              </li>
+              <li>
+                「<em>編集モード</em>」に切り換え、選択モードを「<em>頂点選択モード</em>」に切り替える。
+                <img src="./assets/01/chair18.png" width="400" alt="" />
+              </li>
+              <li>
+                マウスドラッグで上半分の頂点を選択し、『「DELETE」キー &gt;
+                頂点』を選んで削除する。
+                <img src="./assets/01/chair19.png" width="500" alt="" />
+              </li>
+              <li>
+                マウスドラッグで一番上の頂点を2つ選択し、「e」キー →
+                「y」キーでY軸方向に押し出す。
+                <img src="./assets/01/chair21.png" width="400" alt="" />
+                <img src="./assets/01/chair20.png" width="400" alt="" />
+              </li>
+              <li>
+                そのまま「f」キーを押して、2つの頂点をつなぐ。
+                <img src="./assets/01/chair22.png" width="400" alt="" />
+                <ul>
+                  <li class="shortcut">
+                    <span>f</span
+                    >フィル（頂点で囲まれたオブジェクトに面を作成する）
+                  </li>
+                </ul>
+              </li>
+              <li>
+                「a」キーを押して頂点を全て選択し、「f」キーを押して面を作成する。
+                <img src="./assets/01/chair23.png" width="400" alt="" />
+              </li>
+              <li>
+                「3」キーを押してライトビューにする。
+                <img src="./assets/01/chair24.png" width="400" alt="" />
+              </li>
+              <li>
+                「e」キーを押して上方に押し出す。
+                <img src="./assets/01/chair25.png" width="400" alt="" />
+              </li>
+              <li>
+                「<em>オブジェクトモード</em>」に切り換え、視点を調整する。
+                <img src="./assets/01/chair26.png" width="400" alt="" />
+              </li>
+              <li>
+                座面と同じ「モディファイアー」と、「自動スムーズシェード」を設定する。
+              </li>
+              <li>
+                「r」キー → 「x」キー → 「-90」と入力し、背もたれを回転させる。
+                <img src="./assets/01/chair27.png" width="400" alt="" />
+              </li>
+              <li>
+                「g」キーと軸のロック、視点の切り換えを駆使して良い位置と大きさに調整してする。
+                <img src="./assets/01/chair28.png" width="500" alt="" />
+              </li>
+              <li>
+                「<em>マテリアルプレビューモード</em>」に切り換え、各パーツに色をつけて完成！
+                <img src="./assets/01/chair01.png" width="500" alt="" />
+              </li>
+            </ol>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-4. コレクションにまとめる</h3>
+          <div class="item">
+            <dl>
+              <dt>★コレクション</dt>
+              <dd>
+                <p>
+                  コレクションにまとめることで一括で表示・非表示を切り換えたり、他のファイルで使用できる「<em>アセット</em>」に登録したりできる。
+                </p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    マウスドラッグで椅子のパーツを全て選択するか、「Shift」キーを押しながらクリックで全て選択する。
+                  </li>
+                  <li>
+                    右クリック「コレクションに移動」を選択。
+                    <img
+                      src="./assets/01/collection01.png"
+                      width="300"
+                      alt=""
+                    />
+                  </li>
+                  <li>
+                    「新規コレクション」を選択。
+                    <img
+                      src="./assets/01/collection02.png"
+                      width="300"
+                      alt=""
+                    />
+                  </li>
+                  <li>
+                    名前をつけて、「作成」を選択。
+                    <img
+                      src="./assets/01/collection03.png"
+                      width="300"
+                      alt=""
+                    />
+                  </li>
+                  <li>
+                    アウトライナーにコレクションが追加される。
+                    <img
+                      src="./assets/01/collection04.png"
+                      width="400"
+                      alt=""
+                    />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">5. 練習「テーブルを作ろう」</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【見本】</dt>
+              <dd><img src="./assets/01/table01.png" width="500" alt="" /></dd>
+            </dl>
+            <p>※椅子のコレクションを非表示にしておくと作業しやすい。</p>
+          </div>
         </div>
-      </section>
-    </article>
-    <article class="chapter">
-      <h2 class="chapter__title">5. 練習「テーブルを作ろう」</h2>
-      <div class="clause">
-        <div class="item">
-          <dl>
-            <dt>【見本】</dt>
-            <dd><img src="./assets/01/table01.png" width="500" alt=""></dd>
-          </dl>
-          <p>※椅子のコレクションを非表示にしておくと作業しやすい。</p>
-        </div>
-      </div>
-    </article>
-    <!-- <article class="chapter">
+      </article>
+      <!-- <article class="chapter">
       <h2 class="chapter__title">6. CLOへのインポート</h2>
       <div class="clause">
         <p>作成したモデリングデータは「<em>OBJ形式</em>」に書き出す（エクスポート）ことで、CLOに読み込む（インポート）することができる。</p>
@@ -876,477 +1148,563 @@
         </ol>
       </section>
     </article> -->
-    <article class="chapter">
-      <h2 class="chapter__title">6. 時間が余ったら「コーヒーカップを作ろう」</h2>
-      <section class="clause">
-        <h3 class="clause__title">6-1. 立方体でカップを作る</h3>
-        <div class="item">
-          <dl>
-            <dt>【円柱の変形】</dt>
-            <dd>
-              <ol>
-                <li>
-                  ディフォルトで表示されている立方体を選択し、「tab」を押して「<em>編集モード</em>」に切り替える。
-                  <img src="./assets/02/cup02.png" width="500" alt="" />
-                  <ul>
-                    <li class="shortcut"><span>tab</span>モードの切り換え</li>
-                  </ul>
-                </li>
-                <li>
-                  左上の選択モードを「<em>面選択モード</em>」に切り替え、立方体の上部の面をクリックで選択。
-                  <img src="./assets/02/cup03.png" width="500" alt="" />
-                </li>
-                <li>
-                  「x」キーもしくは「DELETE」キーを押し、面を選択して削除する。
-                  <img src="./assets/02/cup04.png" width="500" alt="" />
-                  <ul>
-                    <li class="shortcut">
-                      <span>x</span> or <span>DELETE</span>オブジェクトの削除
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  下部分のみを小さくするため「<em>ループカット</em>」で真ん中に辺を追加する。<br />
-                  「Ctrl +
-                  r」を押し黄色い線が表示されたら、マウスで下図になるように調整しクリックで確定する。
-                  <img src="./assets/02/cup05.png" width="400" alt="" />
-                  <ul>
-                    <li class="shortcut"><span>Ctrl</span> + <span>r</span>ループカット</li>
-                  </ul>
-                </li>
-                <li>
-                  ちょうど真ん中になるようにマウスで移動するか<em>キーボードで「0」</em>を押し、クリックで確定する。
-                </li>
-                <li>
-                  下の立方体が見えるように、マウスホイールを押しながらくるっと視点を回転させる。
-                  <img src="./assets/02/cup06.png" width="400" alt="" />
-                </li>
-                <li>
-                  「<em>面選択モード</em>」で立方体の底面を選択したら、「s」キーを押して縮小する。
-                  <img src="./assets/02/cup07.png" width="400" alt="" />
-                  <ul>
-                    <li class="shortcut"><span>s</span>スケールツール（拡大・縮小）</li>
-                  </ul>
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★オブジェクトモードと編集モード</dt>
-            <dd>
-              <dl>
-                <dt>編集モード</dt>
-                <dd>1つのオブジェクトを選択して、作りこんでいくモード。</dd>
-              </dl>
-              <dl>
-                <dt>オブジェクトモード</dt>
-                <dd>
-                  編集モードで作り込んだオブジェクトを組み合わせて、全体を作っていくモード。
-                </dd>
-              </dl>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【カップを丸くする】</dt>
-            <dd>
-              <ol>
-                <li>「tab」を押して「<em>オブジェクトモード</em>」に切り替える。</li>
-                <li>
-                  作成したカップをクリックで選択し、『<em>プロパティ &gt; モディファイアー &gt; モディファイアーを追加</em>』をクリック。
-                  <img src="./assets/01/bebel01.png" width="300" alt="" />
-                </li>
-                <li>
-                  『<em>生成 &gt; サブディビジョンサーフィス</em>』を選択。
-                  <img src="./assets/02/cup08.png" width="400" alt="" />
-                </li>
-                <li>
-                  ビューポートのレベル数とレンダーの値を「<em>3</em>」にする。
-                  <img src="./assets/02/cup09.png" width="300" alt="" />
-                </li>
-                <li>
-                  右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。
-                  <img src="./assets/02/cup10.png" width="400" alt="" />
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★スムーズシェードとフラットシェード</dt>
-            <dd>
-              <dl>
-                <dt>スムーズシェード</dt>
-                <dd>隣り合った面を滑らかにつないで曲面のように表示する。</dd>
-              </dl>
-              <dl>
-                <dt>フラットシェード</dt>
-                <dd>それぞれの面が平らのまま表示する。</dd>
-              </dl>
-              <dl>
-                <dt>自動スムーズシェード</dt>
-                <dd>隣り合った面の角度が一定以下の時だけ滑らかにつないで表示する。</dd>
-              </dl>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【カップを厚くする】</dt>
-            <dd>
-              <p>さらに2つのモディファイアーを追加していきます。</p>
-            </dd>
-            <dd>
-              <ol>
-                <li>
-                  カップが選択選択された状態で、『<em>モディファイアーを追加 &gt; 生成 &gt; ソリッド化</em>』を選択。
-                  <img src="./assets/02/cup11.png" width="400" alt="" />
-                </li>
-                <li>
-                  幅の値を「<em>0.2m</em>」にする。
-                  <img src="./assets/02/cup12.png" width="300" alt="" />
-                </li>
-                <li>
-                  さらに、『<em>モディファイアーを追加 &gt; 生成 &gt; ベベル</em>』を選択。
-                  <img src="./assets/02/cup13.png" width="400" alt="" />
-                </li>
-                <li>
-                  量の値を「<em>0.1m</em>」、セグメントの値を「<em>10</em>」にする。
-                  <img src="./assets/02/cup14.png" width="300" alt="" />
-                </li>
-              </ol>
-              <p><em>※設定し終わったモディファイアーは「&gt;」をクリックして閉じておく。</em></p>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>★モディファイアーはパネルの並びに注意する</dt>
-            <dd>
-              モディファイアーパネルでは、上から順番に効果を設定していくため、ソリッド化とベベルの順番を逆にするとうまくベベルがかからない。<br />このような場合には、右側のハンドルをクリックし、ドラッグで移動させる。
-            </dd>
-          </dl>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">6-2. カップを複製してソーサーを作る</h3>
-        <div class="item">
-          <dl>
-            <dt>【カップの複製】</dt>
-            <dd>
-              <ol>
-                <li>
-                  カップを選択した状態で、「Shift +
-                  d」でオブジェクトを複製し、「z」キーを押して少し下に配置する。
-                  <img src="./assets/02/saucer01.png" width="400" alt="" />
-                  <ul>
-                    <li class="shortcut"><span>Shift</span>+<span>d</span>複製</li>
-                    <li class="shortcut"><span>z</span>Z軸にロック</li>
-                  </ul>
-                </li>
-                <li>
-                  「s」キーでスケールツールに切り換え、続けて「z」キーを押して下方向に縮小する。
-                  <img src="./assets/02/saucer02.png" width="400" alt="" />
-                </li>
-                <li>
-                  再度「s」キーを押して全体的に拡大する。
-                  <img src="./assets/02/saucer03.png" width="400" alt="" />
-                </li>
-                <li>よりお皿らしい形にするため、「<em>編集モード</em>」に切り替える。</li>
-                <li>
-                  「<em>面選択モード</em>」になっていることを確認し、上部の面と面の間の角で「Alt」キーを押しながらクリックする。
-                  <img src="./assets/02/saucer04.png" width="400" alt="" />
-                  <ul>
-                    <li class="shortcut"><span>Alt</span>+<span>左クリック</span>ループ選択</li>
-                  </ul>
-                </li>
-                <li>「DELETE」キーで「面」を選択して削除。</li>
-                <li>
-                  位置と大きさを調整する。
-                  <img src="./assets/02/saucer05.png" width="400" alt="" />
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">6-3. トーラス（ドーナツ型）で取っ手を作る</h3>
-        <div class="item">
-          <dl>
-            <dt>【トーラスの追加】</dt>
-            <dd>
-              <ol>
-                <li>
-                  「<em>オブジェクトモード</em>」であることを確認、「Shift +
-                  a」を押して、追加メニューから『<em>メッシュ &gt; トーラス</em>』を選択する。
-                </li>
-                <li>
-                  左下に表示されたパネルをクリックで表示し、小セグメント数の値を「<em>18</em>」、小半径の値を「<em>0.3m</em>」にする。
-                  <img src="./assets/02/torus01.png" width="300" alt="" />
-                </li>
-                <li>右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。</li>
-                <li>
-                  「r」キーで回転ツールに切り換え、続けて「x」キーを押してX軸のみの変化に限定する。
-                  <ul>
-                    <li class="shortcut"><span>r</span>回転ツール</li>
-                    <li class="shortcut"><span>x</span>X軸にロック</li>
-                  </ul>
-                </li>
-                <li>
-                  きっかり「90度」回転させるため、<em>キーボードで「90」と入力</em>し、「Enter」キーまたはクリックで確定する。
-                  <img src="./assets/02/torus02.png" width="400" alt="" />
-                </li>
-                <li>
-                  「<em>フロントビュー</em>」に切り替え、「s」キーでカップに収まる大きさに縮小する。
-                  <img src="./assets/02/torus03.png" width="400" alt="" />
-                </li>
-                <li>
-                  「g」キーと軸のロックを駆使して、良い位置に移動する。
-                  <img src="./assets/02/torus04.png" width="400" alt="" />
-                  <ul>
-                    <li class="shortcut"><span>g</span>移動ツール</li>
-                  </ul>
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【半分にする（時間に余裕があれば）】</dt>
-            <dd>
-              <p>カップからはみ出ないように半分に調整する。</p>
-            </dd>
-            <dd>
-              <ol>
-                <li>
-                  アウトライナーパネルで、取っ手以外のオブジェクトを非表示にしておく。
-                  <img src="./assets/02/torus05.png" width="300" alt="" />
-                </li>
-                <li>取っ手を選択し、「<em>編集モード</em>」に切り替える。</li>
-                <li>
-                  「<em>頂点選択モード</em>」に切り替え、下図のようにちょうど真ん中の点を選択する。
-                  <img src="./assets/02/torus06.png" width="500" alt="" />
-                </li>
-                <li>
-                  上部メニュー『<em>選択 &gt; アクティブな側</em>』を選択。
-                  <img src="./assets/02/torus07.png" width="300" alt="" />
-                </li>
-                <li>
-                  左下に表示されたパネルの軸の符号を「<em>負の軸</em>」にする。
-                  <img src="./assets/02/torus08.png" width="300" alt="" />
-                </li>
-                <li>「DELETE」キーで「面」を選択して削除。</li>
-                <li>
-                  「Alt」キーを押しながら、削除された面の頂点を1点クリックし「ループ選択」する。
-                  <img src="./assets/02/torus09.png" width="400" alt="" />
-                </li>
-                <li>
-                  「f」キーを押して面を作成する。
-                  <img src="./assets/02/torus10.png" width="400" alt="" />
-                  <ul>
-                    <li class="shortcut">
-                      <span>f</span>フィル（頂点で囲まれたオブジェクトに面を作成する）
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  「e」キーを押して面を伸ばす。
-                  <img src="./assets/02/torus11.png" width="400" alt="" />
-                  <ul>
-                    <li class="shortcut"><span>e</span>押し出し</li>
-                  </ul>
-                </li>
-                <li>
-                  もう片方も同様に伸ばす。
-                  <img src="./assets/02/torus12.png" width="400" alt="" />
-                </li>
-                <li>「<em>オブジェクトモード</em>」に切り替え、角度や位置を調整する。</li>
-              </ol>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <p><em>※やり方は「blender トーラス 半分」などで検索する。</em></p>
-          <ul>
-            <li>
-              <a href="https://www.youtube.com/watch?v=8awQL8LT0zU">形状の半分を一瞬で選択する方法。</a>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section class="clause">
-        <h3 class="clause__title">6-4. カップの中の液体を作る</h3>
-        <div class="item">
-          <ol>
-            <li>
-              「<em>オブジェクトモード</em>」であることを確認、「Shift +
-              a」を押して、追加メニューから『<em>メッシュ &gt; 円</em>』を選択する。
-            </li>
-            <li>
-              「<em>編集モード</em>」に切り替え、「f」キーで面を張る。（頂点が選択されていない場合は「a」キーで全選択）
-              <img src="./assets/02/coffee01.png" width="400" alt="" />
-            </li>
-            <li>
-              「<em>オブジェクトモード</em>」に切り替え、カップからはみ出ないように拡大縮小しながら上方に移動する。
-              <img src="./assets/02/coffee02.png" width="400" alt="" />
-            </li>
-            <li>モデリングは完成！</li>
-          </ol>
-        </div>
-      </section>
-    </article>
-    <article class="chapter">
-      <h2 class="chapter__title">7. 宿題</h2>
-      <div class="clause">
-        <div class="item">
-          <dl>
-            <dt>【次回（12/2）までにやってほしいこと】</dt>
-            <dd>手書きでも良いので、最終的に作りたいものを書き起こしてください。</dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【参考】</dt>
-            <dd>
-              <ul>
-                <li><a href="https://www.youtube.com/watch?v=lG5i-IemRC0">【Blender4】ミニキーボードを作ろう！初心者向けチュートリアル</a></li>
-                <li><a href="https://www.youtube.com/watch?v=pA5AvNgNqL8">【Blender4】街を作ろう！初心者向けチュートリアル</a></li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
-        <div class="item">
-          <dl>
-            <dt>【アンケート（5問）】</dt>
-            <dd><a href="https://forms.gle/wEzcGgnkbAePBhAC7">中部ファッション専門学校「Blender講座」アンケート</a></dd>
-          </dl>
-        </div>
-      </div>
-    </article>
-    <button id="modalBtn">?</button>
-    <div id="modal">
-      <div class="modal__inner">
+      <article class="chapter">
+        <h2 class="chapter__title">
+          6. 時間が余ったら「コーヒーカップを作ろう」
+        </h2>
+        <section class="clause">
+          <h3 class="clause__title">6-1. 立方体でカップを作る</h3>
+          <div class="item">
+            <dl>
+              <dt>【円柱の変形】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    ディフォルトで表示されている立方体を選択し、「tab」を押して「<em>編集モード</em>」に切り替える。
+                    <img src="./assets/02/cup02.png" width="500" alt="" />
+                    <ul>
+                      <li class="shortcut"><span>tab</span>モードの切り換え</li>
+                    </ul>
+                  </li>
+                  <li>
+                    左上の選択モードを「<em>面選択モード</em>」に切り替え、立方体の上部の面をクリックで選択。
+                    <img src="./assets/02/cup03.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    「x」キーもしくは「DELETE」キーを押し、面を選択して削除する。
+                    <img src="./assets/02/cup04.png" width="500" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>x</span> or <span>DELETE</span>オブジェクトの削除
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    下部分のみを小さくするため「<em>ループカット</em>」で真ん中に辺を追加する。<br />
+                    「Ctrl +
+                    r」を押し黄色い線が表示されたら、マウスで下図になるように調整しクリックで確定する。
+                    <img src="./assets/02/cup05.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>Ctrl</span> + <span>r</span>ループカット
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    ちょうど真ん中になるようにマウスで移動するか<em>キーボードで「0」</em>を押し、クリックで確定する。
+                  </li>
+                  <li>
+                    下の立方体が見えるように、マウスホイールを押しながらくるっと視点を回転させる。
+                    <img src="./assets/02/cup06.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    「<em>面選択モード</em>」で立方体の底面を選択したら、「s」キーを押して縮小する。
+                    <img src="./assets/02/cup07.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>s</span>スケールツール（拡大・縮小）
+                      </li>
+                    </ul>
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★オブジェクトモードと編集モード</dt>
+              <dd>
+                <dl>
+                  <dt>編集モード</dt>
+                  <dd>1つのオブジェクトを選択して、作りこんでいくモード。</dd>
+                </dl>
+                <dl>
+                  <dt>オブジェクトモード</dt>
+                  <dd>
+                    編集モードで作り込んだオブジェクトを組み合わせて、全体を作っていくモード。
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【カップを丸くする】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    「tab」を押して「<em>オブジェクトモード</em>」に切り替える。
+                  </li>
+                  <li>
+                    作成したカップをクリックで選択し、『<em
+                      >プロパティ &gt; モディファイアー &gt;
+                      モディファイアーを追加</em
+                    >』をクリック。
+                    <img src="./assets/01/bebel01.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    『<em>生成 &gt; サブディビジョンサーフィス</em>』を選択。
+                    <img src="./assets/02/cup08.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    ビューポートのレベル数とレンダーの値を「<em>3</em>」にする。
+                    <img src="./assets/02/cup09.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。
+                    <img src="./assets/02/cup10.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★スムーズシェードとフラットシェード</dt>
+              <dd>
+                <dl>
+                  <dt>スムーズシェード</dt>
+                  <dd>隣り合った面を滑らかにつないで曲面のように表示する。</dd>
+                </dl>
+                <dl>
+                  <dt>フラットシェード</dt>
+                  <dd>それぞれの面が平らのまま表示する。</dd>
+                </dl>
+                <dl>
+                  <dt>自動スムーズシェード</dt>
+                  <dd>
+                    隣り合った面の角度が一定以下の時だけ滑らかにつないで表示する。
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【カップを厚くする】</dt>
+              <dd>
+                <p>さらに2つのモディファイアーを追加していきます。</p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    カップが選択選択された状態で、『<em
+                      >モディファイアーを追加 &gt; 生成 &gt; ソリッド化</em
+                    >』を選択。
+                    <img src="./assets/02/cup11.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    幅の値を「<em>0.2m</em>」にする。
+                    <img src="./assets/02/cup12.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    さらに、『<em
+                      >モディファイアーを追加 &gt; 生成 &gt; ベベル</em
+                    >』を選択。
+                    <img src="./assets/02/cup13.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    量の値を「<em>0.1m</em>」、セグメントの値を「<em>10</em>」にする。
+                    <img src="./assets/02/cup14.png" width="300" alt="" />
+                  </li>
+                </ol>
+                <p>
+                  <em
+                    >※設定し終わったモディファイアーは「&gt;」をクリックして閉じておく。</em
+                  >
+                </p>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>★モディファイアーはパネルの並びに注意する</dt>
+              <dd>
+                モディファイアーパネルでは、上から順番に効果を設定していくため、ソリッド化とベベルの順番を逆にするとうまくベベルがかからない。<br />このような場合には、右側のハンドルをクリックし、ドラッグで移動させる。
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">6-2. カップを複製してソーサーを作る</h3>
+          <div class="item">
+            <dl>
+              <dt>【カップの複製】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    カップを選択した状態で、「Shift +
+                    d」でオブジェクトを複製し、「z」キーを押して少し下に配置する。
+                    <img src="./assets/02/saucer01.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>Shift</span>+<span>d</span>複製
+                      </li>
+                      <li class="shortcut"><span>z</span>Z軸にロック</li>
+                    </ul>
+                  </li>
+                  <li>
+                    「s」キーでスケールツールに切り換え、続けて「z」キーを押して下方向に縮小する。
+                    <img src="./assets/02/saucer02.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    再度「s」キーを押して全体的に拡大する。
+                    <img src="./assets/02/saucer03.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    よりお皿らしい形にするため、「<em>編集モード</em>」に切り替える。
+                  </li>
+                  <li>
+                    「<em>面選択モード</em>」になっていることを確認し、上部の面と面の間の角で「Alt」キーを押しながらクリックする。
+                    <img src="./assets/02/saucer04.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>Alt</span>+<span>左クリック</span>ループ選択
+                      </li>
+                    </ul>
+                  </li>
+                  <li>「DELETE」キーで「面」を選択して削除。</li>
+                  <li>
+                    位置と大きさを調整する。
+                    <img src="./assets/02/saucer05.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">
+            6-3. トーラス（ドーナツ型）で取っ手を作る
+          </h3>
+          <div class="item">
+            <dl>
+              <dt>【トーラスの追加】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    「<em>オブジェクトモード</em>」であることを確認、「Shift +
+                    a」を押して、追加メニューから『<em
+                      >メッシュ &gt; トーラス</em
+                    >』を選択する。
+                  </li>
+                  <li>
+                    左下に表示されたパネルをクリックで表示し、小セグメント数の値を「<em>18</em>」、小半径の値を「<em>0.3m</em>」にする。
+                    <img src="./assets/02/torus01.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。
+                  </li>
+                  <li>
+                    「r」キーで回転ツールに切り換え、続けて「x」キーを押してX軸のみの変化に限定する。
+                    <ul>
+                      <li class="shortcut"><span>r</span>回転ツール</li>
+                      <li class="shortcut"><span>x</span>X軸にロック</li>
+                    </ul>
+                  </li>
+                  <li>
+                    きっかり「90度」回転させるため、<em>キーボードで「90」と入力</em>し、「Enter」キーまたはクリックで確定する。
+                    <img src="./assets/02/torus02.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    「<em>フロントビュー</em>」に切り替え、「s」キーでカップに収まる大きさに縮小する。
+                    <img src="./assets/02/torus03.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    「g」キーと軸のロックを駆使して、良い位置に移動する。
+                    <img src="./assets/02/torus04.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut"><span>g</span>移動ツール</li>
+                    </ul>
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【半分にする（時間に余裕があれば）】</dt>
+              <dd>
+                <p>カップからはみ出ないように半分に調整する。</p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    アウトライナーパネルで、取っ手以外のオブジェクトを非表示にしておく。
+                    <img src="./assets/02/torus05.png" width="300" alt="" />
+                  </li>
+                  <li>取っ手を選択し、「<em>編集モード</em>」に切り替える。</li>
+                  <li>
+                    「<em>頂点選択モード</em>」に切り替え、下図のようにちょうど真ん中の点を選択する。
+                    <img src="./assets/02/torus06.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    上部メニュー『<em>選択 &gt; アクティブな側</em>』を選択。
+                    <img src="./assets/02/torus07.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    左下に表示されたパネルの軸の符号を「<em>負の軸</em>」にする。
+                    <img src="./assets/02/torus08.png" width="300" alt="" />
+                  </li>
+                  <li>「DELETE」キーで「面」を選択して削除。</li>
+                  <li>
+                    「Alt」キーを押しながら、削除された面の頂点を1点クリックし「ループ選択」する。
+                    <img src="./assets/02/torus09.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    「f」キーを押して面を作成する。
+                    <img src="./assets/02/torus10.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut">
+                        <span>f</span
+                        >フィル（頂点で囲まれたオブジェクトに面を作成する）
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    「e」キーを押して面を伸ばす。
+                    <img src="./assets/02/torus11.png" width="400" alt="" />
+                    <ul>
+                      <li class="shortcut"><span>e</span>押し出し</li>
+                    </ul>
+                  </li>
+                  <li>
+                    もう片方も同様に伸ばす。
+                    <img src="./assets/02/torus12.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    「<em>オブジェクトモード</em>」に切り替え、角度や位置を調整する。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p><em>※やり方は「blender トーラス 半分」などで検索する。</em></p>
+            <ul>
+              <li>
+                <a href="https://www.youtube.com/watch?v=8awQL8LT0zU"
+                  >形状の半分を一瞬で選択する方法。</a
+                >
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">6-4. カップの中の液体を作る</h3>
+          <div class="item">
+            <ol>
+              <li>
+                「<em>オブジェクトモード</em>」であることを確認、「Shift +
+                a」を押して、追加メニューから『<em>メッシュ &gt; 円</em
+                >』を選択する。
+              </li>
+              <li>
+                「<em>編集モード</em>」に切り替え、「f」キーで面を張る。（頂点が選択されていない場合は「a」キーで全選択）
+                <img src="./assets/02/coffee01.png" width="400" alt="" />
+              </li>
+              <li>
+                「<em>オブジェクトモード</em>」に切り替え、カップからはみ出ないように拡大縮小しながら上方に移動する。
+                <img src="./assets/02/coffee02.png" width="400" alt="" />
+              </li>
+              <li>モデリングは完成！</li>
+            </ol>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">7. 宿題</h2>
         <div class="clause">
           <div class="item">
-            <ul>
-              <li class="shortcut"><span>Ctrl</span>+<span>z</span>元に戻す</li>
-              <li class="shortcut"><span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す</li>
-              <li class="shortcut"><span>Ctrl</span>+<span>s</span>保存</li>
-            </ul>
-            <ul>
-              <li class="shortcut"><span>T</span>ツールバーの表示／非表示</li>
-              <li class="shortcut"><span>x</span> or <span>DELETE</span>削除</li>
-              <li class="shortcut"><span>tab</span>モードの切り換え</li>
-              <li class="shortcut"><span>a</span>全選択</li>
-              <li class="shortcut"><span>Shift</span>+<span>d</span>複製</li>
-            </ul>
-          </div>
-          <div class="item">
             <dl>
-              <dt>視点移動（マウス）</dt>
+              <dt>【次回（12/2）までにやってほしいこと】</dt>
               <dd>
-                <dl>
-                  <dt>ズームイン／ズームアウト</dt>
-                  <dd>マウスホイールをスクロール<img src="./assets/01/mouse01.png" width="100" alt=""></dd>
-                </dl>
-                <dl>
-                  <dt>回転</dt>
-                  <dd>マウスホイールを押しながら、マウスをドラッグ<img src="./assets/01/mouse02.png" width="140" alt=""></dd>
-                </dl>
-                <dl>
-                  <dt>スライド</dt>
-                  <dd>Shiftキーとマウスホイールを押しながら、マウスをドラッグ</dd>
-                  <dd class="shortcut"><span>Shift</span> + <img src="./assets/01/mouse02.png" width="140" alt=""></dd>
-                </dl>
+                手書きでも良いので、最終的に作りたいものを書き起こしてください。
               </dd>
             </dl>
           </div>
           <div class="item">
             <dl>
-              <dt>視点移動（テンキー）</dt>
-              <dd>
-                <dl>
-                  <dt>ビューの切り替え</dt>
-                  <dd class="shortcut"><span>1</span>フロント（前）ビュー</dd>
-                  <dd class="shortcut"><span>3</span>ライト（右）ビュー</dd>
-                  <dd class="shortcut"><span>7</span>トップ（上）ビュー</dd>
-                </dl>
-                <dl>
-                  <dt>透視投影と平行投影</dt>
-                  <dd class="shortcut"><span>5</span>透視投影／平行投影</dd>
-                </dl>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>ツール切り換え</dt>
+              <dt>【参考】</dt>
               <dd>
                 <ul>
-                  <li class="shortcut"><span>Shift</span> + <span>a</span>オブジェクトの追加</li>
-                  <li class="shortcut"><span>g</span>移動ツール</li>
-                  <li class="shortcut"><span>r</span>回転ツール</li>
-                  <li class="shortcut"><span>s</span>スケールツール（拡大・縮小）</li>
-                  <li class="shortcut"><span>i</span>インセット（面を差し込む）</li>
-                  <li class="shortcut"><span>e</span>押し出し</li>
-                  <li class="shortcut"><span>f</span>フィル（頂点で囲まれたオブジェクトに面を作成する）</li>
-                  <li class="shortcut"><span>Ctrl</span>+<span>b</span>ベベルツール</li>
+                  <li>
+                    <a href="https://www.youtube.com/watch?v=lG5i-IemRC0"
+                      >【Blender4】ミニキーボードを作ろう！初心者向けチュートリアル</a
+                    >
+                  </li>
+                  <li>
+                    <a href="https://www.youtube.com/watch?v=pA5AvNgNqL8"
+                      >【Blender4】街を作ろう！初心者向けチュートリアル</a
+                    >
+                  </li>
                 </ul>
               </dd>
             </dl>
           </div>
           <div class="item">
             <dl>
-              <dt>軸のロック</dt>
+              <dt>【アンケート（5問）】</dt>
               <dd>
-                <ul>
-                  <li class="shortcut"><span>x</span>X軸にロック</li>
-                  <li class="shortcut"><span>y</span>Y軸にロック</li>
-                  <li class="shortcut"><span>z</span>Z軸にロック</li>
-                </ul>
+                <a href="https://forms.gle/wEzcGgnkbAePBhAC7"
+                  >中部ファッション専門学校「Blender講座」アンケート</a
+                >
               </dd>
             </dl>
           </div>
         </div>
+      </article>
+      <button id="modalBtn">?</button>
+      <div id="modal">
+        <div class="modal__inner">
+          <div class="clause">
+            <div class="item">
+              <ul>
+                <li class="shortcut">
+                  <span>Ctrl</span>+<span>z</span>元に戻す
+                </li>
+                <li class="shortcut">
+                  <span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す
+                </li>
+                <li class="shortcut"><span>Ctrl</span>+<span>s</span>保存</li>
+              </ul>
+              <ul>
+                <li class="shortcut"><span>T</span>ツールバーの表示／非表示</li>
+                <li class="shortcut">
+                  <span>x</span> or <span>DELETE</span>削除
+                </li>
+                <li class="shortcut"><span>tab</span>モードの切り換え</li>
+                <li class="shortcut"><span>a</span>全選択</li>
+                <li class="shortcut"><span>Shift</span>+<span>d</span>複製</li>
+              </ul>
+            </div>
+            <div class="item">
+              <dl>
+                <dt>視点移動（マウス）</dt>
+                <dd>
+                  <dl>
+                    <dt>ズームイン／ズームアウト</dt>
+                    <dd>
+                      マウスホイールをスクロール<img
+                        src="./assets/01/mouse01.png"
+                        width="100"
+                        alt=""
+                      />
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>回転</dt>
+                    <dd>
+                      マウスホイールを押しながら、マウスをドラッグ<img
+                        src="./assets/01/mouse02.png"
+                        width="140"
+                        alt=""
+                      />
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>スライド</dt>
+                    <dd>
+                      Shiftキーとマウスホイールを押しながら、マウスをドラッグ
+                    </dd>
+                    <dd class="shortcut">
+                      <span>Shift</span> +
+                      <img src="./assets/01/mouse02.png" width="140" alt="" />
+                    </dd>
+                  </dl>
+                </dd>
+              </dl>
+            </div>
+            <div class="item">
+              <dl>
+                <dt>視点移動（テンキー）</dt>
+                <dd>
+                  <dl>
+                    <dt>ビューの切り替え</dt>
+                    <dd class="shortcut"><span>1</span>フロント（前）ビュー</dd>
+                    <dd class="shortcut"><span>3</span>ライト（右）ビュー</dd>
+                    <dd class="shortcut"><span>7</span>トップ（上）ビュー</dd>
+                  </dl>
+                  <dl>
+                    <dt>透視投影と平行投影</dt>
+                    <dd class="shortcut"><span>5</span>透視投影／平行投影</dd>
+                  </dl>
+                </dd>
+              </dl>
+            </div>
+            <div class="item">
+              <dl>
+                <dt>ツール切り換え</dt>
+                <dd>
+                  <ul>
+                    <li class="shortcut">
+                      <span>Shift</span> + <span>a</span>オブジェクトの追加
+                    </li>
+                    <li class="shortcut"><span>g</span>移動ツール</li>
+                    <li class="shortcut"><span>r</span>回転ツール</li>
+                    <li class="shortcut">
+                      <span>s</span>スケールツール（拡大・縮小）
+                    </li>
+                    <li class="shortcut">
+                      <span>i</span>インセット（面を差し込む）
+                    </li>
+                    <li class="shortcut"><span>e</span>押し出し</li>
+                    <li class="shortcut">
+                      <span>f</span
+                      >フィル（頂点で囲まれたオブジェクトに面を作成する）
+                    </li>
+                    <li class="shortcut">
+                      <span>Ctrl</span>+<span>b</span>ベベルツール
+                    </li>
+                  </ul>
+                </dd>
+              </dl>
+            </div>
+            <div class="item">
+              <dl>
+                <dt>軸のロック</dt>
+                <dd>
+                  <ul>
+                    <li class="shortcut"><span>x</span>X軸にロック</li>
+                    <li class="shortcut"><span>y</span>Y軸にロック</li>
+                    <li class="shortcut"><span>z</span>Z軸にロック</li>
+                  </ul>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </main>
-  <footer class="l-footer">
-    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
-  </footer>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
 
-  <!-- syntax highlighter -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
-  <!--
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
   <pre class="line-numbers">
     <code class="language-markup">
       &lt; ... &gt;
     </code>
   </pre>
   -->
-  <script src="../assets/js/common.js"></script>
-  <script>
-    const modalBtn = document.querySelector('#modalBtn');
+    <script src="../assets/js/common.js"></script>
+    <script>
+      const modalBtn = document.querySelector('#modalBtn');
 
-    modalBtn.addEventListener("click", function () {
-      if (document.body.classList.contains('active')) {
-        document.body.classList.remove('active');
-        modalBtn.textContent = "？";
-      } else {
-        document.body.classList.add('active');
-        modalBtn.textContent = "✕";
-      }
-    });
-  </script>
-</body>
-
+      modalBtn.addEventListener('click', function () {
+        if (document.body.classList.contains('active')) {
+          document.body.classList.remove('active');
+          modalBtn.textContent = '？';
+        } else {
+          document.body.classList.add('active');
+          modalBtn.textContent = '✕';
+        }
+      });
+    </script>
+  </body>
 </html>
