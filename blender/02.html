@@ -128,11 +128,13 @@
 
   <body>
     <header class="l-header">
-      <h1 class="l-header__title">Blender入門 vol.02</h1>
+      <h1 class="l-header__title">
+        <a href="./index.html">Blender入門 vol.02</a>
+      </h1>
     </header>
     <main class="l-main">
       <article class="chapter">
-        <h2 class="chapter__title">0. はじめに</h2>
+        <h2 class="chapter__title">1. はじめに</h2>
         <div class="clause">
           <div class="item">
             <dl>
@@ -164,65 +166,28 @@
               <dt>【本日の内容】</dt>
               <dd>
                 <ol>
-                  <li>テクスチャの貼り付け</li>
-                  <li>アドオンの追加</li>
-                  <li>マテリアルの設定</li>
-                  <li>fbxファイルのエキスポート</li>
-                  <li>CLOへのインポート</li>
+                  <li>初期設定</li>
+                  <li>画面の見方と基本操作</li>
+                  <li>実践「フライパンを作ろう」</li>
+                  <li>実践「椅子を作ろう」</li>
+                  <li>練習「机を作ろう」</li>
+                  <li>時間が余ったら「コーヒーカップを作ろう」</li>
+                  <li>宿題</li>
                 </ol>
               </dd>
             </dl>
             <ul class="clause__list">
-              <li>
-                <em
-                  >ある程度簡単に「エキスポート＆インポート」できる方法を学ぶ。</em
-                >
-              </li>
+              <li><em>BlenderとCLOの連携。</em></li>
             </ul>
           </div>
         </div>
       </article>
       <article class="chapter">
-        <h2 class="chapter__title">1. 画面の見方と基本操作</h2>
+        <h2 class="chapter__title">2. 基本操作</h2>
         <div class="clause">
-          <p><img src="./assets/01/workspace01.png" width="800" alt="" /></p>
-          <ul>
-            <li>①3Dビューポート（作業スペース）</li>
-            <li>②アウトライナー（データリスト）</li>
-            <li>③プロパティ（各種設定）</li>
-            <li>④ツールバー</li>
-          </ul>
-        </div>
-        <section class="clause">
-          <h3 class="clause__title">1-1. 3Dビューポート（作業スペース）</h3>
-          <div class="item">
-            <p>
-              Blenderのメインの作業エリア。<em>XYZ座標</em>で定義された3D空間上に「<em>オブジェクト（様々な物体）</em>」「カメラ」「ライト」等が配置されている。
-            </p>
-            <p><img src="./assets/01/workspace02.png" width="600" alt="" /></p>
-          </div>
           <div class="item">
             <dl>
-              <dt>【XYZ座標】</dt>
-              <dd><img src="./assets/01/xyz01.png" width="500" alt="" /></dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>★Z軸の表示設定</dt>
-              <dd>
-                <ol>
-                  <li>
-                    右上の『ビューポートオーバーレイ』を表示し、座標軸「Z」を選択。
-                    <img src="./assets/01/z01.png" width="400" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【視点移動（マウス）】</dt>
+              <dt>視点移動（マウス）</dt>
               <dd>
                 <dl>
                   <dt>ズームイン／ズームアウト</dt>
@@ -259,55 +224,7 @@
           </div>
           <div class="item">
             <dl>
-              <dt>★選択部分を中心に回転</dt>
-              <dd>
-                <p>
-                  以下の設定をすることで、選択したオブジェクトを中心に視点を回転してくれる。
-                </p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    上部メニュー『<em
-                      >Edit（編集） &gt; Preferences（プリファレンス）</em
-                    >』を選択。
-                  </li>
-                  <li>
-                    『<em>視点の操作 &gt; 選択部分を中心に回転</em
-                    >』にチェックを入れる。
-                    <img src="./assets/01/mouse04.png" width="600" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>★マウス位置でズーム</dt>
-              <dd>
-                <p>
-                  以下の設定をすることで、マウスカーソルの位置に合わせてズームしてくれる。
-                </p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    上部メニュー『<em
-                      >Edit（編集） &gt; Preferences（プリファレンス）</em
-                    >』を選択。
-                  </li>
-                  <li>
-                    『<em>視点の操作 &gt; マウス位置でズーム</em
-                    >』にチェックを入れる。
-                    <img src="./assets/01/mouse05.png" width="600" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【視点移動（テンキー）】</dt>
+              <dt>視点移動（テンキー）</dt>
               <dd>
                 <dl>
                   <dt>ビューの切り替え</dt>
@@ -317,11 +234,6 @@
                 </dl>
                 <dl>
                   <dt>透視投影と平行投影</dt>
-                  <dd>
-                    <p>
-                      Blenderでは距離に関係なくオブジェクトが同じ大きさになる<em>平行投影</em>と、遠くの物体が小さく見える<em>透視投影</em>の2種類の投影法があり、モデリング作業は<em>平行投影</em>の方が向いている。
-                    </p>
-                  </dd>
                   <dd class="shortcut"><span>5</span>透視投影／平行投影</dd>
                 </dl>
               </dd>
@@ -329,763 +241,367 @@
           </div>
           <div class="item">
             <dl>
-              <dt>【ナビゲーションギズモ】</dt>
-              <dd>
-                上記のほぼ全ての操作をマウスのみで実現可能。現在の視点状況は左上に表示される。
-                <img src="./assets/01/navigation01.png" width="800" alt="" />
-              </dd>
-            </dl>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">1-2. アウトライナー（データリスト）</h3>
-          <div class="item">
-            <p>
-              ファイル内で配置・作成されたデータを一覧で表示する。ビューポート上の<em>表示・非表示の切り替え</em>や、<em>名前の変更（ダブルクリック）</em>、<em>削除（DELETE）</em>などを行うことができる。
-            </p>
-            <p><img src="./assets/01/outliner01.png" width="400" alt="" /></p>
-            <p><em>※カメラとライトを非表示にしておく。</em></p>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">1-3. プロパティ（各種設定）</h3>
-          <div class="item">
-            <p>
-              選択されているオブジェクトの詳細な情報を表示し、各種編集を行う。
-            </p>
-            <p><img src="./assets/01/propaty01.png" width="300" alt="" /></p>
-            <p>
-              <em
-                >※「モディファイアー」と「マテリアル」はよく使用するので覚えておく。</em
-              >
-            </p>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">1-4. ツールバー</h3>
-          <div class="item">
-            <p>
-              3Dモデルを編集するための各種ツール。「t」キーで表示・非表示を切り替え可能。<br />
-              マウスオーバーで説明と<em>ショートカット</em>が表示されるので徐々に覚えると良い。
-            </p>
-            <p class="shortcut"><span>t</span>表示／非表示</p>
-            <p><img src="./assets/01/toolbar01.png" width="300" alt="" /></p>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">1-5. その他ショートカット</h3>
-          <ul>
-            <li class="shortcut"><span>Ctrl</span>+<span>z</span>元に戻す</li>
-            <li class="shortcut">
-              <span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す
-            </li>
-            <li class="shortcut"><span>Ctrl</span>+<span>s</span>保存</li>
-          </ul>
-          <p><em>※Blenderは落ちやすいので、こまめに保存すること。</em></p>
-        </section>
-      </article>
-      <article class="chapter">
-        <h2 class="chapter__title">2. 復習「コーヒーカップを作ろう」</h2>
-        <div class="clause">
-          <dl>
-            <dt>【見本】</dt>
-            <dd><img src="./assets/02/cup01.png" width="500" alt="" /></dd>
-          </dl>
-        </div>
-        <section class="clause">
-          <h3 class="clause__title">2-1. 立方体でカップを作る</h3>
-          <div class="item">
-            <dl>
-              <dt>【円柱の変形】</dt>
-              <dd>
-                <ol>
-                  <li>
-                    ディフォルトで表示されている立方体を選択し、「tab」を押して「<em>編集モード</em>」に切り替える。
-                    <img src="./assets/02/cup02.png" width="500" alt="" />
-                    <ul>
-                      <li class="shortcut"><span>tab</span>モードの切り換え</li>
-                    </ul>
-                  </li>
-                  <li>
-                    左上の選択モードを「<em>面選択モード</em>」に切り替え、立方体の上部の面をクリックで選択。
-                    <img src="./assets/02/cup03.png" width="500" alt="" />
-                  </li>
-                  <li>
-                    「x」キーもしくは「DELETE」キーを押し、面を選択して削除する。
-                    <img src="./assets/02/cup04.png" width="500" alt="" />
-                    <ul>
-                      <li class="shortcut">
-                        <span>x</span> or <span>DELETE</span>オブジェクトの削除
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    下部分のみを小さくするため「<em>ループカット</em>」で真ん中に辺を追加する。<br />
-                    「Ctrl +
-                    r」を押し黄色い線が表示されたら、マウスで下図になるように調整しクリックで確定する。
-                    <img src="./assets/02/cup05.png" width="400" alt="" />
-                    <ul>
-                      <li class="shortcut">
-                        <span>Ctrl</span> + <span>r</span>ループカット
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    ちょうど真ん中になるようにマウスで移動するか<em>キーボードで「0」</em>を押し、クリックで確定する。
-                  </li>
-                  <li>
-                    下の立方体が見えるように、マウスホイールを押しながらくるっと視点を回転させる。
-                    <img src="./assets/02/cup06.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    「<em>面選択モード</em>」で立方体の底面を選択したら、「s」キーを押して縮小する。
-                    <img src="./assets/02/cup07.png" width="400" alt="" />
-                    <ul>
-                      <li class="shortcut">
-                        <span>s</span>スケールツール（拡大・縮小）
-                      </li>
-                    </ul>
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>★オブジェクトモードと編集モード</dt>
-              <dd>
-                <dl>
-                  <dt>編集モード</dt>
-                  <dd>1つのオブジェクトを選択して、作りこんでいくモード。</dd>
-                </dl>
-                <dl>
-                  <dt>オブジェクトモード</dt>
-                  <dd>
-                    編集モードで作り込んだオブジェクトを組み合わせて、全体を作っていくモード。
-                  </dd>
-                </dl>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【カップを丸くする】</dt>
-              <dd>
-                <ol>
-                  <li>
-                    「tab」を押して「<em>オブジェクトモード</em>」に切り替える。
-                  </li>
-                  <li>
-                    作成したカップをクリックで選択し、『<em
-                      >プロパティ &gt; モディファイアー &gt;
-                      モディファイアーを追加</em
-                    >』をクリック。
-                    <img src="./assets/01/bebel01.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    『<em>生成 &gt; サブディビジョンサーフィス</em>』を選択。
-                    <img src="./assets/02/cup08.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    ビューポートのレベル数とレンダーの値を「<em>3</em>」にする。
-                    <img src="./assets/02/cup09.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。
-                    <img src="./assets/02/cup10.png" width="400" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>★スムーズシェードとフラットシェード</dt>
-              <dd>
-                <dl>
-                  <dt>スムーズシェード</dt>
-                  <dd>隣り合った面を滑らかにつないで曲面のように表示する。</dd>
-                </dl>
-                <dl>
-                  <dt>フラットシェード</dt>
-                  <dd>それぞれの面が平らのまま表示する。</dd>
-                </dl>
-                <dl>
-                  <dt>自動スムーズシェード</dt>
-                  <dd>
-                    隣り合った面の角度が一定以下の時だけ滑らかにつないで表示する。
-                  </dd>
-                </dl>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【カップを厚くする】</dt>
-              <dd>
-                <p>さらに2つのモディファイアーを追加していきます。</p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    カップが選択選択された状態で、『<em
-                      >モディファイアーを追加 &gt; 生成 &gt; ソリッド化</em
-                    >』を選択。
-                    <img src="./assets/02/cup11.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    幅の値を「<em>0.2m</em>」にする。
-                    <img src="./assets/02/cup12.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    さらに、『<em
-                      >モディファイアーを追加 &gt; 生成 &gt; ベベル</em
-                    >』を選択。
-                    <img src="./assets/02/cup13.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    量の値を「<em>0.1m</em>」、セグメントの値を「<em>10</em>」にする。
-                    <img src="./assets/02/cup14.png" width="300" alt="" />
-                  </li>
-                </ol>
-                <p>
-                  <em
-                    >※設定し終わったモディファイアーは「&gt;」をクリックして閉じておく。</em
-                  >
-                </p>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>★モディファイアーはパネルの並びに注意する</dt>
-              <dd>
-                モディファイアーパネルでは、上から順番に効果を設定していくため、ソリッド化とベベルの順番を逆にするとうまくベベルがかからない。<br />このような場合には、右側のハンドルをクリックし、ドラッグで移動させる。
-              </dd>
-            </dl>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">2-2. カップを複製してソーサーを作る</h3>
-          <div class="item">
-            <dl>
-              <dt>【カップの複製】</dt>
-              <dd>
-                <ol>
-                  <li>
-                    カップを選択した状態で、「Shift +
-                    d」でオブジェクトを複製し、「z」キーを押して少し下に配置する。
-                    <img src="./assets/02/saucer01.png" width="400" alt="" />
-                    <ul>
-                      <li class="shortcut">
-                        <span>Shift</span>+<span>d</span>複製
-                      </li>
-                      <li class="shortcut"><span>z</span>Z軸にロック</li>
-                    </ul>
-                  </li>
-                  <li>
-                    「s」キーでスケールツールに切り換え、続けて「z」キーを押して下方向に縮小する。
-                    <img src="./assets/02/saucer02.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    再度「s」キーを押して全体的に拡大する。
-                    <img src="./assets/02/saucer03.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    よりお皿らしい形にするため、「<em>編集モード</em>」に切り替える。
-                  </li>
-                  <li>
-                    「<em>面選択モード</em>」になっていることを確認し、上部の面と面の間の角で「Alt」キーを押しながらクリックする。
-                    <img src="./assets/02/saucer04.png" width="400" alt="" />
-                    <ul>
-                      <li class="shortcut">
-                        <span>Alt</span>+<span>左クリック</span>ループ選択
-                      </li>
-                    </ul>
-                  </li>
-                  <li>「DELETE」キーで「面」を選択して削除。</li>
-                  <li>
-                    位置と大きさを調整する。
-                    <img src="./assets/02/saucer05.png" width="400" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">
-            2-3. トーラス（ドーナツ型）で取っ手を作る
-          </h3>
-          <div class="item">
-            <dl>
-              <dt>【トーラスの追加】</dt>
-              <dd>
-                <ol>
-                  <li>
-                    「<em>オブジェクトモード</em>」であることを確認、「Shift +
-                    a」を押して、追加メニューから『<em
-                      >メッシュ &gt; トーラス</em
-                    >』を選択する。
-                  </li>
-                  <li>
-                    左下に表示されたパネルをクリックで表示し、小セグメント数の値を「<em>18</em>」、小半径の値を「<em>0.3m</em>」にする。
-                    <img src="./assets/02/torus01.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    右クリック「<em>自動スムーズシェード</em>」で表面を滑らかにする。
-                  </li>
-                  <li>
-                    「r」キーで回転ツールに切り換え、続けて「x」キーを押してX軸のみの変化に限定する。
-                    <ul>
-                      <li class="shortcut"><span>r</span>回転ツール</li>
-                      <li class="shortcut"><span>x</span>X軸にロック</li>
-                    </ul>
-                  </li>
-                  <li>
-                    きっかり「90度」回転させるため、<em>キーボードで「90」と入力</em>し、「Enter」キーまたはクリックで確定する。
-                    <img src="./assets/02/torus02.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    「<em>フロントビュー</em>」に切り替え、「s」キーでカップに収まる大きさに縮小する。
-                    <img src="./assets/02/torus03.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    「g」キーと軸のロックを駆使して、良い位置に移動する。
-                    <img src="./assets/02/torus04.png" width="400" alt="" />
-                    <ul>
-                      <li class="shortcut"><span>g</span>移動ツール</li>
-                    </ul>
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【半分にする（時間に余裕があれば）】</dt>
-              <dd>
-                <p>カップからはみ出ないように半分に調整する。</p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    アウトライナーパネルで、取っ手以外のオブジェクトを非表示にしておく。
-                    <img src="./assets/02/torus05.png" width="300" alt="" />
-                  </li>
-                  <li>取っ手を選択し、「<em>編集モード</em>」に切り替える。</li>
-                  <li>
-                    「<em>頂点選択モード</em>」に切り替え、下図のようにちょうど真ん中の点を選択する。
-                    <img src="./assets/02/torus06.png" width="500" alt="" />
-                  </li>
-                  <li>
-                    上部メニュー『<em>選択 &gt; アクティブな側</em>』を選択。
-                    <img src="./assets/02/torus07.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    左下に表示されたパネルの軸の符号を「<em>負の軸</em>」にする。
-                    <img src="./assets/02/torus08.png" width="300" alt="" />
-                  </li>
-                  <li>「DELETE」キーで「面」を選択して削除。</li>
-                  <li>
-                    「Alt」キーを押しながら、削除された面の頂点を1点クリックし「ループ選択」する。
-                    <img src="./assets/02/torus09.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    「f」キーを押して面を作成する。
-                    <img src="./assets/02/torus10.png" width="400" alt="" />
-                    <ul>
-                      <li class="shortcut">
-                        <span>f</span
-                        >フィル（頂点で囲まれたオブジェクトに面を作成する）
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    「e」キーを押して面を伸ばす。
-                    <img src="./assets/02/torus11.png" width="400" alt="" />
-                    <ul>
-                      <li class="shortcut"><span>e</span>押し出し</li>
-                    </ul>
-                  </li>
-                  <li>
-                    もう片方も同様に伸ばす。
-                    <img src="./assets/02/torus12.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    「<em>オブジェクトモード</em>」に切り替え、角度や位置を調整する。
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <p><em>※やり方は「blender トーラス 半分」などで検索する。</em></p>
-            <ul>
-              <li>
-                <a href="https://www.youtube.com/watch?v=8awQL8LT0zU"
-                  >形状の半分を一瞬で選択する方法。</a
-                >
-              </li>
-            </ul>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">2-4. カップの中の液体を作る</h3>
-          <div class="item">
-            <ol>
-              <li>
-                「<em>オブジェクトモード</em>」であることを確認、「Shift +
-                a」を押して、追加メニューから『<em>メッシュ &gt; 円</em
-                >』を選択する。
-              </li>
-              <li>
-                「<em>編集モード</em>」に切り替え、「f」キーで面を張る。（頂点が選択されていない場合は「a」キーで全選択）
-                <img src="./assets/02/coffee01.png" width="400" alt="" />
-              </li>
-              <li>
-                「<em>オブジェクトモード</em>」に切り替え、カップからはみ出ないように拡大縮小しながら上方に移動する。
-                <img src="./assets/02/coffee02.png" width="400" alt="" />
-              </li>
-              <li>モデリングは完成！</li>
-            </ol>
-          </div>
-        </section>
-      </article>
-      <article class="chapter">
-        <h2 class="chapter__title">3. マテリアルの設定</h2>
-        <div class="clause">
-          <div class="item">
-            <dl>
-              <dt>【テクスチャ】</dt>
-              <dd>
-                オブジェクトの表面に貼り付ける2Dの画像で、色や模様、細かなディテールを表現する役割を担う。
-              </dd>
-            </dl>
-            <dl>
-              <dt>【マテリアル】</dt>
-              <dd>
-                オブジェクトの素材感を表現する役割を担い、テクスチャに加えてオブジェクトが光とどのように相互作用するかを決定する。
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <p>
-              マテリアルについても数時間でマスターするのは無理なので、ある程度簡単にできる以下の方法で「エキスポート＆インポート」する。
-            </p>
-            <ol>
-              <li>色だけ指定する。</li>
-              <li>テクスチャが同封されたデータを使う。</li>
-              <li>アドオンを使ってマテリアルを設定する。</li>
-              <li>簡単な図形をUV展開する。</li>
-            </ol>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【サンプルデータ】</dt>
-              <dd>
-                <a
-                  href="https://drive.google.com/drive/folders/1AI1HbDHcTeey65LMo0OT4HE2N6PvE8_U?usp=sharing"
-                  >Googleドライブ</a
-                >
-              </dd>
-            </dl>
-          </div>
-        </div>
-        <section class="clause">
-          <h3 class="clause__title">3-1. 色だけ指定する</h3>
-          <p>
-            Blenderで色をつけてもCLOにインポートするとだいぶ変わってしまうため、色だけつけたい場合はCLOで操作したほうが良さそう。
-          </p>
-          <div class="item">
-            <dl>
-              <dt>【fbxファイルにエキスポート】</dt>
-              <dd>
-                <p>
-                  参考サイトや動画では「fbx」形式で書き出しているサンプルが多いので、今回はこちらを採用する。
-                </p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    『<em>ファイル &gt; エキスポート &gt; FBX</em>』を選択。
-                    <img src="./assets/02/color01.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    初期設定の状態で、ファイル名と保存先を設定し「FBXをエクスポート」をクリック。
-                  </li>
-                  <li>CLOを立ち上げる。</li>
-                  <li>
-                    『<em>ファイル &gt; インポート（追加） &gt; FBX</em
-                    >』を選択。
-                    <img src="./assets/02/color02.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    先ほどエキスポートしたfbxファイルを選択し「開く」をクリック。
-                  </li>
-                  <li>
-                    オブジェクトタイプを「<em>Scene aon Props</em
-                    >」にして「OK」をクリック。
-                    <img src="./assets/02/color03.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    オブジェクトが読み込まれたら色をつけたいパーツをクリックで選択し、右側のパネルから色などを変更する。
-                    <img src="./assets/02/color04.png" width="800" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">3-2. テクスチャが同封されたデータを使う</h3>
-          <div class="item">
-            <dl>
-              <dt>【データのインポート】</dt>
-              <dd>
-                <ol>
-                  <li>
-                    Blenderメニュー『<em>ファイル &gt; 新規 &gt; 全般</em
-                    >』を選択し、新規ファイルを作成。
-                    <img src="./assets/02/texture01.png" width="500" alt="" />
-                  </li>
-                  <li>
-                    既存の立方体は使用しないので「DELETE」キーで削除し、カメラとライトを非表示にしておく。
-                  </li>
-                  <li>
-                    『<em>ファイル &gt; インポート &gt; FBX</em
-                    >』を選択し、先ほどダウンロードしたデータの中から『<em
-                      >sample &gt; stage02 &gt; source &gt;
-                      teleportsckech.fbx</em
-                    >』を選択してインポートする。
-                    <img src="./assets/02/texture02.png" width="500" alt="" />
-                  </li>
-                  <li>
-                    全てのオブジェクトが選択された状態で、画面中央に移動しておく。
-                    <img src="./assets/02/texture03.png" width="400" alt="" />
-                    <img src="./assets/02/texture04.png" width="400" alt="" />
-                    <ul>
-                      <li class="shortcut"><span>a</span>全選択</li>
-                    </ul>
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【画面の分割】</dt>
-              <dd>
-                <p>
-                  テクスチャの貼り付けには「<em>シェーダーエディター</em>」を使用する。<br />
-                  画面左上のアイコンから切り替えができるが、2画面で操作した方が便利なので画面を分割しておく。
-                  <img src="./assets/02/texture06.png" width="400" alt="" />
-                </p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    3Dビューポート（作業スペース）の右端にマウスを持っていき、カーソルが変わったところで右クリック「<em>垂直に分割</em>」を選択。
-                    <img src="./assets/02/texture05.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    表示されたラインを画面中央まで持っていきクリックで確定。
-                  </li>
-                  <li>
-                    画面が2分割される。
-                    <img src="./assets/02/texture07.png" width="500" alt="" />
-                  </li>
-                  <li>
-                    左右どちらかの左上のアイコンから「<em>シェーダーエディター</em>」に変更する。
-                    <img src="./assets/02/texture08.png" width="500" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【テクスチャの貼り付け】</dt>
-              <dd>
-                <p>
-                  ダウンロードしたデータの『<em
-                    >sample &gt; stage02 &gt; textures</em
-                  >』に画像が格納されているので確認しておく。
-                </p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    テクスチャを貼りたいオブジェクトをクリックして選択する。
-                  </li>
-                  <li>
-                    「<em>シェーダーエディター</em>」に現在設定されているマテリアルのデータ（<em>ノード</em>）が表示される。
-                  </li>
-                  <li>
-                    既存のマテリアルを削除するため、『<em
-                      >プロパティ &gt; マテリアル</em
-                    >』をクリック。
-                    <img src="./assets/02/texture09.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    削除したいマテリアルが選択させていることを確認し、「−（マイナス）」アイコンをクリック。
-                    <img src="./assets/02/texture10.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    改めて「新規」ボタンをクリックし、新規マテリアルを追加する。
-                    <img src="./assets/02/texture11.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    「<em>シェーダーエディター</em>」にノードが追加される。<br />※作業スペースと同じように拡大・移動が可能。
-                    <img src="./assets/02/texture12.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    「<em>シェーダーエディター</em>」上の何もないところをクリックでノードの選択を解除し、右クリック『<em
-                      >追加 &gt; テクスチャ &gt; 画像テクスチャ</em
-                    >』を選択。
-                    <img src="./assets/02/texture13.png" width="600" alt="" />
-                  </li>
-                  <li>
-                    空いている場所にクリックで配置する。
-                    <img src="./assets/02/texture14.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    追加した画像テクスチャの「開く」をクリックし、該当のテクスチャを選択し「画像を開く」をクリック。
-                    <img src="./assets/02/texture15.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    下図のように「カラー」と「ベースカラー」をつなぐ。
-                    <img src="./assets/02/texture16.png" width="500" alt="" />
-                  </li>
-                  <li>
-                    「<em>マテリアルプレビューモード</em>」に切り替えて確認する。
-                    <img src="./assets/02/texture17.png" width="400" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-            <p>※他のオブジェクトも同様にテクスチャを貼っていく。</p>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【fbxファイルにエキスポート】</dt>
-              <dd>
-                <ol>
-                  <li>
-                    『<em>ファイル &gt; エキスポート &gt; FBX</em>』を選択。
-                    <img src="./assets/02/color01.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    パスモードを「<em>コピー</em>」、となりのアイコンをクリックでオンにし、トランスフォームを適用にチェックを入れたのち、ファイル名と保存先を設定し「FBXをエクスポート」をクリック。
-                    <img src="./assets/02/texture18.png" width="300" alt="" />
-                  </li>
-                  <li>CLOを立ち上げる。</li>
-                  <li>
-                    『<em>ファイル &gt; インポート（追加） &gt; FBX</em
-                    >』を選択。
-                    <img src="./assets/02/color02.png" width="400" alt="" />
-                  </li>
-                  <li>
-                    先ほどエキスポートしたfbxファイルを選択し「開く」をクリック。
-                  </li>
-                  <li>
-                    オブジェクトタイプを「<em>Scene aon Props</em
-                    >」にして「OK」をクリック。
-                    <img src="./assets/02/color03.png" width="300" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">
-            3-3. アドオンを使ってマテリアルを設定する
-          </h3>
-          <div class="item">
-            <p>
-              Blenderのアドオンとは、Blenderの機能を拡張する、便利な追加プログラム。標準機能では実現できない、さまざまな機能を追加できる。
-            </p>
-            <dl>
-              <dt>【マテリアルを追加するための有名無料アドオン】</dt>
+              <dt>ツール切り換え</dt>
               <dd>
                 <ul>
-                  <li>
-                    <a href="https://codeofart.gumroad.com/l/EasyPBR"
-                      >Easy PBR</a
-                    >
+                  <li class="shortcut">
+                    <span>Shift</span> + <span>a</span>オブジェクトの追加
                   </li>
-                  <li><a href="https://www.blenderkit.com/">BlenderKit</a></li>
+                  <li class="shortcut"><span>g</span>移動ツール</li>
+                  <li class="shortcut"><span>r</span>回転ツール</li>
+                  <li class="shortcut">
+                    <span>s</span>スケールツール（拡大・縮小）
+                  </li>
+                  <li class="shortcut">
+                    <span>i</span>インセット（面を差し込む）
+                  </li>
+                  <li class="shortcut"><span>e</span>押し出し</li>
+                  <li class="shortcut">
+                    <span>f</span
+                    >フィル（頂点で囲まれたオブジェクトに面を作成する）
+                  </li>
+                  <li class="shortcut">
+                    <span>Ctrl</span>+<span>b</span>ベベルツール
+                  </li>
                 </ul>
               </dd>
             </dl>
           </div>
           <div class="item">
             <dl>
-              <dt>【Easy PBRの設定と使い方】</dt>
+              <dt>軸のロック</dt>
               <dd>
-                <a href="https://blog.sherpatimes.biz/others/13381/"
-                  >【Blender】EasyPBRを使って超簡単にPBRマテリアルを適用してみた！</a
-                >
+                <ul>
+                  <li class="shortcut"><span>x</span>X軸にロック</li>
+                  <li class="shortcut"><span>y</span>Y軸にロック</li>
+                  <li class="shortcut"><span>z</span>Z軸にロック</li>
+                </ul>
               </dd>
             </dl>
           </div>
           <div class="item">
             <dl>
-              <dt>【fbxファイルにエキスポート】</dt>
+              <dt>その他</dt>
               <dd>
-                <a href="https://oshinchan-japan.com/export-method/"
-                  >Blenderエクスポート方法【ノードで作成したテクスチャ】</a
-                >
+                <ul>
+                  <li class="shortcut">
+                    <span>T</span>ツールバーの表示／非表示
+                  </li>
+                  <li class="shortcut">
+                    <span>x</span> or <span>DELETE</span>削除
+                  </li>
+                  <li class="shortcut"><span>tab</span>モードの切り換え</li>
+                  <li class="shortcut"><span>a</span>全選択</li>
+                  <li class="shortcut">
+                    <span>Shift</span>+<span>d</span>複製
+                  </li>
+                </ul>
+                <ul>
+                  <li class="shortcut">
+                    <span>Ctrl</span>+<span>z</span>元に戻す
+                  </li>
+                  <li class="shortcut">
+                    <span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す
+                  </li>
+                  <li class="shortcut"><span>Ctrl</span>+<span>s</span>保存</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. アバターのエキスポート＆インポート</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              Blenderで作業する際、最終的なスケール感（ステージの広さや天井高）を把握するために、CLOのアバターを「定規代わり」としてインポートしておきます。
+            </p>
+            <p><img src="./assets/02/import13.png" width="500" alt="" /></p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">3-1. CLOからアバターをエキスポートする</h3>
+          <div class="item">
+            <dl>
+              <dt>【アバターの追加】</dt>
+              <dd>
+                <ol>
+                  <li>CLOを立ち上げる。</li>
+                  <li>
+                    任意のアバターを追加する。
+                    <img src="./assets/02/avatar01.png" width="500" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【アニメーションの追加】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    Motionフォルダの中から、ウォーキング等のモーションを適用する。
+                    <img src="./assets/02/avatar02.png" width="200" alt="" />
+                  </li>
+                  <li>
+                    アニメーションモードに切り替える。
+                    <img src="./assets/02/avatar03.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    タイムラインのバーを書き出したい場所まで移動する。
+                    <img src="./assets/02/avatar04.png" width="500" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【アバターのエキスポート】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    『<em>ファイル &gt; エキスポート &gt; OBJ</em>』を選択。
+                    <img src="./assets/02/import09.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    専用のフォルダを作成し、任意の名前をつけて「保存」。（<em>※そのまま保存すると大量のファイルが生成されるので注意！</em>）
+                  </li>
+                  <li>
+                    以下のように設定し、「OK」をクリック。
+                    <img src="./assets/02/import10.png" width="400" alt="" />
+                  </li>
+                </ol>
+                <table>
+                  <tr>
+                    <th>項目</th>
+                    <th>設定内容</th>
+                  </tr>
+                  <tr>
+                    <td>オブジェクト</td>
+                    <td>
+                      全アバター選択<br />単一のオブジェクト<br /><em
+                        >結合する</em
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>基本：倍率</td>
+                    <td><em>m</em><br />100.00%</td>
+                  </tr>
+                </table>
               </dd>
             </dl>
           </div>
         </section>
         <section class="clause">
-          <h3 class="clause__title">3-4. 簡単な図形をUV展開する</h3>
+          <h3 class="clause__title">3-2. Blenderにインポートする</h3>
           <div class="item">
-            <dl>
-              <dt>【UV展開とは】</dt>
-              <dd>
-                3Dモデルを平面に展開する作業のこと。
-                <img
-                  src="https://mrsoramame.jpn.org/wp/wp-content/uploads/2018/04/uv_skin-800x445.jpg"
-                  width="600"
-                  alt=""
-                />
-              </dd>
-            </dl>
+            <ol>
+              <li>Blenderを立ち上げる。</li>
+              <li>
+                『<em>ファイル &gt; インポート &gt; Wavefront (.obj)</em
+                >』を選択。
+                <img src="./assets/02/import11.png" width="500" alt="" />
+              </li>
+              <li>
+                先ほどエキスポートしたアバターデータ（.obj）を選択し、初期設定のまま「Wavefront
+                OBJをインポート」をクリック。
+              </li>
+              <li>
+                空間内にアバターのオブジェクトが追加される。
+                <img src="./assets/02/import12.png" width="400" alt="" />
+              </li>
+            </ol>
           </div>
           <div class="item">
-            <ul>
-              <li>
-                <a href="https://www.youtube.com/watch?v=mFJNdIKApPc"
-                  >【完全版】blender初心者はコレさえ見ればUV展開できます【お題：フグ】</a
-                >
-              </li>
-              <li>
-                <a href="https://vook.vc/n/6375"
-                  >画像テクスチャを作成しよう！【Blenderワールドモデリング
-                  vol.04】</a
-                >
-              </li>
-            </ul>
+            <dt>【オブジェクトのロック】</dt>
+            <dd>
+              <p>インポートしたアバターは操作しないのでロックしておく。</p>
+            </dd>
+            <dd>
+              <ol>
+                <li>オブジェクトを選択する。</li>
+                <li>
+                  右上のアウトライナーの「フィルター」アイコンをクリック。
+                </li>
+                <li>
+                  下図のアイコンをクリックし「ON（青色）」にする。
+                  <img src="./assets/02/avatar05.png" width="300" alt="" />
+                </li>
+                <li>
+                  矢印アイコンをクリックして選択を無効にする。
+                  <img src="./assets/02/avatar06.png" width="300" alt="" />
+                </li>
+              </ol>
+            </dd>
           </div>
         </section>
       </article>
       <article class="chapter">
-        <h2 class="chapter__title">4. 作業</h2>
+        <h2 class="chapter__title">4. ステージのエキスポート＆インポート</h2>
         <div class="clause">
           <div class="item">
+            <p>
+              アバターの足元に、円形のステージを作成し、CLOにインポートする流れを確認します。
+            </p>
+            <p><img src="./assets/02/import14.png" width="500" alt="" /></p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">4-1. 円柱の作成と変形</h3>
+          <div class="item">
+            <dl>
+              <dt>【オブジェクトの追加】</dt>
+              <dd>
+                <ol>
+                  <li>Shift + A ＞ メッシュ ＞ 円柱 (Cylinder) を選択。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サイズの調整】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    sキーを押してマウスを動かし、ステージの広さを決める（全てのアバターが乗るくらい）。
+                  </li>
+                  <li>
+                    s ＞ zキーを押して、高さを調整する（薄い円盤状にする）。
+                  </li>
+                  <li>
+                    g ＞ zキーで、アバターの足の下（床面）に来るように移動する。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-2. スケールの適用（Ctrl + A）</h3>
+          <div class="item">
+            <p><em>※ここが最重要ポイントです！必ず行ってください。</em></p>
+            <p>
+              大きさ（スケール）を変更したままだと、後で画像を貼った時に画像が極端に伸びたり縮んだりします。現在の大きさを「基準（1.0）」として確定させます。
+              <img src="./assets/02/scale01.png" width="300" alt="" />
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
+              <dd>
+                <ol>
+                  <li>ステージ（円柱）を選択する。</li>
+                  <li>Ctrl + A を押す。</li>
+                  <li>
+                    メニューが出るので「スケール
+                    (Scale)」を選択する。（※見た目は変わりません）
+                    <img src="./assets/02/scale02.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-3. Blenderからの書き出し（Export）</h3>
+          <div class="item">
             <ol>
+              <li>ステージ（円柱）を選択する（アバターは選択しない）。</li>
               <li>
-                ダウンロードしたデータ「stage01」を開き、マテリアルを設定してエキスポート＆インポートする。
+                『<em>ファイル &gt; エキスポート &gt; Wavefront (.obj)</em
+                >』を選択。
               </li>
               <li>
-                <a href="https://sketchfab.com/feed">素材サイト</a
-                >から無料素材をダウンロードし、同様の作業を行う。
+                以下のように設定し、「Wavefront OBJをエキスポート」をクリック。
+                <img src="./assets/02/import15.png" width="400" alt="" />
               </li>
             </ol>
+            <table>
+              <tr>
+                <th>項目</th>
+                <th>設定内容</th>
+              </tr>
+              <tr>
+                <td>内容：選択物のみ</td>
+                <td>チェックをいれる</td>
+              </tr>
+              <tr>
+                <td>マテリアル</td>
+                <td>チェックを外す</td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-4. CLOへの読み込み（Import）</h3>
+          <div class="item">
+            <ol>
+              <li>CLOを立ち上げる。</li>
+              <li>
+                『<em>ファイル &gt; インポート &gt; OBJ</em
+                >』を選択し、先ほど書き出したファイルを開く。
+              </li>
+              <li>
+                以下のように設定し、「OK」をクリック。
+                <img src="./assets/02/import16.png" width="400" alt="" />
+              </li>
+            </ol>
+            <table>
+              <tr>
+                <th>項目</th>
+                <th>設定内容</th>
+              </tr>
+              <tr>
+                <td>読み込み形式</td>
+                <td>Add</td>
+              </tr>
+              <tr>
+                <td>オブジェクトタイプ</td>
+                <td><em>Scene and Props</em></td>
+              </tr>
+              <tr>
+                <td>単位</td>
+                <td><em>m</em></td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-5. テクスチャ貼り付けと調整</h3>
+          <div class="item">
+            <p>読み込んだ真っ白なステージに、画像を貼り付けます。</p>
+            <p><a href="https://bg-patterns.com/">Bg-Patterns</a></p>
+          </div>
+          <div class="item">
+            <img src="./assets/02/color05.png" width="400" alt="" />
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">7. 次回講習に向けて</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【素材のダウンロードサイト】</dt>
+              <dd>
+                <p><a href="https://sketchfab.com/">Sketchfab</a></p>
+              </dd>
+              <dd>
+                <ol>
+                  <li>
+                    「SIGN UP」ボタンから会員登録（無料）しておいてください。
+                  </li>
+                  <li>
+                    使えそうな素材を探しておいてください。（右上に「ダウンロードアイコン」がついているもの）
+                  </li>
+                </ol>
+              </dd>
+            </dl>
           </div>
         </div>
       </article>
@@ -1203,21 +719,6 @@
                     <li class="shortcut"><span>x</span>X軸にロック</li>
                     <li class="shortcut"><span>y</span>Y軸にロック</li>
                     <li class="shortcut"><span>z</span>Z軸にロック</li>
-                  </ul>
-                </dd>
-              </dl>
-            </div>
-            <div class="item">
-              <dl>
-                <dt>便利機能</dt>
-                <dd>
-                  <ul>
-                    <li class="shortcut">
-                      <span>Ctrl</span> + <span>r</span>ループカット
-                    </li>
-                    <li class="shortcut">
-                      <span>Alt</span>+<span>左クリック</span>ループ選択
-                    </li>
                   </ul>
                 </dd>
               </dl>
