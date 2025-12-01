@@ -166,13 +166,10 @@
               <dt>【本日の内容】</dt>
               <dd>
                 <ol>
-                  <li>初期設定</li>
-                  <li>画面の見方と基本操作</li>
-                  <li>実践「フライパンを作ろう」</li>
-                  <li>実践「椅子を作ろう」</li>
-                  <li>練習「机を作ろう」</li>
-                  <li>時間が余ったら「コーヒーカップを作ろう」</li>
-                  <li>宿題</li>
+                  <li>アバターのエキスポート＆インポート</li>
+                  <li>自作でのステージ作成</li>
+                  <li>ダウンロード素材を使ったステージ作成</li>
+                  <li>便利なその他機能</li>
                 </ol>
               </dd>
             </dl>
@@ -441,7 +438,7 @@
         </section>
       </article>
       <article class="chapter">
-        <h2 class="chapter__title">4. ステージのエキスポート＆インポート</h2>
+        <h2 class="chapter__title">4. 自作でのステージ作成</h2>
         <div class="clause">
           <div class="item">
             <p>
@@ -543,7 +540,7 @@
             <ol>
               <li>CLOを立ち上げる。</li>
               <li>
-                『<em>ファイル &gt; インポート &gt; OBJ</em
+                『<em>ファイル &gt; インポート（追加） &gt; OBJ</em
                 >』を選択し、先ほど書き出したファイルを開く。
               </li>
               <li>
@@ -575,14 +572,100 @@
           <h3 class="clause__title">4-5. テクスチャ貼り付けと調整</h3>
           <div class="item">
             <p>読み込んだ真っ白なステージに、画像を貼り付けます。</p>
-            <p><a href="https://bg-patterns.com/">Bg-Patterns</a></p>
+            <dl>
+              <dt>【素材のダウンロード】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    「<a href="https://polyhaven.com/textures">Poly Haven</a
+                    >」にアクセスし、好きな柄をクリックする。
+                  </li>
+                  <li>
+                    クオリティを「1K」に設定し、ダウンロードする。
+                    <img src="./assets/02/texture01.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    ZIPファイルを解凍し、textureフォルダを任意の場所に移動しておく。（フォルダ名もわかりやすいものに）
+                  </li>
+                </ol>
+              </dd>
+            </dl>
           </div>
           <div class="item">
-            <img src="./assets/02/color05.png" width="400" alt="" />
+            <dl>
+              <dt>【ベースカラーマップの設定】</dt>
+              <dd>
+                <ol>
+                  <li>読み込んだステージを選択する。</li>
+                  <li>
+                    属性編集パネルの『<em
+                      >マテリアル &gt; ベースカラー &gt; ベースカラーマップ</em
+                    >』の右側にある四角形が4つ並んだアイコンをクリック。
+                    <img src="./assets/02/color05.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    ダウンロードしたフォルダの中から、「◯◯_diff_1k.jpg」を選択する。
+                  </li>
+                  <li>「変換」の項目を展開し、幅（%）等の値を調整する。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-6. 質感のクオリティアップ</h3>
+          <div class="item">
+            <p>
+              属性編集パネルのその他の項目を調整し、できる限りリアルなステージに仕上げましょう。
+            </p>
           </div>
         </section>
       </article>
       <article class="chapter">
+        <h2 class="chapter__title">5. ダウンロード素材を使ったステージ作成</h2>
+        <div class="clause"></div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">6. 便利なその他機能</h2>
+        <section class="clause">
+          <h3 class="clause__title">6-1. 配列（Array）モディファイアー</h3>
+          <div class="item">
+            <p>
+              ランウェイ脇のライト、観客席の椅子、神殿のような柱など、「同じものを等間隔に並べる」際に使用する。
+              <img src="./assets/02/array03.png" width="500" alt="" />
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
+              <dd>
+                <ol>
+                  <li>Blenderを立ち上げる。</li>
+                  <li>Shift + A ＞ メッシュ ＞ UV球を選択。</li>
+                  <li>
+                    モディファイアープロパティから「モディファイアーを追加」をクリック。
+                  </li>
+                  <li>生成 ＞ 配列 (Array) を選択。</li>
+                  <li>
+                    「<em>数：並べたい個数</em>」と「<em
+                      >係数 X / Y / Z：ずらす距離</em
+                    >」を調整する。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">6-2. テキスト（Text）オブジェクト</h3>
+          <div class="item">
+            <p>
+              ランウェイ脇のライト、観客席の椅子、神殿のような柱など、「同じものを等間隔に並べる」際に使用する。
+            </p>
+          </div>
+        </section>
+      </article>
+      <!-- <article class="chapter">
         <h2 class="chapter__title">7. 次回講習に向けて</h2>
         <div class="clause">
           <div class="item">
@@ -604,7 +687,7 @@
             </dl>
           </div>
         </div>
-      </article>
+      </article> -->
       <button id="modalBtn">?</button>
       <div id="modal">
         <div class="modal__inner">
