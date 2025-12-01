@@ -484,8 +484,8 @@
             <p><em>※ここが最重要ポイントです！必ず行ってください。</em></p>
             <p>
               大きさ（スケール）を変更したままだと、後で画像を貼った時に画像が極端に伸びたり縮んだりします。現在の大きさを「基準（1.0）」として確定させます。
-              <img src="./assets/02/scale01.png" width="300" alt="" />
             </p>
+            <p><img src="./assets/02/scale01.png" width="300" alt="" /></p>
           </div>
           <div class="item">
             <dl>
@@ -623,7 +623,36 @@
       </article>
       <article class="chapter">
         <h2 class="chapter__title">5. ダウンロード素材を使ったステージ作成</h2>
-        <div class="clause"></div>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【素材のダウンロードサイト】</dt>
+              <dd>
+                <a href="https://sketchfab.com/3d-models/popular">Sketchfab</a>
+              </dd>
+            </dl>
+            <p>
+              ダウンロードしたデータをそのままCLOに入れると、トラブル（サイズがおかしい、重すぎて動かない、色が抜けるなど）が起きやすいので、Blenderで調整しましょう。
+            </p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">5-1. 素材選びのポイント</h3>
+          <div class="item">
+            <ol>
+              <li>右上に「ダウンロードアイコン」があるものを選ぶ。</li>
+              <li>ファイル形式：glTF / GLB がベスト。（次点で FBX、OBJ）</li>
+              <li>
+                ポリゴン数：Triangles (三角面) が 50k以下のものが望ましい。
+                <img src="./assets/02/model01.png" width="400" alt="" />
+              </li>
+            </ol>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">5-2. Blenderでの調整</h3>
+          <div class="item"></div>
+        </section>
       </article>
       <article class="chapter">
         <h2 class="chapter__title">6. 便利なその他機能</h2>
@@ -632,8 +661,8 @@
           <div class="item">
             <p>
               ランウェイ脇のライト、観客席の椅子、神殿のような柱など、「同じものを等間隔に並べる」際に使用する。
-              <img src="./assets/02/array03.png" width="500" alt="" />
             </p>
+            <p><img src="./assets/02/array03.png" width="500" alt="" /></p>
           </div>
           <div class="item">
             <dl>
@@ -660,8 +689,74 @@
           <h3 class="clause__title">6-2. テキスト（Text）オブジェクト</h3>
           <div class="item">
             <p>
-              ランウェイ脇のライト、観客席の椅子、神殿のような柱など、「同じものを等間隔に並べる」際に使用する。
+              立体的な文字オブジェクトを作成することができる。看板やサイン、ロゴなどに使用する。
             </p>
+            <p><img src="./assets/02/text01.png" width="500" alt="" /></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
+              <dd>
+                <ol>
+                  <li>Blenderを立ち上げる。</li>
+                  <li>Shift + A ＞ テキストを選択。</li>
+                  <li>
+                    <em>Tabキーで編集モード</em>に切り替え、文字を打ち換える。
+                  </li>
+                  <li>Tabキーでオブジェクトモードに戻る。</li>
+                  <li>
+                    右側のプロパティパネルにある緑色の 「a」
+                    アイコン（オジェクトデータプロパティ）をクリック。
+                  </li>
+                  <li>
+                    『ジオメトリ (Geometry) ＞ 押し出し
+                    (Extrude)』などの値（厚み）を調整する。
+                    <img src="./assets/02/text02.png" width="300" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">6-3. ブーリアン（Boolean）で穴を開ける</h3>
+          <div class="item">
+            <p>
+              立体オブジェクトに別のオブジェクトを重ね、その部分をくり抜くことができる。
+            </p>
+            <p><img src="./assets/02/boolean01.png" width="500" alt="" /></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
+              <dd>
+                <ol>
+                  <li>Blenderを立ち上げる。</li>
+                  <li>
+                    Shift + A ＞ メッシュ > 立方体を選択。（※壁：削られる側）
+                  </li>
+                  <li>sキーで壁の形に整形する。</li>
+                  <li>Shift + A ＞ メッシュ > 円柱を選択。（※穴を開ける側）</li>
+                  <li>
+                    sキーで穴の形に整形し、回転（r）や移動（g）で壁と重ねる。
+                    <img src="./assets/02/boolean02.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    <em>壁を選択</em
+                    >し、モディファイアープロパティから『モディファイアーを追加
+                    ＞ 生成 ＞ ブーリアン』を選択。
+                    <img src="./assets/02/boolean03.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    オブジェクト：スポイトアイコンをクリックし、「円柱（削る形）」をクリックして指定する。
+                    <img src="./assets/02/boolean04.png" width="300" alt="" />
+                  </li>
+                  <li>
+                    アウトライナーで「円柱（削る形）」を非表示にし、穴が開いていることを確認する。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
           </div>
         </section>
       </article>
