@@ -1,0 +1,17 @@
+{
+  "name": "gemini",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "@google/genai": "^1.32.0",
+    "cros": "^1.1.0",
+    "hono": "^4.10.8"
+  },
+  "devDependencies": {
+    "wrangler": "^4.4.0"
+  }
+}
