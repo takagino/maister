@@ -19,56 +19,53 @@
   </style>
 </head>
 <body>
+  <!-- p5.jsとp5.playのライブラリを読み込み -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/p5.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/addons/p5.sound.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"></script>
   <script src="https://p5play.org/v3/p5play.js"></script>
 
-  <!-- 基本構造 -->
   <script>
+    // --- ゲームの状態を管理する変数 ---
     let player, floor;
     let enemies;
-    let playerArt, palette; // ドット絵用の箱を用意
-    // ゲームの状態管理用フラグ
-    let isGameStarted = false; // スタートしたか？
-    let isGameOver = false;    // 負けたか？
+    let playerArt, palette;
+    let isGameStarted = false;
+    let isGameOver = false;
 
+    // --- p5.jsの初期設定 ---
     function setup() {
       new Canvas(640, 480);
       textSize(20);
       textAlign(CENTER);
 
+      // --- 重力を設定 ---
       world.gravity.y = 10;
 
-      // ドット絵の定義
+      // --- プレイヤーのスプライトを作成 ---
       playerArt = `
-k........k
-.k......k.
-..k....k..
-...kkkk...
-...k..k...
-...k..k...
-...kkkk...
-..k....k..
-.k......k.
-k........k
+..bbbb..
+.b....b.
+b.b..b.b
+b......b
+b.bbbb.b
+b.b..b.b
+.b....b.
+..bbbb..
 `;
-
       palette = {
-        'k': 'hsl(144, 80%, 50%)',
+        b: 'blue',
       };
-
-      // 生成
       player = new Sprite(100, 350);
-      // spriteArt(設計図, 1ドットの大きさ, パレット)
       player.image = spriteArt(playerArt, 6, palette);
 
-      // --- 床の生成 ---
+      // --- 床のスプライトを作成 ---
       floor = new Sprite(320, 400, 500, 30);
       floor.color = 'gray';
-      floor.collider = 'static'; // ★重要：これを書かないと床も落ちる
-      floor.friction = 0; // 摩擦力: 初期値0、適正範囲0-1
+      floor.collider = 'static';
+      floor.friction = 0;
 
+      // --- 敵のグループを作成 ---
       enemies = new Group();
       enemies.r = 20;
       enemies.color = 'red';
@@ -76,72 +73,69 @@ k........k
     }
 
     function draw() {
+      // --- 背景を白に設定 ---
       background('white');
 
-      // 1. スタート前ならタイトルを表示して止める
+      // --- ゲーム開始前の処理 ---
       if (isGameStarted === false) {
         text("「s」キーでスタート", width / 2, height / 2);
-        return; // ここで中断
+        return;
       }
 
-      // 2. ゲームオーバーなら表示して止める
+      // --- ゲームオーバーの処理 ---
       if (isGameOver === true) {
         text("GAME OVER", width / 2, height / 2);
         text("「s」キーでリトライ", width / 2, height / 2 + 40);
-        return; // ここで中断
+        return;
       }
 
-      // --- 左右移動 ---
+      // --- プレイヤーの操作 ---
       if (kb.pressing('right')) {
-        player.vel.x = 5; // 右へ進む速度
+        player.vel.x = 5;
       } else if (kb.pressing('left')) {
-        player.vel.x = -5; // 左へ進む速度
+        player.vel.x = -5;
       } else {
-        player.vel.x = 0; // 止まる
+        player.vel.x = 0;
       }
 
       // --- ジャンプ ---
       if (kb.presses('up')) {
-        player.vel.y = -5; // 上方向への速度
+        player.vel.y = -5;
       }
 
+      // --- 敵の生成 ---
       if (frameCount % 60 === 0) {
-        // 画面右端(width)の少し外、高さ380の位置に生成
         let enemy = new enemies.Sprite(width + 40, 360);
-        enemy.vel.x = -5; // 左へ進む
+        enemy.vel.x = -5;
       }
 
-      // --- ★後始末 ---
-      // 画面左端から100px以上はみ出たら消す（メモリ節約）
+      // --- 後始末 ---
       for (let enemy of enemies) {
         if (enemy.x < -100) enemy.remove();
       }
 
-      // --- ★衝突判定（enemies に変更） ---
+      // --- 衝突判定 ---
       if (player.collides(enemies)) {
         player.remove();
-        isGameOver = true; // ★フラグをONにする
+        isGameOver = true;
       }
     }
 
+    // --- キー入力の処理 ---
     function keyPressed() {
-      // 「s」キーが押された時だけ実行する
+      // --- 「s」キーでゲーム開始またはリトライ ---
       if (key === 's') {
-        // スタート前ならスタートする
         if (isGameStarted === false) {
           isGameStarted = true;
         }
 
-        // ゲームオーバーならリセットする
         if (isGameOver === true) {
           isGameOver = false;
           isGameStarted = true;
 
-          // プレイヤーを復活させる
           player = new Sprite(100, 350);
           player.image = spriteArt(playerArt, 6, palette);
 
-          // 敵を全消去
           enemies.removeAll();
         }
       }
