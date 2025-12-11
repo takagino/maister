@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.jsの基本構造</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #999;
+    }
+
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border: 4px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/addons/p5.sound.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"></script>
+  <script src="https://p5play.org/v3/p5play.js"></script>
+
+  <!-- 基本構造 -->
+  <script>
+    let player, floor;
+    let enemies;
+    let playerArt, palette; // ドット絵用の箱を用意
+    // ゲームの状態管理用フラグ
+    let isGameStarted = false; // スタートしたか？
+    let isGameOver = false;    // 負けたか？
+
+    function setup() {
+      new Canvas(640, 480);
+      textSize(20);
+      textAlign(CENTER);
+
+      world.gravity.y = 10;
+
+      // ドット絵の定義
+      playerArt = `
+k........k
+.k......k.
+..k....k..
+...kkkk...
+...k..k...
+...k..k...
+...kkkk...
+..k....k..
+.k......k.
+k........k
+`;
+
+      palette = {
+        'k': 'hsl(144, 80%, 50%)',
+      };
+
+      // 生成
+      player = new Sprite(100, 350);
+      // spriteArt(設計図, 1ドットの大きさ, パレット)
+      player.image = spriteArt(playerArt, 6, palette);
+
+      // --- 床の生成 ---
+      floor = new Sprite(320, 400, 500, 30);
+      floor.color = 'gray';
+      floor.collider = 'static'; // ★重要：これを書かないと床も落ちる
+      floor.friction = 0; // 摩擦力: 初期値0、適正範囲0-1
+
+      enemies = new Group();
+      enemies.r = 20;
+      enemies.color = 'red';
+      enemies.collider = 'kinematic';
+    }
+
+    function draw() {
+      background('white');
+
+      // 1. スタート前ならタイトルを表示して止める
+      if (isGameStarted === false) {
+        text("「s」キーでスタート", width / 2, height / 2);
+        return; // ここで中断
+      }
+
+      // 2. ゲームオーバーなら表示して止める
+      if (isGameOver === true) {
+        text("GAME OVER", width / 2, height / 2);
+        text("「s」キーでリトライ", width / 2, height / 2 + 40);
+        return; // ここで中断
+      }
+
+      // --- 左右移動 ---
+      if (kb.pressing('right')) {
+        player.vel.x = 5; // 右へ進む速度
+      } else if (kb.pressing('left')) {
+        player.vel.x = -5; // 左へ進む速度
+      } else {
+        player.vel.x = 0; // 止まる
+      }
+
+      // --- ジャンプ ---
+      if (kb.presses('up')) {
+        player.vel.y = -5; // 上方向への速度
+      }
+
+      if (frameCount % 60 === 0) {
+        // 画面右端(width)の少し外、高さ380の位置に生成
+        let enemy = new enemies.Sprite(width + 40, 360);
+        enemy.vel.x = -5; // 左へ進む
+      }
+
+      // --- ★後始末 ---
+      // 画面左端から100px以上はみ出たら消す（メモリ節約）
+      for (let enemy of enemies) {
+        if (enemy.x < -100) enemy.remove();
+      }
+
+      // --- ★衝突判定（enemies に変更） ---
+      if (player.collides(enemies)) {
+        player.remove();
+        isGameOver = true; // ★フラグをONにする
+      }
+    }
+
+    function keyPressed() {
+      // 「s」キーが押された時だけ実行する
+      if (key === 's') {
+        // スタート前ならスタートする
+        if (isGameStarted === false) {
+          isGameStarted = true;
+        }
+
+        // ゲームオーバーならリセットする
+        if (isGameOver === true) {
+          isGameOver = false;
+          isGameStarted = true;
+
+          // プレイヤーを復活させる
+          player = new Sprite(100, 350);
+          player.image = spriteArt(playerArt, 6, palette);
+
+          // 敵を全消去
+          enemies.removeAll();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
