@@ -2,14 +2,17 @@
 <html dir="ltr" lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>Blender入門 vol.03</title>
+    <title>Blender講座 vol.03</title>
     <meta
       name="description"
       content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
     />
     <meta name="author" content="horotaka takagi" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
 
@@ -125,18 +128,22 @@
 
   <body>
     <header class="l-header">
-      <h1 class="l-header__title">Blender入門 vol.03</h1>
+      <h1 class="l-header__title">
+        <a href="./index.html">Blender講座 vol.03</a>
+      </h1>
     </header>
     <main class="l-main">
       <article class="chapter">
-        <h2 class="chapter__title">0. はじめに</h2>
+        <h2 class="chapter__title">1. はじめに</h2>
         <div class="clause">
           <div class="item">
             <dl>
               <dt>【スケジュール】</dt>
               <dd>
                 <ul>
-                  <li>12/24(火)、25(水)：各自制作</li>
+                  <li>11/18(火)：Blenderの基本操作、モデリング体験</li>
+                  <li>12/2(火)：CIOとの連携、ダウンロードした素材の修正</li>
+                  <li>12/16(火)、23(火)：各自制作</li>
                 </ul>
               </dd>
             </dl>
@@ -144,10 +151,12 @@
           <div class="item">
             <dl>
               <dt>【講義資料】</dt>
-              <dd><img src="./assets/qrcode.png" alt="" /></dd>
+              <dd><img src="./assets/qr.png" alt="" /></dd>
               <dd>
                 <ul>
-                  <li>ページ下部に「上部へ戻る」と「ショートカット一覧」のボタンがあります。</li>
+                  <li>
+                    ページ下部に「上部へ戻る」と「ショートカット一覧」のボタンがあります。
+                  </li>
                 </ul>
               </dd>
             </dl>
@@ -157,57 +166,19 @@
               <dt>【本日の内容】</dt>
               <dd>
                 <ol>
-                  <li>Blenderで制作し、CLOへインポートするための手順</li>
+                  <li>ダウンロード素材を使ったステージ作成</li>
                 </ol>
               </dd>
             </dl>
-            <ul class="clause__list">
-              <li><em>時間内で、できる限り作りたいものを作る。</em></li>
-            </ul>
           </div>
         </div>
       </article>
       <article class="chapter">
-        <h2 class="chapter__title">1. 画面の見方と基本操作</h2>
+        <h2 class="chapter__title">2. 基本操作</h2>
         <div class="clause">
-          <p><img src="./assets/01/workspace01.png" width="800" alt="" /></p>
-          <ul>
-            <li>①3Dビューポート（作業スペース）</li>
-            <li>②アウトライナー（データリスト）</li>
-            <li>③プロパティ（各種設定）</li>
-            <li>④ツールバー</li>
-          </ul>
-        </div>
-        <section class="clause">
-          <h3 class="clause__title">1-1. 3Dビューポート（作業スペース）</h3>
-          <div class="item">
-            <p>
-              Blenderのメインの作業エリア。<em>XYZ座標</em>で定義された3D空間上に「<em>オブジェクト（様々な物体）</em>」「カメラ」「ライト」等が配置されている。
-            </p>
-            <p><img src="./assets/01/workspace02.png" width="600" alt="" /></p>
-          </div>
           <div class="item">
             <dl>
-              <dt>【XYZ座標】</dt>
-              <dd><img src="./assets/01/xyz01.png" width="500" alt="" /></dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>★Z軸の表示設定</dt>
-              <dd>
-                <ol>
-                  <li>
-                    右上の『ビューポートオーバーレイ』を表示し、座標軸「Z」を選択。
-                    <img src="./assets/01/z01.png" width="400" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【視点移動（マウス）】</dt>
+              <dt>視点移動（マウス）</dt>
               <dd>
                 <dl>
                   <dt>ズームイン／ズームアウト</dt>
@@ -231,9 +202,12 @@
                 </dl>
                 <dl>
                   <dt>スライド</dt>
-                  <dd>Shiftキーとマウスホイールを押しながら、マウスをドラッグ</dd>
+                  <dd>
+                    Shiftキーとマウスホイールを押しながら、マウスをドラッグ
+                  </dd>
                   <dd class="shortcut">
-                    <span>Shift</span> + <img src="./assets/01/mouse02.png" width="140" alt="" />
+                    <span>Shift</span> +
+                    <img src="./assets/01/mouse02.png" width="140" alt="" />
                   </dd>
                 </dl>
               </dd>
@@ -241,45 +215,7 @@
           </div>
           <div class="item">
             <dl>
-              <dt>★選択部分を中心に回転</dt>
-              <dd>
-                <p>以下の設定をすることで、選択したオブジェクトを中心に視点を回転してくれる。</p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    上部メニュー『<em>Edit（編集） &gt; Preferences（プリファレンス）</em>』を選択。
-                  </li>
-                  <li>
-                    『<em>視点の操作 &gt; 選択部分を中心に回転</em>』にチェックを入れる。
-                    <img src="./assets/01/mouse04.png" width="600" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>★マウス位置でズーム</dt>
-              <dd>
-                <p>以下の設定をすることで、マウスカーソルの位置に合わせてズームしてくれる。</p>
-              </dd>
-              <dd>
-                <ol>
-                  <li>
-                    上部メニュー『<em>Edit（編集） &gt; Preferences（プリファレンス）</em>』を選択。
-                  </li>
-                  <li>
-                    『<em>視点の操作 &gt; マウス位置でズーム</em>』にチェックを入れる。
-                    <img src="./assets/01/mouse05.png" width="600" alt="" />
-                  </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【視点移動（テンキー）】</dt>
+              <dt>視点移動（テンキー）</dt>
               <dd>
                 <dl>
                   <dt>ビューの切り替え</dt>
@@ -289,11 +225,6 @@
                 </dl>
                 <dl>
                   <dt>透視投影と平行投影</dt>
-                  <dd>
-                    <p>
-                      Blenderでは距離に関係なくオブジェクトが同じ大きさになる<em>平行投影</em>と、遠くの物体が小さく見える<em>透視投影</em>の2種類の投影法があり、モデリング作業は<em>平行投影</em>の方が向いている。
-                    </p>
-                  </dd>
                   <dd class="shortcut"><span>5</span>透視投影／平行投影</dd>
                 </dl>
               </dd>
@@ -301,203 +232,163 @@
           </div>
           <div class="item">
             <dl>
-              <dt>【ナビゲーションギズモ】</dt>
+              <dt>ツール切り換え</dt>
               <dd>
-                上記のほぼ全ての操作をマウスのみで実現可能。現在の視点状況は左上に表示される。
-                <img src="./assets/01/navigation01.png" width="800" alt="" />
-              </dd>
-            </dl>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">1-2. アウトライナー（データリスト）</h3>
-          <div class="item">
-            <p>
-              ファイル内で配置・作成されたデータを一覧で表示する。ビューポート上の<em>表示・非表示の切り替え</em>や、<em>名前の変更（ダブルクリック）</em>、<em>削除（DELETE）</em>などを行うことができる。
-            </p>
-            <p><img src="./assets/01/outliner01.png" width="400" alt="" /></p>
-            <p><em>※カメラとライトを非表示にしておく。</em></p>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">1-3. プロパティ（各種設定）</h3>
-          <div class="item">
-            <p>選択されているオブジェクトの詳細な情報を表示し、各種編集を行う。</p>
-            <p><img src="./assets/01/propaty01.png" width="300" alt="" /></p>
-            <p><em>※「モディファイアー」と「マテリアル」はよく使用するので覚えておく。</em></p>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">1-4. ツールバー</h3>
-          <div class="item">
-            <p>
-              3Dモデルを編集するための各種ツール。「t」キーで表示・非表示を切り替え可能。<br />
-              マウスオーバーで説明と<em>ショートカット</em>が表示されるので徐々に覚えると良い。
-            </p>
-            <p class="shortcut"><span>t</span>表示／非表示</p>
-            <p><img src="./assets/01/toolbar01.png" width="300" alt="" /></p>
-          </div>
-        </section>
-        <section class="clause">
-          <h3 class="clause__title">1-5. その他ショートカット</h3>
-          <ul>
-            <li class="shortcut"><span>Ctrl</span>+<span>z</span>元に戻す</li>
-            <li class="shortcut"><span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す</li>
-            <li class="shortcut"><span>Ctrl</span>+<span>s</span>保存</li>
-          </ul>
-          <p><em>※Blenderは落ちやすいので、こまめに保存すること。</em></p>
-        </section>
-      </article>
-      <article class="chapter">
-        <h2 class="chapter__title">2. 動作チェック</h2>
-        <div class="clause">
-          <p>これからやる内容が、インストールされているCLOのバージョンでも動作するかチェック。</p>
-          <p>
-            <a
-              href="https://drive.google.com/drive/folders/1WS66t5ZIXTGvLgMGV03yIkVcNpu7TpOr?usp=sharing"
-              >Googleドライブ</a
-            >
-          </p>
-          <div class="item">
-            <dl>
-              <dt>【Sketchfabの会員登録】</dt>
-              <dd>
-                <ol>
-                  <li>
-                    <a href="https://sketchfab.com/">Sketchfab</a>の「SIGN UP」ボタンから会員登録。
+                <ul>
+                  <li class="shortcut">
+                    <span>Shift</span> + <span>a</span>オブジェクトの追加
                   </li>
-                </ol>
+                  <li class="shortcut"><span>g</span>移動ツール</li>
+                  <li class="shortcut"><span>r</span>回転ツール</li>
+                  <li class="shortcut">
+                    <span>s</span>スケールツール（拡大・縮小）
+                  </li>
+                  <li class="shortcut">
+                    <span>i</span>インセット（面を差し込む）
+                  </li>
+                  <li class="shortcut"><span>e</span>押し出し</li>
+                  <li class="shortcut">
+                    <span>f</span
+                    >フィル（頂点で囲まれたオブジェクトに面を作成する）
+                  </li>
+                  <li class="shortcut">
+                    <span>Ctrl</span>+<span>b</span>ベベルツール
+                  </li>
+                </ul>
               </dd>
             </dl>
           </div>
           <div class="item">
             <dl>
-              <dt>【素材のダウンロード】</dt>
+              <dt>軸のロック</dt>
               <dd>
-                <ol>
-                  <li>
-                    <a
-                      href="https://sketchfab.com/3d-models/waiting-chair-76c028f787e049e4b6c3b8550f015f23"
-                      >こちらのページ</a
-                    >から素材をダウンロード。（fbx形式）
-                  </li>
-                  <li>圧縮ファイルを解凍してフォルダに整理しておく。</li>
-                </ol>
+                <ul>
+                  <li class="shortcut"><span>x</span>X軸にロック</li>
+                  <li class="shortcut"><span>y</span>Y軸にロック</li>
+                  <li class="shortcut"><span>z</span>Z軸にロック</li>
+                </ul>
               </dd>
             </dl>
           </div>
           <div class="item">
             <dl>
-              <dt>【BlenderでOBJ形式にエキスポート】</dt>
+              <dt>その他</dt>
               <dd>
-                <ol>
-                  <li>Blenderを立ち上げて、立方体・カメラ・ライトを削除。</li>
-                  <li>
-                    『<em>ファイル &gt; インポート &gt; FBX (.fbx)</em>』を選択。
-                    <img src="./assets/03/import01.png" width="500" alt="" />
+                <ul>
+                  <li class="shortcut">
+                    <span>T</span>ツールバーの表示／非表示
                   </li>
-                  <li>
-                    追加された素材をクリックで選択。
-                    <img src="./assets/03/import02.png" width="300" alt="" />
+                  <li class="shortcut">
+                    <span>x</span> or <span>DELETE</span>削除
                   </li>
-                  <li>『<em>ファイル &gt; エキスポート &gt; Wavefront (.obj)</em>』を選択。</li>
-                  <li>
-                    適当にファイル名をつけた上で、「<em>内容：選択物のみ</em>」にチェック、「<em>スケール</em>」に「100」と入力、「<em>マテリアル</em>」のチェックを外して、「Wavefront
-                    OBJをエキスポート」をクリック。
-                    <img src="./assets/03/import03.png" width="400" alt="" />
+                  <li class="shortcut"><span>tab</span>モードの切り換え</li>
+                  <li class="shortcut"><span>a</span>全選択</li>
+                  <li class="shortcut">
+                    <span>Shift</span>+<span>d</span>複製
                   </li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【CLOでインポート】</dt>
-              <dd>
-                <ol>
-                  <li>CLOを立ち上げる。</li>
-                  <li>
-                    『<em>ファイル &gt; インポート（追加） &gt; OBJ</em>』を選択。
-                    <img src="./assets/03/import04.png" width="500" alt="" />
+                </ul>
+                <ul>
+                  <li class="shortcut">
+                    <span>Ctrl</span>+<span>z</span>元に戻す
                   </li>
-                  <li>先ほどエキスポートしたOBJファイルを選択し「開く」。</li>
-                  <li>
-                    「<em>オブジェクトタイプ</em>」を「Scene and
-                    Props」、「<em>単位</em>」を「mm（基本）」にし「OK」をクリック。
-                    <img src="./assets/03/import05.png" width="400" alt="" />
+                  <li class="shortcut">
+                    <span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す
                   </li>
-                  <li>オブジェクトが追加される。</li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【ステージ一覧に保存】</dt>
-              <dd>
-                <ol>
-                  <li>
-                    『<em>ファイル &gt; 名前をつけて保存 &gt; シーン/プロップ</em>』を選択。
-                    <img src="./assets/03/import06.png" width="500" alt="" />
-                  </li>
-                  <li>
-                    「サムネイル」は自動にチェックが入ったまま「OK」をクリック。
-                    <img src="./assets/03/import07.png" width="300" alt="" />
-                  </li>
-                  <li>
-                    「Stage」のフォルダを選択し、任意の名前をつけて保存。
-                    <img src="./assets/03/import08.png" width="600" alt="" />
-                  </li>
-                  <li>ステージの一覧に追加されていることを確認。</li>
-                </ol>
-              </dd>
-            </dl>
-          </div>
-          <div class="item">
-            <dl>
-              <dt>【注意点】</dt>
-              <dd>
-                <ol>
-                  <li>シーン/プロップでインポートできるのは「.obj」ファイルのみ。</li>
-                  <li>
-                    CLOでシーン/プロップの拡大・縮小はできないっぽいので、スケールの倍率で調整する。
-                  </li>
-                  <li>Blenderのマテリアルは使用しないので、エキスポートする際にチェックを外す。</li>
-                  <li>
-                    別の色を付けたい場合は別のobjファイルにエキスポートし、CLO内で移動・配置する。
-                  </li>
-                </ol>
+                  <li class="shortcut"><span>Ctrl</span>+<span>s</span>保存</li>
+                </ul>
               </dd>
             </dl>
           </div>
         </div>
       </article>
       <article class="chapter">
-        <h2 class="chapter__title">3. アバターのエキスポート＆インポート</h2>
+        <h2 class="chapter__title">5. ダウンロード素材を使ったステージ作成</h2>
         <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【素材のダウンロードサイト】</dt>
+              <dd>
+                <a href="https://sketchfab.com/3d-models/popular">Sketchfab</a>
+              </dd>
+            </dl>
+            <p>
+              ダウンロードしたデータをそのままCLOに入れると、トラブル（サイズがおかしい、重すぎて動かない、色が抜けるなど）が起きやすいので、Blenderで調整しましょう。
+            </p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">5-1. 素材選びのポイント</h3>
+          <div class="item">
+            <ol>
+              <li>右上に「<em>ダウンロードアイコン</em>」があるものを選ぶ。</li>
+              <li>
+                ファイル形式：<em>glTF / GLB</em> がベスト。（次点で FBX、OBJ）
+              </li>
+              <li>
+                ポリゴン数：Triangles (三角面) が
+                <em>50k以下</em>のものが望ましい。
+                <img src="./assets/02/model01.png" width="400" alt="" />
+              </li>
+            </ol>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">5-2. Blenderでの調整</h3>
           <div class="item">
             <p>
-              Blenderで作業する際、最終的なスケール感を把握するために、CLOのアバターをインポートしておくと良い。
+              ダウンロードしたファイルをBlenderに読み込み、CLO用のサイズに整えます。
             </p>
-            <p><img src="./assets/03/import12.png" width="400" alt="" /></p>
+            <ol>
+              <li><em>触らないオブジェクトは「選択不可」にしておく。</em></li>
+              <li>
+                『ファイル > インポート > glTF 2.0 (.glb/.gltf)
+                （※形式に合わせて選択）』でファイルをインポートする。<br />
+                ※「インポート設定」は触らなくてOK。
+              </li>
+              <li>aキーで全選択し、スケールや位置を調整する。</li>
+              <li>
+                サイズを変えたら必ず <em>Ctrl + A > スケール</em> を適用する。
+              </li>
+              <li>
+                マテリアルビューに切り替えて、実際の表示を確認しておく。
+                <img src="./assets/02/view01.png" width="300" alt="" />
+              </li>
+            </ol>
           </div>
           <div class="item">
             <dl>
-              <dt>【アバターのエキスポート】</dt>
+              <dt>【マウスでの操作が難しい時は（サイズ調整）】</dt>
               <dd>
                 <ol>
-                  <li>CLOでアバターを追加する。</li>
-                  <li>位置も把握するために、ウォーキングのモーションを設定しておく。</li>
                   <li>
-                    『<em>ファイル &gt; エキスポート &gt; OBJ</em>』を選択。
-                    <img src="./assets/03/import09.png" width="500" alt="" />
+                    アウトライナーで他のオブジェクトを選択不可（もしくは非表示）にする。
+                  </li>
+                  <li>aキーで全選択する。</li>
+                  <li>
+                    オブジェクトプロパティ > スケール > X, Y, Z
+                    をマウスで上からドラッグし、3つとも選択する。
+                    <img src="./assets/02/model02.png" width="400" alt="" />
+                  </li>
+                  <li>「0.01」のように小さい数値を入力する。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【コレクションにまとめたい時は】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    アウトライナー（もしくは3D画面上）でまとめたいオブジェクトを全て選択する。
                   </li>
                   <li>
-                    テクスチャファイルが大量に吐き出されるので専用のフォルダを作成し、任意の名前をつけて「保存」。
-                  </li>
-                  <li>
-                    「<em>オブジェクト：全アバター選択</em>」の項目から「body」にチェック、「<em>単一のオブジェクト</em>」「<em>結合する</em>」を選択、「<em>基本：倍率</em>」を「mm（基本）」、「<em>基本：スケール</em>」を「1%」に設定し、「OK」をクリック。
-                    <img src="./assets/03/import10.png" width="400" alt="" />
+                    mキーを押し、「新規コレクション」を選択する。
+                    <img
+                      src="./assets/02/collection01.png"
+                      width="400"
+                      alt=""
+                    />
                   </li>
                 </ol>
               </dd>
@@ -505,81 +396,132 @@
           </div>
           <div class="item">
             <dl>
-              <dt>【Blenderにインポート】</dt>
+              <dt>【3D空間の拡大縮小が効かなくなった時は】</dt>
               <dd>
                 <ol>
-                  <li>Blenderを立ち上げる。</li>
                   <li>
-                    『<em>ファイル &gt; インポート &gt; Wavefront (.obj)</em>』を選択。
-                    <img src="./assets/03/import11.png" width="500" alt="" />
+                    画面上の何かしらのオブジェクト（立方体など）をクリックして選択する。
                   </li>
+                  <li>『ビュー > 選択をフレームイン』 を実行する。</li>
                   <li>
-                    先ほどエキスポートしたアバターデータ（.obj）を選択し、初期設定のまま「Wavefront
-                    OBJをインポート」をクリック。
-                  </li>
-                  <li>
-                    空間内にアバターのオブジェクトが追加される。
-                    <img src="./assets/03/import12.png" width="400" alt="" />
+                    視点がリセットされ、再びスムーズにズームできるようになります。
                   </li>
                 </ol>
               </dd>
             </dl>
           </div>
-        </div>
-      </article>
-      <article class="chapter">
-        <h2 class="chapter__title">4. 作業</h2>
-        <div class="clause">
-          <dl>
-            <dt>【使えそうな素材】</dt>
-            <dd>
-              <ul class="clause__list">
-                <li>
-                  <a
-                    href="https://sketchfab.com/3d-models/modern-bench-1-caa4515e36444e4c8c100296463e83c1"
-                    >ベンチ</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://sketchfab.com/3d-models/curtain-a-prop-e5b01c717dbd4244b861168eddd67375"
-                    >カーテン</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://sketchfab.com/3d-models/stage-light-d3e138ecee20439d939d27cbdba208d1"
-                    >ステージライト</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://sketchfab.com/3d-models/barcelona-style-sofa-01c7a9010fa6463897e5919443c72886"
-                    >ソファ（壁）</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://sketchfab.com/3d-models/door--wooden-8-mb-a2a93114ea9b4ec7a0d0c86fb6a3dfdb"
-                    >ドア</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://sketchfab.com/3d-models/steampunk-street-light-b249459b795d48da9af9b0d5ec9ae855"
-                    >街灯</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://sketchfab.com/3d-models/beautiful-sphere-f7340c6b9dad4b88b84e097bcd53bcd8"
-                    >球体</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
+          <div class="item">
+            <dl>
+              <dt>【オブジェクトの拡大縮小・回転が効かなくなった時は】</dt>
+              <dd>
+                <ol>
+                  <li>3Dビューポートの右上の「オプション」をクリック。</li>
+                  <li>
+                    「トランスフォーム - 影響の限定 (Affect Only)」
+                    という項目の全てのチェックを外す。
+                    <img src="./assets/02/model03.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">5-3. Blenderからの書き出し</h3>
+          <div class="item">
+            <p>
+              ダウンロード素材は「色付き」で持っていくため、先ほどの手順（自作ステージ）とは設定を変える必要があります。
+            </p>
+            <ol>
+              <li><em>触らないオブジェクトは「選択不可」にしておく。</em></li>
+              <li>aキーで全選択する。（ダウンロード素材のみ選ぶ）</li>
+              <li>ファイル > エキスポート > glTF 2.0 (.glb/.gltf) を選択。</li>
+              <li>任意のファイル名を入力する。</li>
+              <li>
+                下図のように設定し「glTF 2.0をエキスポート」をクリック。
+                <img src="./assets/02/export01.png" width="400" alt="" />
+              </li>
+            </ol>
+            <table>
+              <tr>
+                <th>項目</th>
+                <th>設定内容</th>
+              </tr>
+              <tr>
+                <td>フォーマット</td>
+                <td>glTF Binary (.glb)</td>
+              </tr>
+              <tr>
+                <td>内容：対象</td>
+                <td>選択したオブジェクトにチェック</td>
+              </tr>
+              <tr>
+                <td>データ：メッシュ</td>
+                <td>モディファイアーを適用にチェック</td>
+              </tr>
+              <tr>
+                <td>アニメーション</td>
+                <td>チェックを外す</td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">
+            5-4. CLOへの読み込み（ダウンロード素材用）
+          </h3>
+          <div class="item">
+            <ol>
+              <li>CLOで『ファイル > インポート > glTF2.0』を選択。</li>
+              <li>
+                下図のように設定し「OK」をクリック。
+                <img src="./assets/02/import17.png" width="400" alt="" />
+              </li>
+            </ol>
+            <table>
+              <tr>
+                <th>項目</th>
+                <th>設定内容</th>
+              </tr>
+              <tr>
+                <td>読み込み形式</td>
+                <td>Add</td>
+              </tr>
+              <tr>
+                <td>オブジェクトタイプ</td>
+                <td>Avatar</td>
+              </tr>
+              <tr>
+                <td>単位</td>
+                <td>m</td>
+              </tr>
+              <tr>
+                <td>底面を地面に合せる</td>
+                <td>チェックを入れる</td>
+              </tr>
+            </table>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【マルチテクスチャのエラーが出る時は】</dt>
+              <dd>
+                見た目が問題なければ、気にせず進んでください。
+                <img src="./assets/02/import18.png" width="300" alt="" />
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【前後関係がおかしい時は】</dt>
+              <dd>
+                <ol>
+                  <li>おかしくなっている布（オブジェクト）を選択する。</li>
+                  <li>CLOの属性編集で、透明度を100（完全に不透明）にする。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
       </article>
       <button id="modalBtn">?</button>
       <div id="modal">
@@ -587,7 +529,9 @@
           <div class="clause">
             <div class="item">
               <ul>
-                <li class="shortcut"><span>Ctrl</span>+<span>z</span>元に戻す</li>
+                <li class="shortcut">
+                  <span>Ctrl</span>+<span>z</span>元に戻す
+                </li>
                 <li class="shortcut">
                   <span>Shift</span>+<span>Ctrl</span>+<span>z</span>やり直す
                 </li>
@@ -595,7 +539,9 @@
               </ul>
               <ul>
                 <li class="shortcut"><span>T</span>ツールバーの表示／非表示</li>
-                <li class="shortcut"><span>x</span> or <span>DELETE</span>削除</li>
+                <li class="shortcut">
+                  <span>x</span> or <span>DELETE</span>削除
+                </li>
                 <li class="shortcut"><span>tab</span>モードの切り換え</li>
                 <li class="shortcut"><span>a</span>全選択</li>
                 <li class="shortcut"><span>Shift</span>+<span>d</span>複製</li>
@@ -627,9 +573,12 @@
                   </dl>
                   <dl>
                     <dt>スライド</dt>
-                    <dd>Shiftキーとマウスホイールを押しながら、マウスをドラッグ</dd>
+                    <dd>
+                      Shiftキーとマウスホイールを押しながら、マウスをドラッグ
+                    </dd>
                     <dd class="shortcut">
-                      <span>Shift</span> + <img src="./assets/01/mouse02.png" width="140" alt="" />
+                      <span>Shift</span> +
+                      <img src="./assets/01/mouse02.png" width="140" alt="" />
                     </dd>
                   </dl>
                 </dd>
@@ -657,16 +606,25 @@
                 <dt>ツール切り換え</dt>
                 <dd>
                   <ul>
-                    <li class="shortcut"><span>Shift</span> + <span>a</span>オブジェクトの追加</li>
+                    <li class="shortcut">
+                      <span>Shift</span> + <span>a</span>オブジェクトの追加
+                    </li>
                     <li class="shortcut"><span>g</span>移動ツール</li>
                     <li class="shortcut"><span>r</span>回転ツール</li>
-                    <li class="shortcut"><span>s</span>スケールツール（拡大・縮小）</li>
-                    <li class="shortcut"><span>i</span>インセット（面を差し込む）</li>
+                    <li class="shortcut">
+                      <span>s</span>スケールツール（拡大・縮小）
+                    </li>
+                    <li class="shortcut">
+                      <span>i</span>インセット（面を差し込む）
+                    </li>
                     <li class="shortcut"><span>e</span>押し出し</li>
                     <li class="shortcut">
-                      <span>f</span>フィル（頂点で囲まれたオブジェクトに面を作成する）
+                      <span>f</span
+                      >フィル（頂点で囲まれたオブジェクトに面を作成する）
                     </li>
-                    <li class="shortcut"><span>Ctrl</span>+<span>b</span>ベベルツール</li>
+                    <li class="shortcut">
+                      <span>Ctrl</span>+<span>b</span>ベベルツール
+                    </li>
                   </ul>
                 </dd>
               </dl>
@@ -679,17 +637,6 @@
                     <li class="shortcut"><span>x</span>X軸にロック</li>
                     <li class="shortcut"><span>y</span>Y軸にロック</li>
                     <li class="shortcut"><span>z</span>Z軸にロック</li>
-                  </ul>
-                </dd>
-              </dl>
-            </div>
-            <div class="item">
-              <dl>
-                <dt>便利機能</dt>
-                <dd>
-                  <ul>
-                    <li class="shortcut"><span>Ctrl</span> + <span>r</span>ループカット</li>
-                    <li class="shortcut"><span>Alt</span>+<span>左クリック</span>ループ選択</li>
                   </ul>
                 </dd>
               </dl>
@@ -716,15 +663,15 @@
   -->
     <script src="../assets/js/common.js"></script>
     <script>
-      const modalBtn = document.querySelector("#modalBtn");
+      const modalBtn = document.querySelector('#modalBtn');
 
-      modalBtn.addEventListener("click", function () {
-        if (document.body.classList.contains("active")) {
-          document.body.classList.remove("active");
-          modalBtn.textContent = "？";
+      modalBtn.addEventListener('click', function () {
+        if (document.body.classList.contains('active')) {
+          document.body.classList.remove('active');
+          modalBtn.textContent = '？';
         } else {
-          document.body.classList.add("active");
-          modalBtn.textContent = "✕";
+          document.body.classList.add('active');
+          modalBtn.textContent = '✕';
         }
       });
     </script>
