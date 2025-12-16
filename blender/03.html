@@ -302,38 +302,44 @@
         </div>
       </article>
       <article class="chapter">
-        <h2 class="chapter__title">5. ダウンロード素材を使ったステージ作成</h2>
-        <div class="clause">
+        <h2 class="chapter__title">3. ダウンロード素材を使ったステージ作成</h2>
+        <section class="clause">
+          <h3 class="clause__title">3-1. 素材のダウンロード</h3>
           <div class="item">
-            <dl>
-              <dt>【素材のダウンロードサイト】</dt>
-              <dd>
-                <a href="https://sketchfab.com/3d-models/popular">Sketchfab</a>
-              </dd>
-            </dl>
             <p>
-              ダウンロードしたデータをそのままCLOに入れると、トラブル（サイズがおかしい、重すぎて動かない、色が抜けるなど）が起きやすいので、Blenderで調整しましょう。
+              <a href="https://sketchfab.com/3d-models/popular">Sketchfab</a>
             </p>
           </div>
-        </div>
-        <section class="clause">
-          <h3 class="clause__title">5-1. 素材選びのポイント</h3>
           <div class="item">
-            <ol>
-              <li>右上に「<em>ダウンロードアイコン</em>」があるものを選ぶ。</li>
-              <li>
-                ファイル形式：<em>glTF / GLB</em> がベスト。（次点で FBX、OBJ）
-              </li>
-              <li>
-                ポリゴン数：Triangles (三角面) が
-                <em>50k以下</em>のものが望ましい。
-                <img src="./assets/02/model01.png" width="400" alt="" />
-              </li>
-            </ol>
+            <dl>
+              <dt>【素材選びのポイント】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    右上に「<em>ダウンロードアイコン</em>」があるものを選ぶ。
+                  </li>
+                  <li>
+                    ファイル形式：<em>glTF</em> がベスト。（次点で
+                    GLB、FBX、OBJ）
+                  </li>
+                  <li>
+                    ポリゴン数：Triangles (三角面) が
+                    <em>50k以下</em>のものが望ましい。
+                    <img src="./assets/02/model01.png" width="400" alt="" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【素材はフォルダにまとめておく】</dt>
+              <dd><img src="./assets/03/folder01.png" width="600" alt="" /></dd>
+            </dl>
           </div>
         </section>
         <section class="clause">
-          <h3 class="clause__title">5-2. Blenderでの調整</h3>
+          <h3 class="clause__title">3-2. Blenderへのインポート</h3>
           <div class="item">
             <p>
               ダウンロードしたファイルをBlenderに読み込み、CLO用のサイズに整えます。
@@ -347,7 +353,8 @@
               </li>
               <li>aキーで全選択し、スケールや位置を調整する。</li>
               <li>
-                サイズを変えたら必ず <em>Ctrl + A > スケール</em> を適用する。
+                サイズを変えたら必ず 『<em>Ctrl + A > スケール</em>
+                』を適用する。
               </li>
               <li>
                 マテリアルビューに切り替えて、実際の表示を確認しておく。
@@ -357,38 +364,157 @@
           </div>
           <div class="item">
             <dl>
-              <dt>【マウスでの操作が難しい時は（サイズ調整）】</dt>
+              <dt>【ショートカットまとめ】</dt>
+              <dd>
+                <ul>
+                  <li class="shortcut"><span>a</span> 全選択</li>
+                  <li class="shortcut">
+                    <span>Ctrl</span> + <span>a</span> → スケール
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-3. 親子関係の解除</h3>
+          <div class="item">
+            <p>
+              Sketchfab等の素材は「過剰な親子関係（素材が箱に入っている状態）」になっていることが多いため、まずは編集できる状態にします。
+            </p>
+            <p><img src="./assets/03/material01.png" width="400" alt="" /></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【アイコンの意味】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    素材を入れておく箱：場所や向きの情報を管理している。<em
+                      >必要ないので、この後削除する。</em
+                    >
+                    <img src="./assets/03/material02.png" width="200" />
+                  </li>
+                  <li>
+                    実際の素材：頂点や面など、形状そのものの情報を管理している。
+                    <img src="./assets/03/material03.png" width="200" />
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
               <dd>
                 <ol>
                   <li>
-                    アウトライナーで他のオブジェクトを選択不可（もしくは非表示）にする。
+                    親子関係を解除したい素材の大元を『<em
+                      >右クリック > 階層を選択</em
+                    >』を選択。
+                    <img src="./assets/03/material04.png" width="400" />
                   </li>
-                  <li>aキーで全選択する。</li>
                   <li>
-                    オブジェクトプロパティ > スケール > X, Y, Z
-                    をマウスで上からドラッグし、3つとも選択する。
-                    <img src="./assets/02/model02.png" width="400" alt="" />
+                    『mキー』で、あらかじめコレクションにまとめておく。
+                    <img src="./assets/03/material05.png" width="400" />
                   </li>
-                  <li>「0.01」のように小さい数値を入力する。</li>
+                  <li>
+                    マウスカーソルを3Dビューに移動し、『<em>alt + p</em
+                    >』を押す。
+                  </li>
+                  <li>
+                    トランスフォームを維持してクリアを選択。
+                    <img src="./assets/03/material06.png" width="300" />
+                  </li>
+                  <li>
+                    箱と素材がバラバラになるので、箱（三又のアイコン）を選び、『xキー』で削除する。
+                    <img src="./assets/03/material07.png" width="300" />
+                    <img src="./assets/03/material08.png" width="300" />
+                  </li>
                 </ol>
               </dd>
             </dl>
           </div>
           <div class="item">
             <dl>
-              <dt>【コレクションにまとめたい時は】</dt>
+              <dt>【ショートカットまとめ】</dt>
+              <dd>
+                <ul>
+                  <li class="shortcut"><span>右クリック</span> → 階層を選択</li>
+                  <li class="shortcut"><span>m</span> → 新規コレクション</li>
+                  <li class="shortcut">
+                    <span>alt</span> + <span>p</span> →
+                    トランスフォームを維持してクリア（※3Dビュー上で）
+                  </li>
+                  <li class="shortcut"><span>x</span>削除</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-4. 素材の分解</h3>
+          <div class="item">
+            <p>ひとつになった素材をさらに分解することも可能です。</p>
+            <p><img src="./assets/03/material09.png" width="500" /></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    分解したい素材を選択し、『<em>tabキー</em>』で編集モードに切り替える。
+                  </li>
+                  <li>『<em>aキー</em>』ですべてのパーツを選択する。</li>
+                  <li>
+                    『<em>pキー</em> > 構造的に分離したパーツで』を選択。
+                    <img src="./assets/03/material10.png" width="500" />
+                  </li>
+                  <li>
+                    パーツが分解される。
+                    <img src="./assets/03/material11.png" width="300" />
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ショートカットまとめ】</dt>
+              <dd>
+                <ul>
+                  <li class="shortcut">
+                    <span>tab</span> 編集モードに切り替え
+                  </li>
+                  <li class="shortcut"><span>a</span> 全選択</li>
+                  <li class="shortcut">
+                    <span>p</span> → 構造的に分離したパーツで（※3Dビュー上で）
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-5. 素材の結合</h3>
+          <div class="item">
+            <p>
+              分解した素材や、複数のオブジェクトをひとつにまとめることも可能です。<br />
+              配列やミラーのモディファイアーを適応するためには、この手順が必要です。
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
               <dd>
                 <ol>
                   <li>
                     アウトライナー（もしくは3D画面上）でまとめたいオブジェクトを全て選択する。
                   </li>
                   <li>
-                    mキーを押し、「新規コレクション」を選択する。
-                    <img
-                      src="./assets/02/collection01.png"
-                      width="400"
-                      alt=""
-                    />
+                    マウスカーソルを3Dビューに移動し、『<em>ctrl + j</em
+                    >』を押す。
                   </li>
                 </ol>
               </dd>
@@ -396,38 +522,67 @@
           </div>
           <div class="item">
             <dl>
-              <dt>【3D空間の拡大縮小が効かなくなった時は】</dt>
+              <dt>【注意】</dt>
               <dd>
-                <ol>
-                  <li>
-                    画面上の何かしらのオブジェクト（立方体など）をクリックして選択する。
-                  </li>
-                  <li>『ビュー > 選択をフレームイン』 を実行する。</li>
-                  <li>
-                    視点がリセットされ、再びスムーズにズームできるようになります。
-                  </li>
-                </ol>
+                マテリアルプロパティから色は変更できるが、<em>細かい形状の変更</em>はできなくなります。
+                <img src="./assets/03/material12.png" width="300" />
               </dd>
             </dl>
           </div>
           <div class="item">
             <dl>
-              <dt>【オブジェクトの拡大縮小・回転が効かなくなった時は】</dt>
+              <dt>【ショートカットまとめ】</dt>
               <dd>
-                <ol>
-                  <li>3Dビューポートの右上の「オプション」をクリック。</li>
-                  <li>
-                    「トランスフォーム - 影響の限定 (Affect Only)」
-                    という項目の全てのチェックを外す。
-                    <img src="./assets/02/model03.png" width="400" alt="" />
+                <ul>
+                  <li class="shortcut">
+                    <span>ctrl</span> + <span>j</span>
+                    オブジェクトを結合（※3Dビュー上で）
                   </li>
-                </ol>
+                </ul>
               </dd>
             </dl>
           </div>
         </section>
         <section class="clause">
-          <h3 class="clause__title">5-3. Blenderからの書き出し</h3>
+          <h3 class="clause__title">3-6. その他の項目</h3>
+          <div class="item">
+            <dl>
+              <dt>【コレクションの中身を全て選択する】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    方法A：アウトライナーでコレクションを『<em
+                      >右クリック ＞ オブジェクトを選択</em
+                    >』
+                  </li>
+                  <li>
+                    方法B：1つ選んで『<em>shift + G ＞ コレクション</em>』
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【コレクションごと削除する】</dt>
+              <dd>
+                削除したいコレクションを『<em>右クリック ＞ 階層を削除</em>』
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【マテリアル（色）の変更】</dt>
+              <dd>
+                特定のマテリアルの色を変更すると、そのマテリアルが適用されている全てのオブジェクトの色が変わります。<br />
+                別の色にしたい場合は、設定されているマテリアルを削除し、新規マテリアルを作成してから適用してください。
+                <img src="./assets/03/material13.png" width="300" />
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-7. Blenderからの書き出し</h3>
           <div class="item">
             <p>
               ダウンロード素材は「色付き」で持っていくため、先ほどの手順（自作ステージ）とは設定を変える必要があります。
@@ -467,9 +622,7 @@
           </div>
         </section>
         <section class="clause">
-          <h3 class="clause__title">
-            5-4. CLOへの読み込み（ダウンロード素材用）
-          </h3>
+          <h3 class="clause__title">3-8. CLOへの読み込み</h3>
           <div class="item">
             <ol>
               <li>CLOで『ファイル > インポート > glTF2.0』を選択。</li>
