@@ -26,7 +26,22 @@
   <script>
     let player, floor, enemy;
     let enemies;
-    let playerArt, palette;
+    let gameParams = {
+      speed: 5,
+      jump: 5,
+      bounce: 0.2,
+      scale: 6,
+      art: `..bbbb..
+.b....b.
+b.b..b.b
+b......b
+b.bbbb.b
+b.b..b.b
+.b....b.
+..bbbb..
+`,
+      palette: { b: 'blue' },
+    };
 
     // ゲームの状態管理用フラグ
     let isGameStarted = false; // スタートしたか？
@@ -42,26 +57,11 @@
 
       world.gravity.y = 10;
 
-      playerArt = `
-..bbbb..
-.b....b.
-b.b..b.b
-b......b
-b.bbbb.b
-b.b..b.b
-.b....b.
-..bbbb..
-`;
-
-      // パレット（文字と色の対応）
-      palette = {
-        b: 'blue', // pは青色
-      };
-
       // 生成
       player = new Sprite(320, 100);
       // spriteArt(設計図, 1ドットの大きさ, パレット)
-      player.image = spriteArt(playerArt, 6, palette);
+      player.image = spriteArt(gameParams.art, gameParams.scale, gameParams.palette);
+      player.bounciness = gameParams.bounce;
 
       floor = new Sprite(320, 400, 500, 30);
       floor.color = 'gray';
@@ -97,16 +97,16 @@ b.b..b.b
 
       // --- 左右移動 ---
       if (kb.pressing('right')) {
-        player.vel.x = 5; // 右へ進む速度
+        player.vel.x = gameParams.speed; // 右へ進む速度
       } else if (kb.pressing('left')) {
-        player.vel.x = -5; // 左へ進む速度
+        player.vel.x = -gameParams.speed; // 左へ進む速度
       } else {
         player.vel.x = 0; // 止まる
       }
 
       // --- ジャンプ ---
       if (kb.presses('up') && player.colliding(floor)) {
-        player.vel.y = -5; // 上方向への速度
+        player.vel.y = -gameParams.jump; // 上方向への速度
       }
 
       if (frameCount % 90 === 0) {
@@ -142,7 +142,7 @@ b.b..b.b
 
           // ドット絵が適応された状態で復活させる
           player = new Sprite(320, 100);
-          player.image = spriteArt(playerArt, 6, palette);
+          player.image = spriteArt(gameParams.art, gameParams.scale, gameParams.palette);
 
           // 敵を全消去
           enemies.removeAll();
