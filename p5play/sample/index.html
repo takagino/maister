@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>p5.jsの基本構造</title>
+  <title>AI × p5play</title>
   <style>
     body {
       margin: 0;
-      overflow: hidden;
       background-color: #999;
+      overflow: hidden;
     }
 
     canvas {
@@ -19,30 +19,29 @@
   </style>
 </head>
 <body>
-  <!-- p5.jsとp5.playのライブラリを読み込み -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/p5.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/addons/p5.sound.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"></script>
   <script src="https://p5play.org/v3/p5play.js"></script>
-
   <script>
-    // --- ゲームの状態を管理する変数 ---
-    let player, floor;
+    let player, floor, enemy;
     let enemies;
     let playerArt, palette;
-    let isGameStarted = false;
-    let isGameOver = false;
 
-    // --- p5.jsの初期設定 ---
+    // ゲームの状態管理用フラグ
+    let isGameStarted = false; // スタートしたか？
+    let isGameOver = false;    // 負けたか？
+
     function setup() {
-      new Canvas(640, 480);
-      textSize(20);
-      textAlign(CENTER);
+      // 画面を作る (幅640px, 高さ480px)
+      createCanvas(640, 480);
 
-      // --- 重力を設定 ---
+      // テキストの設定
+      textSize(20); // 文字サイズ
+      textAlign(CENTER); // 文字の行揃え
+
       world.gravity.y = 10;
 
-      // --- プレイヤーのスプライトを作成 ---
       playerArt = `
 ..bbbb..
 .b....b.
@@ -53,19 +52,25 @@ b.b..b.b
 .b....b.
 ..bbbb..
 `;
+
+      // パレット（文字と色の対応）
       palette = {
-        b: 'blue',
+        b: 'blue', // pは青色
       };
-      player = new Sprite(100, 350);
+
+      // 生成
+      player = new Sprite(320, 100);
+      // spriteArt(設計図, 1ドットの大きさ, パレット)
       player.image = spriteArt(playerArt, 6, palette);
 
-      // --- 床のスプライトを作成 ---
       floor = new Sprite(320, 400, 500, 30);
       floor.color = 'gray';
       floor.collider = 'static';
       floor.friction = 0;
 
-      // --- 敵のグループを作成 ---
+      // enemy = new Sprite(500, 380, 40);
+      // enemy.color = 'red';
+
       enemies = new Group();
       enemies.r = 20;
       enemies.color = 'red';
@@ -73,69 +78,73 @@ b.b..b.b
     }
 
     function draw() {
-      // --- 背景を白に設定 ---
+      // 背景を塗りつぶす (白)
       background('white');
+      console.log(`現在のフレーム数: ${frameCount}`);
 
-      // --- ゲーム開始前の処理 ---
+      // 1. スタート前ならタイトルを表示して止める
       if (isGameStarted === false) {
         text("「s」キーでスタート", width / 2, height / 2);
-        return;
+        return; // ここで中断
       }
 
-      // --- ゲームオーバーの処理 ---
+      // 2. ゲームオーバーなら表示して止める
       if (isGameOver === true) {
         text("GAME OVER", width / 2, height / 2);
         text("「s」キーでリトライ", width / 2, height / 2 + 40);
-        return;
+        return; // ここで中断
       }
 
-      // --- プレイヤーの操作 ---
+      // --- 左右移動 ---
       if (kb.pressing('right')) {
-        player.vel.x = 5;
+        player.vel.x = 5; // 右へ進む速度
       } else if (kb.pressing('left')) {
-        player.vel.x = -5;
+        player.vel.x = -5; // 左へ進む速度
       } else {
-        player.vel.x = 0;
+        player.vel.x = 0; // 止まる
       }
 
       // --- ジャンプ ---
-      if (kb.presses('up')) {
-        player.vel.y = -5;
+      if (kb.presses('up') && player.colliding(floor)) {
+        player.vel.y = -5; // 上方向への速度
       }
 
-      // --- 敵の生成 ---
-      if (frameCount % 60 === 0) {
+      if (frameCount % 90 === 0) {
+        // 画面右端(width)の少し外、高さ360の位置に生成
         let enemy = new enemies.Sprite(width + 40, 360);
-        enemy.vel.x = -5;
+        enemy.vel.x = -5; // 左へ進む
       }
 
       // --- 後始末 ---
+      // 画面左端から100px以上はみ出たら消す（メモリ節約）
       for (let enemy of enemies) {
         if (enemy.x < -100) enemy.remove();
       }
 
-      // --- 衝突判定 ---
       if (player.collides(enemies)) {
         player.remove();
         isGameOver = true;
       }
     }
 
-    // --- キー入力の処理 ---
     function keyPressed() {
-      // --- 「s」キーでゲーム開始またはリトライ ---
+      // 「s」キーが押された時だけ実行する
       if (key === 's') {
+        // スタート前ならスタートする
         if (isGameStarted === false) {
           isGameStarted = true;
         }
 
+        // ゲームオーバーならリセットする
         if (isGameOver === true) {
           isGameOver = false;
           isGameStarted = true;
 
-          player = new Sprite(100, 350);
+          // ドット絵が適応された状態で復活させる
+          player = new Sprite(320, 100);
           player.image = spriteArt(playerArt, 6, palette);
 
+          // 敵を全消去
           enemies.removeAll();
         }
       }
