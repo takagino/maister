@@ -42,7 +42,26 @@
     let player, floor, enemy, enemies;
     let isGameStarted = false;
     let isGameOver = false;
-    let art, palette;
+
+    // --- 初期パラメータ ---
+    // この中の数値をAIに書き換えてもらう
+    let gameParams = {
+      speed: 5,
+      jump: 5,
+      bounce: 0.2,
+      scale: 6,
+      art: [
+        '..bbbb..',
+        '.b....b.',
+        'b.b..b.b',
+        'b......b',
+        'b.bbbb.b',
+        'b.b..b.b',
+        '.b....b.',
+        '..bbbb..',
+      ],
+      palette: { b: 'blue' },
+    };
 
     function setup() {
       new Canvas(640, 480);
@@ -52,23 +71,6 @@
 
       // --- 重力を設定 ---
       world.gravity.y = 10;
-
-      art = [
-        '..........',
-        '..........',
-        '..tttttt..',
-        '..t....t..',
-        '..t.cc.t..',
-        '..t....t..',
-        '..tttttt..',
-        '....tt....',
-        '..........',
-        '..........',
-      ];
-      palette = {
-        c: 'hsl(28, 80%, 50%)',
-        t: 'hsl(273, 80%, 50%)',
-      };
 
       // --- ボタン処理 ---
       const btn = document.getElementById('actionButton');
@@ -99,8 +101,8 @@
       enemies.removeAll();
 
       player = new Sprite(320, 100, 50, 50);
-      player.image = spriteArt(art, 6, palette);
-      player.bounciness = 0;
+      player.image = spriteArt(gameParams.art, gameParams.scale, gameParams.palette);
+      player.bounciness = gameParams.bounce;
     }
 
     function draw() {
@@ -120,16 +122,16 @@
 
       // --- 左右移動 ---
       if (kb.pressing('right')) {
-        player.vel.x = 5;
+        player.vel.x = gameParams.speed;
       } else if (kb.pressing('left')) {
-        player.vel.x = -5;
+        player.vel.x = -gameParams.speed;
       } else {
         player.vel.x = 0;
       }
 
       // --- ジャンプ ---
       if (kb.presses('up') && player.colliding(floor)) {
-        player.vel.y = -5;
+        player.vel.y = -gameParams.jump;
       }
 
       // --- 敵の出現 ---
