@@ -165,54 +165,50 @@
             btn.textContent = "ゲームスタート / リセット";
           }
         }
-        // ★同じ入力だった場合のログ
-        else if (text && text === lastPrompt) {
-          console.log("前回と同じなので通信をスキップします");
-        }
 
         // ゲームを開始
         startGame();
       });
     }
 
+    // ゲームの開始・リセット処理を関数にまとめる
     function startGame() {
-      isGameStarted = true;
-      isGameOver = false;
+      isGameStarted = true; // ゲーム開始フラグ
+      isGameOver = false; // ゲームオーバーフラグ解除
 
-      if (player) player.remove();
-      enemies.removeAll();
+      if (player) player.remove(); // 既存のプレイヤー削除
+      enemies.removeAll(); // 敵全削除
 
-      player = new Sprite(320, 100);
-      player.image = spriteArt(gameParams.art, gameParams.scale, gameParams.palette);
-      player.bounciness = gameParams.bounce;
-      player.rotationLock = true;
+      player = new Sprite(320, 100, 50, 50);
+      player.color = 'cyan';
+      player.bounciness = 0;
     }
 
     function draw() {
       background('white');
 
+      // 1. スタート前
       if (!isGameStarted) {
         text('ボタンを押してスタート', width / 2, height / 2);
         return;
       }
 
+      // 2. ゲームオーバー
       if (isGameOver) {
         text('GAME OVER', width / 2, height / 2);
         return;
       }
 
-      if (player && !player.removed) {
-        if (kb.pressing('right')) {
-          player.vel.x = gameParams.speed;
-        } else if (kb.pressing('left')) {
-          player.vel.x = -gameParams.speed;
-        } else {
-          player.vel.x = 0;
-        }
+      if (kb.pressing('right')) {
+        player.vel.x = gameParams.speed;
+      } else if (kb.pressing('left')) {
+        player.vel.x = -gameParams.speed;
+      } else {
+        player.vel.x = 0;
+      }
 
-        if (kb.presses('up') && player.colliding(floor)) {
-          player.vel.y = -gameParams.jump;
-        }
+      if (kb.presses('up') && player.colliding(floor)) {
+        player.vel.y = -gameParams.jump;
       }
 
       if (frameCount % 60 === 0) {
