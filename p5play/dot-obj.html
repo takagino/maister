@@ -1,347 +1,352 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>p5play ドット絵エディタ</title>
-    <style>
-      /* --- 基本スタイル --- */
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【オブジェクト】ドット絵メーカー</title>
+  <style>
+    /* --- 基本スタイル --- */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0 0 20px 0;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    /* --- 全体のレイアウト (レスポンシブ対応) --- */
+    #container {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* --- 左側：描画エリア --- */
+    #editor-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 100%;
+    }
+
+    /* パレットエリア */
+    #palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 15px;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-width: 320px;
+    }
+
+    .color-btn {
+      width: 32px;
+      height: 32px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .color-btn.active {
+      border-color: #333;
+      transform: scale(1.1);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+
+    /* グリッド (10x10) */
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(10, 30px);
+      gap: 1px;
+      background-color: #ccc;
+      border: 4px solid #555;
+      border-radius: 2px;
+      touch-action: none;
+    }
+
+    .cell {
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    @media (hover: hover) {
+      .cell:hover {
+        opacity: 0.8;
+      }
+    }
+
+    /* --- 右側：コード出力エリア --- */
+    #output-area {
+      width: 350px;
+      /* コードが見やすいように少し広げました */
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    textarea {
+      width: 100%;
+      height: 380px;
+      /* 配列が見やすい高さに固定 */
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      box-sizing: border-box;
+      font-size: 13px;
+      line-height: 1.4;
+      background-color: #fafafa;
+      white-space: pre;
+    }
+
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    #copy-btn {
+      background-color: #007bff;
+      color: white;
+      margin-top: 10px;
+    }
+
+    #copy-btn:hover {
+      background-color: #0056b3;
+    }
+
+    #clear-btn {
+      margin-top: 15px;
+      width: 100%;
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #clear-btn:hover {
+      background-color: #bd2130;
+    }
+
+    @media (max-width: 600px) {
       body {
-        font-family: sans-serif;
-        margin: 0;
-        padding: 20px;
-        background-color: #f0f0f0;
-        color: #333;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      h1 {
-        margin: 0 0 20px 0;
-        font-size: 1.5rem;
-        text-align: center;
-      }
-
-      /* --- 全体のレイアウト (レスポンシブ対応) --- */
-      #container {
-        display: flex;
-        gap: 30px;
-        align-items: flex-start;
-        justify-content: center;
-        flex-wrap: wrap;
-        width: 100%;
-        max-width: 900px;
-      }
-
-      /* --- 左側：描画エリア --- */
-      #editor-area {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-width: 100%;
-      }
-
-      /* パレットエリア */
-      #palette {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        justify-content: center;
-        margin-bottom: 15px;
-        background: white;
         padding: 10px;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        max-width: 320px;
       }
 
-      .color-btn {
-        width: 32px;
-        height: 32px;
-        border: 2px solid transparent;
-        cursor: pointer;
-        border-radius: 4px;
-        box-sizing: border-box;
+      #container {
+        gap: 40px;
       }
 
-      .color-btn.active {
-        border-color: #333;
-        transform: scale(1.1);
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-        z-index: 10;
-      }
-
-      /* グリッド (10x10) */
       #grid {
-        display: grid;
-        grid-template-columns: repeat(10, 30px);
-        grid-template-rows: repeat(10, 30px);
-        gap: 1px;
-        background-color: #ccc;
-        border: 4px solid #555;
-        border-radius: 2px;
-        touch-action: none;
+        grid-template-columns: repeat(10, 28px);
+        grid-template-rows: repeat(10, 28px);
       }
 
       .cell {
-        width: 30px;
-        height: 30px;
-        background-color: white;
-        cursor: pointer;
+        width: 28px;
+        height: 28px;
       }
+    }
+  </style>
+</head>
+<body>
+  <h1>ドット絵メーカー</h1>
 
-      @media (hover: hover) {
-        .cell:hover {
-          opacity: 0.8;
-        }
-      }
-
-      /* --- 右側：コード出力エリア --- */
-      #output-area {
-        width: 350px; /* コードが見やすいように少し広げました */
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-
-      textarea {
-        width: 100%;
-        height: 380px; /* 配列が見やすい高さに固定 */
-        font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-        padding: 15px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: vertical;
-        box-sizing: border-box;
-        font-size: 13px;
-        line-height: 1.4;
-        background-color: #fafafa;
-        white-space: pre;
-      }
-
-      button {
-        padding: 12px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 14px;
-        transition: background-color 0.2s;
-      }
-
-      button:active {
-        transform: translateY(1px);
-      }
-
-      #copy-btn {
-        background-color: #007bff;
-        color: white;
-        margin-top: 10px;
-      }
-      #copy-btn:hover {
-        background-color: #0056b3;
-      }
-
-      #clear-btn {
-        margin-top: 15px;
-        width: 100%;
-        background-color: #dc3545;
-        color: white;
-      }
-      #clear-btn:hover {
-        background-color: #bd2130;
-      }
-
-      @media (max-width: 600px) {
-        body {
-          padding: 10px;
-        }
-        #container {
-          gap: 40px;
-        }
-        #grid {
-          grid-template-columns: repeat(10, 28px);
-          grid-template-rows: repeat(10, 28px);
-        }
-        .cell {
-          width: 28px;
-          height: 28px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <h1>ドット絵メーカー</h1>
-
-    <div id="container">
-      <div id="editor-area">
-        <div id="palette"></div>
-        <div id="grid"></div>
-        <button id="clear-btn">すべて消す</button>
-      </div>
-
-      <div id="output-area">
-        <label for="code-output" style="margin-bottom: 5px; font-weight: bold"
-          >生成コード (オブジェクト形式):</label
-        >
-        <textarea id="code-output" readonly onclick="this.select()"></textarea>
-        <button id="copy-btn">コードをコピー</button>
-      </div>
+  <div id="container">
+    <div id="editor-area">
+      <div id="palette"></div>
+      <div id="grid"></div>
+      <button id="clear-btn">すべて消す</button>
     </div>
 
-    <script>
-      // --- 設定 ---
-      const GRID_SIZE = 10;
+    <div id="output-area">
+      <label for="code-output" style="margin-bottom: 5px; font-weight: bold">生成コード (オブジェクト形式):</label>
+      <textarea id="code-output" readonly onclick="this.select()"></textarea>
+      <button id="copy-btn">コードをコピー</button>
+    </div>
+  </div>
 
-      // --- パレットの自動生成 ---
-      const colors = [{ key: '.', color: 'white', label: '透明' }];
+  <script>
+    // --- 設定 ---
+    const GRID_SIZE = 10;
 
-      const alphabet = 'abcdefghijklmnopqrstuvwxy';
-      for (let i = 0; i < alphabet.length; i++) {
-        const hue = Math.floor(i * (360 / alphabet.length));
-        colors.push({
-          key: alphabet[i],
-          color: `hsl(${hue}, 80%, 50%)`,
-          label: alphabet[i],
-        });
+    // --- パレットの自動生成 ---
+    const colors = [{ key: '.', color: 'white', label: '透明' }];
+
+    const alphabet = 'abcdefghijklmnopqrstuvwxy';
+    for (let i = 0; i < alphabet.length; i++) {
+      const hue = Math.floor(i * (360 / alphabet.length));
+      colors.push({
+        key: alphabet[i],
+        color: `hsl(${hue}, 80%, 50%)`,
+        label: alphabet[i],
+      });
+    }
+    colors.push({ key: 'z', color: 'black', label: '黒' });
+
+    // --- 状態管理 ---
+    let currentKey = 'a';
+    let gridData = Array(GRID_SIZE * GRID_SIZE).fill('.');
+
+    // --- DOM要素 ---
+    const gridEl = document.getElementById('grid');
+    const paletteEl = document.getElementById('palette');
+    const outputEl = document.getElementById('code-output');
+    const copyBtn = document.getElementById('copy-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // --- 初期化 ---
+    function init() {
+      createPalette();
+      createGrid();
+      updateOutput();
+    }
+
+    // パレットの生成
+    function createPalette() {
+      colors.forEach((c) => {
+        const btn = document.createElement('div');
+        btn.className = 'color-btn';
+        btn.style.backgroundColor = c.color;
+        btn.title = `文字: ${c.key}`;
+        if (c.key === '.') btn.style.border = '1px solid #ddd';
+        if (c.key === currentKey) btn.classList.add('active');
+
+        btn.onclick = () => {
+          currentKey = c.key;
+          document
+            .querySelectorAll('.color-btn')
+            .forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+        };
+        paletteEl.appendChild(btn);
+      });
+    }
+
+    // グリッドの生成
+    function createGrid() {
+      gridEl.innerHTML = '';
+      for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.dataset.index = i;
+
+        cell.onmousedown = (e) => {
+          e.preventDefault();
+          paint(i);
+        };
+        cell.onmouseenter = (e) => {
+          if (e.buttons === 1) paint(i);
+        };
+        cell.ontouchstart = (e) => {
+          e.preventDefault();
+          paint(i);
+        };
+
+        gridEl.appendChild(cell);
       }
-      colors.push({ key: 'z', color: 'black', label: '黒' });
+    }
 
-      // --- 状態管理 ---
-      let currentKey = 'a';
-      let gridData = Array(GRID_SIZE * GRID_SIZE).fill('.');
+    // 色を塗る処理
+    function paint(index) {
+      gridData[index] = currentKey;
+      const cell = gridEl.children[index];
+      const colorObj = colors.find((c) => c.key === currentKey);
 
-      // --- DOM要素 ---
-      const gridEl = document.getElementById('grid');
-      const paletteEl = document.getElementById('palette');
-      const outputEl = document.getElementById('code-output');
-      const copyBtn = document.getElementById('copy-btn');
-      const clearBtn = document.getElementById('clear-btn');
+      cell.style.backgroundColor = colorObj.color;
+      updateOutput();
+    }
 
-      // --- 初期化 ---
-      function init() {
-        createPalette();
-        createGrid();
-        updateOutput();
-      }
+    // --- ★変更点: 生成コードのフォーマット ---
+    function updateOutput() {
+      // 配列形式の記述を開始
+      let code = `art: [\n`;
 
-      // パレットの生成
-      function createPalette() {
-        colors.forEach((c) => {
-          const btn = document.createElement('div');
-          btn.className = 'color-btn';
-          btn.style.backgroundColor = c.color;
-          btn.title = `文字: ${c.key}`;
-          if (c.key === '.') btn.style.border = '1px solid #ddd';
-          if (c.key === currentKey) btn.classList.add('active');
-
-          btn.onclick = () => {
-            currentKey = c.key;
-            document
-              .querySelectorAll('.color-btn')
-              .forEach((b) => b.classList.remove('active'));
-            btn.classList.add('active');
-          };
-          paletteEl.appendChild(btn);
-        });
-      }
-
-      // グリッドの生成
-      function createGrid() {
-        gridEl.innerHTML = '';
-        for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
-          const cell = document.createElement('div');
-          cell.className = 'cell';
-          cell.dataset.index = i;
-
-          cell.onmousedown = (e) => {
-            e.preventDefault();
-            paint(i);
-          };
-          cell.onmouseenter = (e) => {
-            if (e.buttons === 1) paint(i);
-          };
-          cell.ontouchstart = (e) => {
-            e.preventDefault();
-            paint(i);
-          };
-
-          gridEl.appendChild(cell);
+      for (let y = 0; y < GRID_SIZE; y++) {
+        let row = '';
+        for (let x = 0; x < GRID_SIZE; x++) {
+          row += gridData[y * GRID_SIZE + x];
         }
+        // 各行をシングルクォートで囲み、カンマをつける
+        code += `  '${row}',\n`;
       }
+      // 配列を閉じて、次はパレット
+      code += `],\n`;
 
-      // 色を塗る処理
-      function paint(index) {
-        gridData[index] = currentKey;
-        const cell = gridEl.children[index];
-        const colorObj = colors.find((c) => c.key === currentKey);
+      code += `palette: {\n`;
 
-        cell.style.backgroundColor = colorObj.color;
-        updateOutput();
-      }
-
-      // --- ★変更点: 生成コードのフォーマット ---
-      function updateOutput() {
-        // 配列形式の記述を開始
-        let code = `art: [\n`;
-
-        for (let y = 0; y < GRID_SIZE; y++) {
-          let row = '';
-          for (let x = 0; x < GRID_SIZE; x++) {
-            row += gridData[y * GRID_SIZE + x];
-          }
-          // 各行をシングルクォートで囲み、カンマをつける
-          code += `  '${row}',\n`;
+      // 使われている色だけ出力
+      let usedColors = false;
+      colors.forEach((c) => {
+        // 透明('.')は出力しない（p5playの仕様上、未定義文字は透明になるため不要、かつコードを見やすくするため）
+        // ユーザー指定のサンプル通り、キーにクォートはつけない形式にします
+        if (c.key !== '.' && gridData.includes(c.key)) {
+          code += `  ${c.key}: '${c.color}',\n`;
+          usedColors = true;
         }
-        // 配列を閉じて、次はパレット
-        code += `],\n`;
+      });
+      // オブジェクトを閉じる（最後にカンマをつけておく）
+      code += `},`;
 
-        code += `palette: {\n`;
+      outputEl.value = code;
+    }
 
-        // 使われている色だけ出力
-        let usedColors = false;
-        colors.forEach((c) => {
-          // 透明('.')は出力しない（p5playの仕様上、未定義文字は透明になるため不要、かつコードを見やすくするため）
-          // ユーザー指定のサンプル通り、キーにクォートはつけない形式にします
-          if (c.key !== '.' && gridData.includes(c.key)) {
-            code += `  ${c.key}: '${c.color}',\n`;
-            usedColors = true;
-          }
-        });
-        // オブジェクトを閉じる（最後にカンマをつけておく）
-        code += `},`;
+    // 全消去
+    clearBtn.onclick = () => {
+      if (!confirm('本当に消しますか？')) return;
+      gridData.fill('.');
+      Array.from(gridEl.children).forEach(
+        (cell) => (cell.style.backgroundColor = 'white')
+      );
+      updateOutput();
+    };
 
-        outputEl.value = code;
-      }
+    // コピー機能
+    copyBtn.onclick = () => {
+      outputEl.select();
+      outputEl.setSelectionRange(0, 99999);
+      document.execCommand('copy');
 
-      // 全消去
-      clearBtn.onclick = () => {
-        if (!confirm('本当に消しますか？')) return;
-        gridData.fill('.');
-        Array.from(gridEl.children).forEach(
-          (cell) => (cell.style.backgroundColor = 'white')
-        );
-        updateOutput();
-      };
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = 'コピーしました！';
+      copyBtn.style.backgroundColor = '#28a745';
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+        copyBtn.style.backgroundColor = '';
+      }, 1500);
+    };
 
-      // コピー機能
-      copyBtn.onclick = () => {
-        outputEl.select();
-        outputEl.setSelectionRange(0, 99999);
-        document.execCommand('copy');
-
-        const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'コピーしました！';
-        copyBtn.style.backgroundColor = '#28a745';
-        setTimeout(() => {
-          copyBtn.textContent = originalText;
-          copyBtn.style.backgroundColor = '';
-        }, 1500);
-      };
-
-      // 実行
-      init();
-    </script>
-  </body>
+    // 実行
+    init();
+  </script>
+</body>
 </html>
