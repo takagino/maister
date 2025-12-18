@@ -1,73 +1,77 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI × p5play</title>
-    <style>
-      body {
-        margin: 0;
-        background-color: #999;
-        overflow: hidden;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI × p5play</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+    }
 
-      canvas {
-        display: block;
-        margin: 20px auto;
-        border: 4px solid #000;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>AI Shooting Game</h1>
-    <div id="ui" style="margin-bottom: 10px">
-      <input
-        type="text"
-        id="promptInput"
-        placeholder="例: 伝説の勇者、スライム"
-        size="30"
-      />
-      <button id="sendButton">召喚してスタート</button>
-      <div
-        id="aiMessage"
-        style="margin-top: 5px; font-weight: bold; color: blue"
-      >
-        AI:
-      </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/addons/p5.sound.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"></script>
-    <script src="https://p5play.org/v3/p5play.js"></script>
-    <script>
-      let player, floor, enemy;
-      let enemies;
-      let gameParams = {
-        speed: 5,
-        jump: 5,
-        bounce: 0.2,
-        scale: 6,
-        art: [
-          '..bbbb..',
-          '.b....b.',
-          'b.b..b.b',
-          'b......b',
-          'b.bbbb.b',
-          'b.b..b.b',
-          '.b....b.',
-          '..bbbb..',
-        ],
-        palette: { b: 'blue' },
-      };
+    input,
+    button {
+      font-size: 16px;
+      padding: 5px;
+      margin: 5px;
+    }
 
-      // ゲームの状態管理用フラグ
-      let isGameStarted = false; // スタートしたか？
-      let isGameOver = false; // 負けたか？
+    canvas {
+      margin: 10px auto;
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI Shooting Game</h1>
 
-      // AIサーバーのURL（自分の環境に合わせて書き換える）
-      const serverUrl = 'https://gemini.takagino.workers.dev/api/gemini';
+  <div>
+    <input type="text" id="promptInput" size="30" placeholder="（AI連携用）例: 猿勇者, 猫戦士">
+    <br>
+    <button id="actionButton">ゲームスタート / リセット</button>
+    <div id="aiMessage"></div>
+  </div>
 
-      const instruction = `
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/addons/p5.sound.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"></script>
+  <script src="https://p5play.org/v3/p5play.js"></script>
+
+  <script>
+    // --- 変数の準備 ---
+    let player, floor;
+    let enemies;
+
+    let isGameStarted = false;
+    let isGameOver = false;
+
+    // --- ★AI連携用の設定 ---
+
+    // デフォルトのパラメータ（初期値）
+    let gameParams = {
+      speed: 5,
+      jump: 8,
+      bounce: 0.2,
+      scale: 6,
+      art: [
+        '..bbbb..',
+        '.b....b.',
+        'b.b..b.b',
+        'b......b',
+        'b.bbbb.b',
+        'b.b..b.b',
+        '.b....b.',
+        '..bbbb..',
+      ],
+      palette: { b: 'blue' },
+    };
+
+    // AIサーバーのURL
+    const serverUrl = 'https://gemini.takagino.workers.dev/api/gemini';
+
+    // AIへの指示書
+    const instruction = `
   あなたはゲームのデザイナーです。
   ユーザーの入力から連想される「キャラクター（10マスx10マスのドット絵）」と「ステータス」を決定してください。
 
@@ -76,23 +80,23 @@
     "speed": 数値 (3〜10, プレイヤーの速さ),
     "jump": 数値 (3〜10, ジャンプ力),
     "bounce": 数値 (0〜1, 反発力),
-    "scale": 数値 (3〜10, ドット絵の拡大率)
+    "scale": 数値 (3〜10, ドット絵の拡大率),
     "art": [
-      '...bbbb...',
-      '..b....b..',
-      '.b.b..b.b.',
-      '.b......b.',
-      '.b.bbbb.b.',
-      '.b.b..b.b.',
-      '..b....b..',
-      '...bbbb...'
+      "...bbbb...",
+      "..b....b..",
+      ".b.b..b.b.",
+      ".b......b.",
+      ".b.bbbb.b.",
+      ".b.b..b.b.",
+      "..b....b..",
+      "...bbbb..."
     ],
     "palette": {
       "a": "16進数コード (#RRGGBB)",
       "b": "16進数コード (#RRGGBB)",
       "c": "16進数コード (#RRGGBB)",
       "d": "16進数コード (#RRGGBB)",
-      "e": "16進数コード (#RRGGBB)",
+      "e": "16進数コード (#RRGGBB)"
     },
     "message": "キャラ設定の一言解説"
   }
@@ -101,158 +105,136 @@
   ※paletteには、「a,b,c,d,e」5つのアルファベットに対応した色をすべて定義してください。背景色である白以外でお願いします。
 `;
 
-      function setupAI() {
-        const btn = document.getElementById('sendButton');
-        const input = document.getElementById('promptInput');
-        const msgDisplay = document.getElementById('aiMessage');
+    function setup() {
+      new Canvas(640, 480);
+      textSize(20);
+      textAlign(CENTER);
+      world.gravity.y = 10;
 
-        btn.addEventListener('click', async () => {
-          const text = input.value;
-          if (!text) return;
+      // 床は一度作ればOK
+      floor = new Sprite(320, 400, 500, 30);
+      floor.color = 'gray';
+      floor.collider = 'static';
 
-          // ボタン連打防止 & 入力欄からフォーカスを外す（重要）
+      // 敵グループ
+      enemies = new Group();
+      enemies.r = 20;
+      enemies.color = 'red';
+      enemies.collider = 'kinematic';
+
+      // --- ボタン1つですべてを制御 ---
+      const btn = document.getElementById('actionButton');
+      const input = document.getElementById('promptInput');
+      const msgDisplay = document.getElementById('aiMessage');
+
+      btn.addEventListener('click', async () => {
+
+        const text = input.value;
+
+        // 1. 入力がある場合：AIと通信してパラメータを更新
+        if (text) {
           btn.disabled = true;
-          btn.textContent = 'AI思考中...';
-          input.blur();
+          btn.textContent = "AI思考中...";
 
           try {
-            // 1. サーバーに送信 (POST)
+            // サーバーに送信
             const response = await fetch(serverUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ prompt: text, instruction: instruction }),
+              body: JSON.stringify({ prompt: text, instruction: instruction })
             });
 
-            // 2. 結果を受け取る
             const data = await response.json();
-            const result = data.result;
 
-            // ★まずはコンソールで中身を確認！
-            console.log('AIからのデータ:', result);
+            // エラーチェック
+            if (data.error) throw new Error(data.error);
 
-            isGameStarted = true;
-            isGameOver = false;
+            // 結果をパラメータに適用
+            gameParams = data.result;
+            console.log("AIからのデータ:", gameParams);
 
-            gameParams = result;
+            msgDisplay.textContent = `AI: 「${gameParams.message}」`;
 
-            if (player) player.remove();
-
-            enemies.removeAll();
-
-            // 生成
-            player = new Sprite(320, 100);
-            player.image = spriteArt(
-              gameParams.art,
-              gameParams.scale,
-              gameParams.palette
-            );
-            player.bounciness = gameParams.bounce;
-
-            msgDisplay.textContent = `AI: 「${result.message}」`;
           } catch (e) {
             console.error(e);
-            msgDisplay.textContent = 'エラーが発生しました';
+            msgDisplay.textContent = "エラーが発生しました";
+            btn.disabled = false;
+            btn.textContent = "ゲームスタート / リセット";
+            return; // ゲーム開始せずに中断
           } finally {
             btn.disabled = false;
-            btn.textContent = '召喚してリスタート';
-          }
-        });
-      }
-
-      function setup() {
-        // 画面を作る (幅640px, 高さ480px)
-        createCanvas(640, 480);
-
-        // テキストの設定
-        textSize(20); // 文字サイズ
-        textAlign(CENTER); // 文字の行揃え
-
-        world.gravity.y = 10;
-
-        floor = new Sprite(320, 400, 500, 30);
-        floor.color = 'gray';
-        floor.collider = 'static';
-        floor.friction = 0;
-
-        enemies = new Group();
-        enemies.r = 20;
-        enemies.color = 'red';
-        enemies.collider = 'kinematic';
-
-        setupAI();
-      }
-
-      function draw() {
-        // 背景を塗りつぶす (白)
-        background('white');
-
-        // 1. スタート前ならタイトルを表示して止める
-        if (isGameStarted === false) {
-          text('キャラクターの召喚してスタート', width / 2, height / 2);
-          return; // ここで中断
-        }
-
-        // 2. ゲームオーバーなら表示して止める
-        if (isGameOver === true) {
-          text('GAME OVER', width / 2, height / 2);
-          text('「s」キーでリトライ', width / 2, height / 2 + 40);
-          return; // ここで中断
-        }
-
-        // --- 左右移動 ---
-        if (kb.pressing('right')) {
-          player.vel.x = gameParams.speed; // 右へ進む速度
-        } else if (kb.pressing('left')) {
-          player.vel.x = -gameParams.speed; // 左へ進む速度
-        } else {
-          player.vel.x = 0; // 止まる
-        }
-
-        // --- ジャンプ ---
-        if (kb.presses('up') && player.colliding(floor)) {
-          player.vel.y = -gameParams.jump; // 上方向への速度
-        }
-
-        if (frameCount % 90 === 0) {
-          // 画面右端(width)の少し外、高さ360の位置に生成
-          let enemy = new enemies.Sprite(width + 40, 360);
-          enemy.vel.x = -5; // 左へ進む
-        }
-
-        // --- 後始末 ---
-        // 画面左端から100px以上はみ出たら消す（メモリ節約）
-        for (let enemy of enemies) {
-          if (enemy.x < -100) enemy.remove();
-        }
-
-        if (player.collides(enemies)) {
-          player.remove();
-          isGameOver = true;
-        }
-      }
-
-      function keyPressed() {
-        // 「s」キーが押された時だけ実行する
-        if (key === 's') {
-          // ゲームオーバーならリセットする
-          if (isGameOver === true) {
-            isGameOver = false;
-            isGameStarted = true;
-
-            // ドット絵が適応された状態で復活させる
-            player = new Sprite(320, 100);
-            player.image = spriteArt(
-              gameParams.art,
-              gameParams.scale,
-              gameParams.palette
-            );
-            player.bounciness = gameParams.bounce;
-
-            // 敵を全消去
-            enemies.removeAll();
+            btn.textContent = "ゲームスタート / リセット";
           }
         }
+
+        // 2. ゲームを開始（またはリスタート）
+        startGame();
+      });
+    }
+
+    // ゲームの開始・リセット処理を関数にまとめる
+    function startGame() {
+      // フラグの更新
+      isGameStarted = true;
+      isGameOver = false;
+
+      // 前のプレイヤーがいれば消す（リスタート時）
+      if (player) player.remove();
+
+      // 敵を全消去
+      enemies.removeAll();
+
+      // 新しいプレイヤーを生成（現在の gameParams を使用）
+      player = new Sprite(320, 100);
+      player.image = spriteArt(gameParams.art, gameParams.scale, gameParams.palette);
+      player.bounciness = gameParams.bounce;
+    }
+
+    function draw() {
+      background('white');
+
+      // 1. スタート前
+      if (!isGameStarted) {
+        text('ボタンを押してスタート', width / 2, height / 2);
+        return;
       }
-    </script>
-  </body>
+
+      // 2. ゲームオーバー
+      if (isGameOver) {
+        text('GAME OVER', width / 2, height / 2);
+        return;
+      }
+
+      // --- プレイヤーの操作 ---
+      if (kb.pressing('right')) {
+        player.vel.x = gameParams.speed;
+      } else if (kb.pressing('left')) {
+        player.vel.x = -gameParams.speed;
+      } else {
+        player.vel.x = 0;
+      }
+
+      if (kb.presses('up') && player.colliding(floor)) {
+        player.vel.y = -gameParams.jump;
+      }
+
+      // --- 敵の出現 ---
+      if (frameCount % 60 === 0) {
+        let enemy = new enemies.Sprite(width + 40, 360);
+        enemy.vel.x = -5;
+      }
+
+      // --- 画面外の敵を消去 ---
+      for (let enemy of enemies) {
+        if (enemy.x < -100) enemy.remove();
+      }
+
+      // --- 衝突判定 ---
+      if (player && player.collides(enemies)) {
+        player.remove();
+        isGameOver = true;
+      }
+    }
+  </script>
+</body>
 </html>
