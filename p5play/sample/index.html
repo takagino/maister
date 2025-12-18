@@ -179,9 +179,9 @@
       if (player) player.remove(); // 既存のプレイヤー削除
       enemies.removeAll(); // 敵全削除
 
-      player = new Sprite(320, 100, 50, 50);
-      player.color = 'cyan';
-      player.bounciness = 0;
+      player = new Sprite(320, 100);
+      player.image = spriteArt(gameParams.art, gameParams.scale, gameParams.palette);
+      player.bounciness = gameParams.bounce;
     }
 
     function draw() {
@@ -222,7 +222,7 @@
 
       if (player && player.collides(enemies)) {
         player.remove();
-        isGameOver = true;
+        isGameOver = true; // ゲームオーバーフラグセット
       }
     }
   </script>
