@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <h1>AI Shooting Game</h1>
+  <h1>AI × p5play</h1>
 
   <div>
     <input type="text" id="promptInput" size="30" placeholder="（AI連携用）例: 猿勇者, 猫戦士">
@@ -45,9 +45,6 @@
 
     let isGameStarted = false;
     let isGameOver = false;
-
-    // ★前回のプロンプトを記憶する変数
-    let lastPrompt = "";
 
     // --- AI連携用の設定 ---
     let gameParams = {
@@ -102,6 +99,9 @@
   ※paletteには、artで使用したアルファベットに対応する色をすべて定義してください。
 `;
 
+    // 前回のプロンプトを記憶する変数
+    let lastPrompt = "";
+
     function setup() {
       new Canvas(640, 480);
       textSize(20);
@@ -118,53 +118,61 @@
       enemies.color = 'red';
       enemies.collider = 'kinematic';
 
-      // --- ボタン処理 ---
+      // --- ボタンが押された時の処理 ---
       const btn = document.getElementById('actionButton');
       const input = document.getElementById('promptInput');
-      const msgDisplay = document.getElementById('aiMessage');
+      const msgDisplay = document.getElementById('aiMessage'); // メッセージ表示エリア
 
       btn.addEventListener('click', async () => {
         const text = input.value;
 
-        // ★修正点: 「入力がある」 かつ 「前回と違う」 場合のみ通信する
+        // 「入力がある」 かつ 「前回と違う」 場合のみAIと通信する
         if (text && text !== lastPrompt) {
 
+          // 1. ボタンを無効化して連打を防ぐ
           btn.disabled = true;
           btn.textContent = "AI思考中...";
+          msgDisplay.textContent = "AIがキャラクターを生成しています...";
 
           try {
+            // 2. サーバーにデータを送る (fetch)
             const response = await fetch(serverUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ prompt: text, instruction: instruction })
             });
 
+            // 3. 返ってきたデータを読み取る
             const data = await response.json();
 
+            // エラーチェック（サーバー側で何かあった場合）
             if (data.error) throw new Error(data.error);
 
-            // 成功したらパラメータを更新
+            // 4. 結果をゲームパラメータに上書きする！
             gameParams = data.result;
 
-            // ★成功したら「前回の入力」として記憶する
+            // 5. 成功したので「前回の入力」として記憶する
             lastPrompt = text;
 
+            // ログ確認（コンソールを見てみよう）
             console.log("AIからのデータ:", gameParams);
             msgDisplay.textContent = `AI: 「${gameParams.message}」`;
 
           } catch (e) {
             console.error(e);
-            msgDisplay.textContent = "エラーが発生しました";
+            msgDisplay.textContent = "エラーが発生しました。もう一度試してください。";
             btn.disabled = false;
-            btn.textContent = "ゲームスタート / リセット";
-            return;
-          } finally {
-            btn.disabled = false;
-            btn.textContent = "ゲームスタート / リセット";
+            btn.textContent = "召喚してスタート！";
+            return; // エラーならゲームは開始しない
           }
         }
 
+        // 6. ゲームを開始（またはリスタート）する
         startGame();
+
+        // ボタンを元に戻す
+        btn.disabled = false;
+        btn.textContent = "召喚してスタート！";
       });
     }
 

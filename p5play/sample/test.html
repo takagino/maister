@@ -24,7 +24,7 @@
   </style>
 </head>
 <body>
-  <h1>AI Shooting Game</h1>
+  <h1>AI × p5play</h1>
 
   <div>
     <input type="text" id="promptInput" size="30" placeholder="（AI連携用）例: 猿勇者, 猫戦士">
@@ -39,18 +39,22 @@
   <script src="https://p5play.org/v3/p5play.js"></script>
 
   <script>
-    let player, floor, enemy, enemies;
+    // --- 変数の準備 ---
+    let player, floor; // プレイヤーと床
+    let enemies;       // 敵グループ
+
+    // ゲームの状態管理フラグ
     let isGameStarted = false;
     let isGameOver = false;
 
-    // --- 初期パラメータ ---
-    // この中の数値をAIに書き換えてもらう
+    // --- AI連携用の設定（初期値） ---
+    // AIはこの gameParams の中身を書き換えて、新しいキャラを作る
     let gameParams = {
-      speed: 5,
-      jump: 5,
-      bounce: 0.2,
-      scale: 6,
-      art: [
+      speed: 5,        // 移動速度
+      jump: 5,         // ジャンプ力
+      bounce: 0.2,     // 跳ね返り係数
+      scale: 6,        // ドット絵の大きさ
+      art: [           // ドット絵の設計図
         '..bbbb..',
         '.b....b.',
         'b.b..b.b',
@@ -60,47 +64,143 @@
         '.b....b.',
         '..bbbb..',
       ],
-      palette: { b: 'blue' },
+      palette: { b: 'blue' }, // 色の設定
+      message: "デフォルトキャラクター"
     };
 
-    function setup() {
-      new Canvas(640, 480);
+    // 先生が用意したサーバーのURL
+    const serverUrl = 'https://gemini.takagino.workers.dev/api/gemini';
 
+    // AIへの指示書（プロンプト）
+    // AIに「どのようなJSON形式で返事をするか」を厳密に指定している
+    const instruction = `
+  あなたはゲームのデザイナーです。
+  ユーザーの入力から連想される「キャラクター（10マスx10マスのドット絵）」と「ステータス」を決定してください。
+
+  必ず以下のJSON形式で出力してください。
+  {
+    "speed": 数値 (3〜10, プレイヤーの速さ),
+    "jump": 数値 (8〜15, ジャンプ力),
+    "bounce": 数値 (0〜1, 反発力),
+    "scale": 数値 (3〜10, ドット絵の拡大率),
+    "art": [
+      "...bbbb...",
+      "..b....b..",
+      ".b.b..b.b.",
+      ".b......b.",
+      ".b.bbbb.b.",
+      ".b.b..b.b.",
+      "..b....b..",
+      "...bbbb..."
+    ],
+    "palette": {
+      "a": "16進数コード (#RRGGBB)",
+      "b": "16進数コード (#RRGGBB)",
+      "c": "16進数コード (#RRGGBB)"
+    },
+    "message": "キャラ設定の一言解説"
+  }
+
+  ※artの値は、10マスx10マスのドット絵データ。「a,b,c」などのアルファベットで形を構成し、空白は "." (ドット) で表現してください。
+  ※paletteには、artで使用したアルファベットに対応する色をすべて定義してください。
+`;
+
+    // 前回の入力を記憶する変数（通信の節約用）
+    let lastPrompt = "";
+
+    function setup() {
+      // 画面の作成
+      new Canvas(640, 480);
       textSize(20);
       textAlign(CENTER);
 
-      // --- 重力を設定 ---
+      // 重力の設定
       world.gravity.y = 10;
-
-      // --- ボタン処理 ---
-      const btn = document.getElementById('actionButton');
-
-      btn.addEventListener('click', () => {
-        startGame();
-      });
 
       // --- 床の生成 ---
       floor = new Sprite(320, 400, 500, 30);
       floor.color = 'gray';
-      floor.collider = 'static';
+      floor.collider = 'static'; // 動かない設定
       floor.friction = 0;
 
       // --- 敵グループの設定 ---
       enemies = new Group();
       enemies.r = 20;
       enemies.color = 'red';
-      enemies.collider = 'kinematic';
+      enemies.collider = 'kinematic'; // 重力を無視して動く
+
+      // --- ボタンが押された時の処理 ---
+      const btn = document.getElementById('actionButton');
+      const input = document.getElementById('promptInput');
+      const msgDisplay = document.getElementById('aiMessage');
+
+      btn.addEventListener('click', async () => {
+        const text = input.value;
+
+        // 「入力がある」 かつ 「前回と違う」 場合のみAIと通信する
+        if (text && text !== lastPrompt) {
+
+          // 1. 待ち時間中の表示変更
+          btn.disabled = true; // 連打防止
+          btn.textContent = "AI思考中...";
+          msgDisplay.textContent = "AIがキャラクターを生成しています...";
+
+          try {
+            // 2. サーバーにデータを送る (fetch)
+            const response = await fetch(serverUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ prompt: text, instruction: instruction })
+            });
+
+            // 3. 返ってきたデータを読み取る
+            const data = await response.json();
+
+            // エラーチェック（サーバー側で何かあった場合）
+            if (data.error) throw new Error(data.error);
+
+            // 4. 結果をゲームパラメータに上書きする！
+            // ★ここがAI連携の最重要ポイント
+            gameParams = data.result;
+
+            // 5. 成功したので「前回の入力」として記憶する
+            lastPrompt = text;
+
+            // ログ確認
+            console.log("AIからのデータ:", gameParams);
+            msgDisplay.textContent = `AI: 「${gameParams.message}」`;
+
+          } catch (e) {
+            console.error(e);
+            msgDisplay.textContent = "エラーが発生しました。もう一度試してください。";
+            btn.disabled = false;
+            btn.textContent = "ゲームスタート / リセット";
+            return; // エラーならゲームは開始しない
+          }
+        }
+
+        // 6. ゲームを開始（またはリスタート）する
+        startGame();
+
+        // ボタンの表示を元に戻す
+        btn.disabled = false;
+        btn.textContent = "ゲームスタート / リセット";
+      });
     }
 
-    // --- ゲームの開始・リセット処理の関数 ---
+    // --- ゲームの開始・リセット処理 ---
     function startGame() {
       isGameStarted = true;
       isGameOver = false;
 
+      // 前のキャラや敵を消す
       if (player) player.remove();
       enemies.removeAll();
 
-      player = new Sprite(320, 100, 50, 50);
+      // 新しいプレイヤーを生成
+      player = new Sprite(320, 100);
+
+      // gameParams の値を使って見た目や能力を決める
       player.image = spriteArt(gameParams.art, gameParams.scale, gameParams.palette);
       player.bounciness = gameParams.bounce;
     }
@@ -136,7 +236,7 @@
 
       // --- 敵の出現 ---
       if (frameCount % 60 === 0) {
-        enemy = new enemies.Sprite(width + 40, 360);
+        let enemy = new enemies.Sprite(width + 40, 360);
         enemy.vel.x = -5;
       }
 
@@ -146,7 +246,7 @@
       }
 
       // --- 衝突判定 ---
-      if (player.collides(enemies)) {
+      if (player && player.collides(enemies)) {
         player.remove();
         isGameOver = true;
       }
